@@ -12,6 +12,7 @@ import AddRecipeIngredientForm from "./add_recipe_ingredient_form";
 import Lists from "../lists";
 import { Link } from "react-router-dom";
 import RecipeInfoBox from "./recipe_info_box";
+import { CSSTransition } from "react-transition-group";
 
 export type RecipeContextType = {
   recipeIngredients: RecipeIngredient[];
@@ -34,7 +35,7 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   const [recipeIngredients, setRecipeIngredients] = useState<
     RecipeIngredient[]
   >([]);
-
+  const [loading, setLoading] = useState<boolean>(true);
   const basePath = "/recipes/";
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     getRecipeIngredients(id)
       .then((response: RecipeIngredient[]) => {
         setRecipeIngredients(response);
+        setLoading(false);
       })
       .catch((error) => console.log(error));
   };
@@ -91,6 +93,21 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   const addRecipeIngredient = (newIngredient: RecipeIngredient) => {
     setRecipeIngredients(Lists.add(recipeIngredients, newIngredient));
   };
+  const loadingComponent = !loading && (
+    <div>
+      <UpdateRecipeNameForm recipe={props.recipe} />
+      <RecipeInfoBox suffix="%" inverter={inverter} converter={converter} />
+      {recipeIngredientList}
+      <hr />
+      <AddRecipeIngredientForm
+        recipeId={props.recipe.id}
+        suffix="%"
+        converter={converter}
+        inverter={inverter}
+        setRecipeIngredient={addRecipeIngredient}
+      />
+    </div>
+  );
 
   return (
     <RecipeContext.Provider value={{ recipeIngredients, setRecipeIngredients }}>
@@ -100,17 +117,13 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
           <Link to={basePath}>📕</Link>
           <a onClick={(_event) => onCopy(props.recipe.id)}>♻️</a>
         </div>
-        <UpdateRecipeNameForm recipe={props.recipe} />
-        <RecipeInfoBox suffix="%" inverter={inverter} converter={converter} />
-        {recipeIngredientList}
-        <hr />
-        <AddRecipeIngredientForm
-          recipeId={props.recipe.id}
-          suffix="%"
-          converter={converter}
-          inverter={inverter}
-          setRecipeIngredient={addRecipeIngredient}
-        />
+        <CSSTransition
+          in={!loading}
+          timeout={500}
+          classNames="loading-box"
+        >
+          <div>{loadingComponent}</div>
+        </CSSTransition>
       </div>
     </RecipeContext.Provider>
   );

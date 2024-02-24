@@ -79,37 +79,40 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
     event.target.select();
 
   return (
-    <div>
-      <form className="recipe-ingredient-form">
-        <div className="recipe-ingredient-form-name">
-          {recipeIngredient.ingredient.name}
+      <div>
+        <form className="recipe-ingredient-form">
+          <div className="recipe-ingredient-form-name">
+            {recipeIngredient.ingredient.name}
+          </div>
+          <input
+            type="number"
+            name="amount"
+            onFocus={onFocus}
+            style={{ width: 2.5 + "rem" }}
+            value={actualAmountValue}
+            onChange={onActualAmountChange}
+          />
+          <div>g</div>
+          <input
+            type="number"
+            name="amount"
+            onFocus={onFocus}
+            style={{ width: 2.5 + "rem" }}
+            value={amountValue}
+            onChange={onAmountChange}
+          />
+          <div>{props.suffix}</div>
+          <a
+            className="delete"
+            onClick={(_event) => onDelete(recipeIngredient)}
+          >
+            🔥
+          </a>
+        </form>
+        <div className="recipe-ingredient-form-loading-bar">
+          <LoadingBar loading={saving} />
         </div>
-        <input
-          type="number"
-          name="amount"
-          onFocus={onFocus}
-          style={{ width: 2.5 + "rem" }}
-          value={actualAmountValue}
-          onChange={onActualAmountChange}
-        />
-        <div>g</div>
-        <input
-          type="number"
-          name="amount"
-          onFocus={onFocus}
-          style={{ width: 2.5 + "rem" }}
-          value={amountValue}
-          onChange={onAmountChange}
-        />
-        <div>{props.suffix}</div>
-        <a className="delete" onClick={(_event) => onDelete(recipeIngredient)}>
-          🔥
-        </a>
-      </form>
-      <div className="recipe-ingredient-form-loading-bar">
-        <LoadingBar loading={saving} />
       </div>
-    </div>
   );
 };
 export default UpdateRecipeIngredientForm;

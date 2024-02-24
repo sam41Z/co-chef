@@ -8,6 +8,7 @@ import NamedItem from "../named_item";
 import IngredientForm from "./ingredient_form";
 import { useIngredients } from "./context";
 import { useParams } from "react-router-dom";
+import { CSSTransition } from "react-transition-group";
 
 const Ingredients = () => {
   const { ingredients, setIngredients } = useIngredients();
@@ -71,7 +72,14 @@ const Ingredients = () => {
       </div>
       <hr />
       <div className="box-row-item">
-        {details}
+        <CSSTransition
+          appear={true}
+          in={ingredient ? true : false}
+          timeout={500}
+          classNames="loading-box"
+        >
+          <div>{details}</div>
+        </CSSTransition>
         Add ingredient:
         <div className="ingredient-form">
           <IngredientForm onSave={onSave} />

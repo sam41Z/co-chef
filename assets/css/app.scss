@@ -104,6 +104,7 @@ nav {
   }
 }
 .box-row {
+  min-height: 30rem;
   display: flex;
   align-items: stretch;
   justify-content: space-around;
@@ -310,6 +311,29 @@ input {
 .recipe-form-done {
   align-self: end;
   margin-top: 1.5rem;
+}
+.appear-loading-box {
+  opacity: 0;
+  &-active {
+    opacity: 1;
+    transition: opacity 500ms;
+  }
+}
+.loading-box {
+  &-enter {
+    opacity: 0;
+    &-active {
+      opacity: 1;
+      transition: opacity 500ms;
+    }
+  }
+  &-exit {
+    opacity: 1;
+    &-active {
+      opacity: 0;
+      transition: opacity 500ms;
+    }
+  }
 }
 .loading-bar {
   opacity: 1;
