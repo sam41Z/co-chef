@@ -19,10 +19,13 @@ defmodule BreadtrackerWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", BreadtrackerWeb do
-  #   pipe_through :api
-  # end
+  
+  scope "/api", BreadtrackerWeb do
+    pipe_through :api
+
+    resources "/ingredients", IngredientController, only: [:index, :create, :update]
+    resources "/recipes", RecipeController, only: [:index, :create, :update]
+  end
 
   # Enables LiveDashboard only for development
   #
