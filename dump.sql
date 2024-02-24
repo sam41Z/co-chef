@@ -171,7 +171,14 @@ ALTER TABLE ONLY public.recipes ALTER COLUMN id SET DEFAULT nextval('public.reci
 --
 
 COPY public.ingredients (id, name, inserted_at, updated_at, energy, fat, carbohydrates, fiber, protein, type) FROM stdin;
-1	Water	2020-11-14 15:58:29	2020-11-14 15:58:29	0	0	0	0	0	water
+2	Brootmääl	2020-11-21 15:59:53	2020-11-21 15:59:53	1450	1.6	68	3.5	12	flour
+5	Roggämääl (Vollchorn)	2020-11-21 16:02:49	2020-11-21 16:02:49	1450	1.9	60	16	7.7	flour
+6	Dinkelmääl (Vollchorn)	2020-11-21 16:03:44	2020-11-21 16:03:44	1450	3	59	9.5	14	flour
+8	Weizäkleiä	2020-11-21 16:04:57	2020-11-21 16:04:57	1200	6	23	40	16	flour
+10	Roggämääl (Grob, Vollchorn)	2020-11-21 16:06:34	2020-11-21 16:06:34	1450	60	1.9	16	7.7	flour
+9	Wasser	2020-11-21 16:05:04	2020-11-21 16:05:04	0	0	0	0	0	water
+11	Salz	2020-11-21 16:06:52	2020-11-21 16:06:52	0	0	0	0	0	spice
+7	Starter	2020-11-21 16:04:22	2020-11-21 16:04:22	1416	0.8	67	6.9	9.2	starter
 \.
 
 
@@ -180,6 +187,22 @@ COPY public.ingredients (id, name, inserted_at, updated_at, energy, fat, carbohy
 --
 
 COPY public.recipe_ingredients (id, amount, recipe_id, ingredient_id, inserted_at, updated_at) FROM stdin;
+1	120	1	2	2020-11-21 16:07:33	2020-11-21 16:07:33
+2	80	1	5	2020-11-21 16:07:53	2020-11-21 16:07:53
+3	60	1	10	2020-11-21 16:08:07	2020-11-21 16:08:07
+5	40	1	8	2020-11-21 16:08:42	2020-11-21 16:08:42
+4	60	1	6	2020-11-21 16:08:21	2020-11-21 16:08:47
+6	80	1	7	2020-11-21 16:09:09	2020-11-21 16:09:09
+7	8	1	11	2020-11-21 16:09:30	2020-11-21 16:09:30
+8	296	1	9	2020-11-21 16:10:01	2020-11-21 16:10:01
+12	60	2	6	2020-11-21 16:11:19	2020-11-21 16:11:19
+13	40	2	8	2020-11-21 16:11:19	2020-11-21 16:11:19
+14	80	2	7	2020-11-21 16:11:19	2020-11-21 16:11:19
+15	8	2	11	2020-11-21 16:11:19	2020-11-21 16:11:19
+16	296	2	9	2020-11-21 16:11:19	2020-11-21 16:11:19
+11	20	2	10	2020-11-21 16:11:19	2020-11-21 16:13:00
+10	40	2	5	2020-11-21 16:11:19	2020-11-21 16:13:09
+9	200	2	2	2020-11-21 16:11:19	2020-11-21 16:13:29
 \.
 
 
@@ -188,6 +211,8 @@ COPY public.recipe_ingredients (id, amount, recipe_id, ingredient_id, inserted_a
 --
 
 COPY public.recipes (id, name, inserted_at, updated_at) FROM stdin;
+1	V36	2020-11-21 16:07:16	2020-11-21 16:07:16
+2	V37	2020-11-21 16:11:19	2020-11-21 16:11:30
 \.
 
 
@@ -196,11 +221,11 @@ COPY public.recipes (id, name, inserted_at, updated_at) FROM stdin;
 --
 
 COPY public.schema_migrations (version, inserted_at) FROM stdin;
-20201022195309	2020-11-14 15:57:41
-20201022202331	2020-11-14 15:57:41
-20201024210805	2020-11-14 15:57:41
-20201104185708	2020-11-14 15:57:41
-20201107204940	2020-11-14 15:57:41
+20201022195309	2020-11-21 15:53:04
+20201022202331	2020-11-21 15:53:04
+20201024210805	2020-11-21 15:53:04
+20201104185708	2020-11-21 15:53:04
+20201107204940	2020-11-21 15:53:04
 \.
 
 
@@ -208,21 +233,21 @@ COPY public.schema_migrations (version, inserted_at) FROM stdin;
 -- Name: ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.ingredients_id_seq', 1, true);
+SELECT pg_catalog.setval('public.ingredients_id_seq', 11, true);
 
 
 --
 -- Name: recipe_ingredients_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.recipe_ingredients_id_seq', 1, false);
+SELECT pg_catalog.setval('public.recipe_ingredients_id_seq', 16, true);
 
 
 --
 -- Name: recipes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.recipes_id_seq', 1, false);
+SELECT pg_catalog.setval('public.recipes_id_seq', 2, true);
 
 
 --
