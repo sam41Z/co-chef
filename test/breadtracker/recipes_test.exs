@@ -53,7 +53,6 @@ defmodule Breadtracker.RecipesTest do
 
   describe "recipe_ingredients" do
     alias Breadtracker.Recipes.RecipeIngredient
-    alias Breadtracker.IngredientsTest
 
     test "list_recipe_ingredients/0 returns all recipe_ingredients" do
       recipe_ingredient = recipe_ingredient_fixture()
