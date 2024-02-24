@@ -11,7 +11,10 @@ const RecipeNameForm = (props: RecipeNameFormProps) => {
   const [recipe, setRecipe] = useState<Recipe>();
   const [name, setName] = useState<string>("");
 
-  if (props.recipe && !recipe) {
+  if (
+    (props.recipe && !recipe) ||
+    (props.recipe && recipe && props.recipe.id !== recipe.id)
+  ) {
     setRecipe(props.recipe);
     setName(props.recipe.name);
   } else if (!props.recipe && recipe) {

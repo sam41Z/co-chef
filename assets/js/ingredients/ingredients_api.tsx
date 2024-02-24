@@ -3,10 +3,22 @@ import { post, get, deleteFetch } from "../api_request";
 export interface Ingredient {
   id: number;
   name: string;
+  energy: number;
+  fat: number;
+  carbohydrates: number;
+  fiber: number;
+  protein: number;
+  type: string;
 }
 
 export interface IngredientNew {
   name: string;
+  energy: number;
+  fat: number;
+  carbohydrates: number;
+  fiber: number;
+  protein: number;
+  type: string;
 }
 
 export function postIngredient(ingredient: IngredientNew) {

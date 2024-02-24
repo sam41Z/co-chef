@@ -52,6 +52,12 @@ a:hover {
   margin: -1rem 0 2rem;
 }
 
+.box {
+  border: 0.05rem solid #8080808f;
+  border-radius: 0.5rem;
+  padding: 1rem;
+}
+
 /* List item style */
 ul {
   list-style-type: none;
@@ -65,12 +71,12 @@ ul {
     border: none;
   }
   .delete:hover {
-    text-shadow: 0 0 1.3rem $glow;
+    text-shadow: 0 0 1rem $glow;
   }
 }
 /* Froms */
-input,
-select {
+select,
+input {
   border: 0.12rem solid $lines;
   border-radius: 0.2rem;
   padding: 0.6rem;
@@ -78,12 +84,52 @@ select {
   margin: 0.2rem;
   background: $background-color;
   color: $foreground-color;
+}
+
+select {
+  appearance: none;
+}
+
+input {
+  &:focus {
+    border-color: $foreground-color;
+  }
   &[type="submit"]:hover,
   &[type="button"]:hover {
     cursor: pointer;
     border-color: $foreground-color;
   }
+  &[type="number"] {
+    appearance: textfield;
+  }
 }
+
+.ingredient-form {
+  display: grid;
+  align-items: center;
+  grid-column-gap: 1rem;
+  & label {
+    justify-self: end;
+    grid-column: 1;
+  }
+  & input [type="text"] {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    justify-self: strech;
+    grid-column: 2;
+  }
+  & input[type="number"] {
+    justify-self: start;
+    max-width: 3rem;
+  }
+
+  & input[type="submit"] {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+  }
+}
+
 .recipe-form {
   display: flex;
   justify-content: space-between;

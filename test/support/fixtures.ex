@@ -23,14 +23,29 @@ defmodule Breadtracker.Fixtures do
       end
     end
   end
-  
 
   def ingredient do
     alias Breadtracker.Ingredients
 
     quote do
-      @ingredient_valid_attrs %{name: "some name"}
-      @ingredient_update_attrs %{name: "some updated name"}
+      @ingredient_valid_attrs %{
+        name: "some name",
+        energy: 1454.1,
+        fat: 1.9,
+        carbohydrates: 53,
+        fiber: 5.2,
+        protein: 7.6,
+        type: "flour"
+      }
+      @ingredient_update_attrs %{
+        name: "some updated name",
+        energy: 145.1,
+        fat: 1.2,
+        carbohydrates: 51,
+        fiber: 3.2,
+        protein: 1.6,
+        type: "flour"
+      }
       @ingredient_invalid_attrs %{name: nil}
 
       def ingredient_fixture(attrs \\ %{}) do

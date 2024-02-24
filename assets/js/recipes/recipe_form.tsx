@@ -23,19 +23,26 @@ const RecipeForm = (props: RecipeFormProps) => {
       })
       .catch((error) => console.log(error));
   };
+
+  const reset = () => {
+    setIngredients(undefined);
+    setRecipe(undefined);
+    setLeading(false);
+  };
+
   if (props.recipe && !ingredients && !loading) {
     setLeading(true);
     setRecipe(props.recipe);
     fetchIngredients(props.recipe.id);
+  } else if (recipe && props.recipe && props.recipe.id != recipe.id) {
+    reset();
   }
   const onDone = () => {
     if (recipe) {
       const savedRecipe = recipe;
       props.onDone(savedRecipe);
     }
-    setIngredients(undefined);
-    setRecipe(undefined);
-    setLeading(false);
+    reset();
   };
 
   let ingredientsForm;

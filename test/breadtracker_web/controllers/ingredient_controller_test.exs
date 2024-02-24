@@ -5,10 +5,22 @@ defmodule BreadtrackerWeb.IngredientControllerTest do
   alias Breadtracker.Ingredients.Ingredient
 
   @create_attrs %{
-    name: "some name"
+    name: "some name",
+    energy: 1454.1,
+    fat: 1.9,
+    carbohydrates: 53,
+    fiber: 5.2,
+    protein: 7.6,
+    type: "flour"
   }
   @update_attrs %{
-    name: "some updated name"
+    name: "some updated name",
+    energy: 454.1,
+    fat: 0.9,
+    carbohydrates: 56,
+    fiber: 5.0,
+    protein: 7.7,
+    type: "flour"
   }
   @invalid_attrs %{name: nil}
 
@@ -37,7 +49,13 @@ defmodule BreadtrackerWeb.IngredientControllerTest do
 
       assert %{
                "id" => id,
-               "name" => "some name"
+               "name" => "some name",
+               "energy" => 1454.1,
+               "fat" => 1.9,
+               "carbohydrates" => 53.0,
+               "fiber" => 5.2,
+               "protein" => 7.6,
+               "type" => "flour"
              } = json_response(conn, 200)["data"]
     end
 
