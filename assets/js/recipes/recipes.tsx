@@ -5,6 +5,7 @@ import RecipeForm from "./recipe_form";
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [recipe, setRecipe] = useState<Recipe>();
   const fetchRecipes = () => {
     getRecipes()
       .then((response: Recipe[]) => {
@@ -21,19 +22,29 @@ const Recipes = () => {
       .then(() => fetchRecipes())
       .catch((error) => console.log(error));
   };
+  const onItemSelect = (id: number) => {
+    const selected = recipes.find((recipe) => recipe.id === id);
+    setRecipe(selected);
+  };
+  const onDone = () => {
+    setRecipe(undefined);
+    fetchRecipes();
+  };
 
   const items = recipes.map((recipe) => (
     <NamedItem
       key={recipe.id}
       id={recipe.id}
       name={recipe.name}
+      onItemSelect={onItemSelect}
       onClickDelete={onClickDelete}
     />
   ));
+  console.log(recipe);
   return (
     <div>
       <ul>{items}</ul>
-      <RecipeForm onDone={fetchRecipes} />
+      <RecipeForm recipe={recipe} onDone={onDone} />
     </div>
   );
 };

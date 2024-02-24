@@ -35,6 +35,7 @@ const Ingredients = () => {
       key={ingredient.id}
       id={ingredient.id}
       name={ingredient.name}
+      onItemSelect={() => {}}
       onClickDelete={onClickDelete}
     />
   ));

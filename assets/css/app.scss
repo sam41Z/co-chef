@@ -1,7 +1,24 @@
-/* This file is for your main application css. */
-@import "./phoenix.css";
+/* Grabal styles */
+$background-color: black;
+$foreground-color: rgb(213, 207, 197);
+$lines: gray;
+$glow: orange;
 
+body {
+  color: $foreground-color;
+  background: $background-color;
+  font-family: "Helvetica", "Arial", sans-serif;
+  font-size: 1.3em;
+  font-weight: 500;
+  line-height: 1.6;
+  width: 50rem;
+  margin: auto;
+}
+a:hover {
+  cursor: pointer;
+}
 /* Alerts and form errors */
+
 .alert {
   padding: 15px;
   margin-bottom: 20px;
@@ -34,18 +51,40 @@
   display: block;
   margin: -1rem 0 2rem;
 }
+
+/* List item style */
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 .named-item {
   display: flex;
   justify-content: space-between;
-  border-bottom: 0.1rem solid white;
+  border-bottom: 0.1rem solid $lines;
   &:last-child {
     border: none;
   }
-  .delete {
-    &:hover {
-      cursor: pointer;
-      text-shadow: 0 0 1.5rem red;
-    }
+  .delete:hover {
+    text-shadow: 0 0 1.3rem $glow;
   }
 }
-
+/* Froms */
+input,
+select {
+  border: 0.12rem solid $lines;
+  border-radius: 0.2rem;
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  margin: 0.2rem;
+  background: $background-color;
+  color: $foreground-color;
+  &[type="submit"]:hover,
+  &[type="button"]:hover {
+    cursor: pointer;
+    border-color: $foreground-color;
+  }
+}
+.recipe-form {
+  display: flex;
+  justify-content: space-between;
+}

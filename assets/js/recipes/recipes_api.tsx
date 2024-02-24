@@ -39,6 +39,10 @@ export function getRecipes() {
   return get("/api/recipes");
 }
 
+export function getRecipeIngredients(id: number) {
+  return get("/api/recipes/" + id + "/ingredients");
+}
+
 export function deleteRecipe(id: number) {
   return deleteFetch("/api/recipes/" + id);
 }
