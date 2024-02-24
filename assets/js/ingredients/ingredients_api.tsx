@@ -1,6 +1,6 @@
 import { post, get, deleteFetch } from "../api_request";
 
-export interface Ingredient {
+export type Ingredient = {
   id: number;
   name: string;
   energy: number;
@@ -9,9 +9,13 @@ export interface Ingredient {
   fiber: number;
   protein: number;
   type: string;
+};
+
+export function compareIds(a: Ingredient, b: Ingredient) {
+  return a.id === b.id;
 }
 
-export interface IngredientNew {
+export type IngredientNew = {
   name: string;
   energy: number;
   fat: number;
@@ -19,7 +23,7 @@ export interface IngredientNew {
   fiber: number;
   protein: number;
   type: string;
-}
+};
 
 export function postIngredient(ingredient: IngredientNew) {
   return post("/api/ingredients", { ingredient: ingredient });

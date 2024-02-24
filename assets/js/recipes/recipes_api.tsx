@@ -1,26 +1,32 @@
 import { post, get, deleteFetch, put } from "../api_request";
 import { Ingredient } from "../ingredients/ingredients_api";
 
-export interface Recipe {
+export type Recipe = {
   id: number;
   name: string;
   ingredients: RecipeIngredient[];
-}
+};
 
-export interface RecipeNew {
+export type RecipeNew = {
   name: string;
-}
+};
 
-export interface RecipeIngredient {
+export type RecipeIngredient = {
   id: number;
   amount: number;
   ingredient: Ingredient;
+};
+
+type IdType = Recipe | RecipeIngredient;
+
+export function compareIds(a: IdType, b: IdType) {
+  return a.id === b.id;
 }
 
-export interface RecipeIngredientNew {
+export type RecipeIngredientNew = {
   amount: number;
   ingredient_id: number;
-}
+};
 
 export function postRecipe(recipe: RecipeNew) {
   return post("/api/recipes", { recipe: recipe });

@@ -1,21 +1,22 @@
-import React, { useState, useCallback, SyntheticEvent } from "react";
-import { RecipeIngredient } from "./recipes_api";
+import React, { useState, useCallback } from "react";
+import { RecipeIngredient, compareIds } from "./recipes_api";
 import {
   updateRecipeIngredient as updateRecipeIngredientApi,
   deleteRecipeIngredient,
 } from "./recipes_api";
 import { debounce } from "../debounce";
 import LoadingBar from "../loading_bar";
-import { useRecipeIngredients } from "./update_recipe_form"
+import { useRecipeIngredients } from "./update_recipe_form";
+import Lists from "../lists";
 
-interface UpdateRecipeIngredientFormProps {
+type UpdateRecipeIngredientFormProps = {
   recipeId: number;
   recipeIngredient: RecipeIngredient;
   suffix: string;
   converter: (input: number) => number;
   inverter: (input: number) => number;
   onDelete: (recipeIngredient: RecipeIngredient) => void;
-}
+};
 
 const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
   const [recipeIngredient, setRecipeIngredient] = useState<RecipeIngredient>(
@@ -25,6 +26,7 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
   const [amountValue, setAmountValue] = useState<number>(
     props.inverter(props.recipeIngredient.amount)
   );
+  const { recipeIngredients, setRecipeIngredients } = useRecipeIngredients();
 
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
@@ -33,6 +35,7 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
     setRecipeIngredient(copy);
     setAmountValue(value);
     updateRecipeIngredient(copy);
+    setRecipeIngredients(Lists.replace(recipeIngredients, copy, compareIds));
   };
 
   const updateRecipeIngredient = useCallback(

@@ -1,10 +1,14 @@
 import React, { useState, useEffect, createContext, useContext } from "react";
-import {} from "react";
-import { Recipe, RecipeIngredient } from "./recipes_api";
-import { getRecipeIngredients } from "./recipes_api";
+import {
+  Recipe,
+  RecipeIngredient,
+  getRecipeIngredients,
+  compareIds,
+} from "./recipes_api";
 import UpdateRecipeIngredientForm from "./update_recipe_ingredient_form";
 import UpdateRecipeNameForm from "./update_recipe_name_form";
 import AddRecipeIngredientForm from "./add_recipe_ingredient_form";
+import Lists from "../lists";
 
 export type RecipeContextType = {
   recipeIngredients: RecipeIngredient[];
@@ -18,10 +22,10 @@ export const RecipeContext = createContext<RecipeContextType>({
 });
 export const useRecipeIngredients = () => useContext(RecipeContext);
 
-interface UpdateRecipeFormProps {
+type UpdateRecipeFormProps = {
   recipe: Recipe;
   onUpdateDone: (recipe: Recipe) => void;
-}
+};
 
 const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   const [recipeIngredients, setRecipeIngredients] = useState<
@@ -46,27 +50,20 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   const onDeleteRecipeIngredient = (
     deletedRecipeIngredient: RecipeIngredient
   ) => {
-    const index = recipeIngredients.findIndex(
-      (recipeIngredient) => recipeIngredient.id === deletedRecipeIngredient.id
+    setRecipeIngredients(
+      Lists.remove(recipeIngredients, deletedRecipeIngredient, compareIds)
     );
-    const copy = [...recipeIngredients];
-    copy.splice(index, 1);
-    setRecipeIngredients(copy);
   };
   const total = 400;
   const converter = (percent: number) => {
-    return total * percent * 0.01;
+    return Math.round(total * percent) / 100;
   };
   const inverter = (actual: number) => {
-    return (actual / total) * 100;
+    return Math.round((actual / total) * 10000) / 100;
   };
   const sum = (accumulator: number, currentValue: number) =>
     accumulator + currentValue;
   const flourSum = recipeIngredients
-    .map((item) => {
-      console.log(item.ingredient);
-      return item;
-    })
     .filter((item) => item.ingredient.type === "flour")
     .map((item) => item.amount)
     .reduce(sum, 0);
@@ -93,15 +90,11 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     );
 
   const addRecipeIngredient = (newIngredient: RecipeIngredient) => {
-    const copy = [...recipeIngredients];
-    copy.push(newIngredient);
-    setRecipeIngredients(copy);
+    setRecipeIngredients(Lists.add(recipeIngredients, newIngredient));
   };
 
   return (
-    <RecipeContext.Provider
-      value={{ recipeIngredients, setRecipeIngredients }}
-    >
+    <RecipeContext.Provider value={{ recipeIngredients, setRecipeIngredients }}>
       <div className="recipe-form-box">
         <div>Update Recipe</div>
         <div>
