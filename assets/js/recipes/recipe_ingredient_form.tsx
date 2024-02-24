@@ -1,11 +1,14 @@
 import React, { useState, useEffect, SyntheticEvent } from "react";
 import { RecipeIngredient, RecipeIngredientNew } from "./recipes_api";
-import { postRecipeIngredient } from "./recipes_api";
+import {
+  saveRecipeIngredient as saveRecipeIngredientApi,
+  updateRecipeIngredient as updateRecipeIngredientApi,
+} from "./recipes_api";
 import { Ingredient, getIngredients } from "../ingredients/ingredients_api";
 
 interface RecipeIngredientFormProps {
   recipeId: number;
-  recipeIngredient: RecipeIngredient;
+  recipeIngredient?: RecipeIngredient;
   setRecipeIngredient: { (ingredient: RecipeIngredient): any };
 }
 
@@ -54,25 +57,44 @@ const RecipeIngredientForm = (props: RecipeIngredientFormProps) => {
   };
 
   const saveRecipeIngredient = (recipeIngredient: RecipeIngredientNew) => {
-    postRecipeIngredient(props.recipeId, recipeIngredient)
+    saveRecipeIngredientApi(props.recipeId, recipeIngredient)
       .then((response: RecipeIngredient) => {
         props.setRecipeIngredient(response);
       })
       .catch((error: any) => console.log(error));
   };
 
+  const updateRecipeIngredient = (recipeIngredient: RecipeIngredient) => {
+    updateRecipeIngredientApi(
+      props.recipeId,
+      recipeIngredient
+    ).catch((error: any) => console.log(error));
+  };
+
   if (!ingredient && ingredients && ingredients.length > 0) {
     setIngredient(ingredients[0]);
   }
   const options = ingredients.map((ingredient) => (
-    <option key={ingredient.id} value={ingredient.id}>
+    <option
+      key={ingredient.id}
+      value={ingredient.id}
+      selected={
+        recipeIngredient && recipeIngredient.ingredient.id == ingredient.id
+      }
+    >
       {ingredient.name}
     </option>
   ));
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>add ingredient:</label>
+    <form onSubmit={handleSubmit} className="recipe-ingredient-form">
+      <select
+        name="ingredient"
+        onChange={handleIngredientChange}
+        disabled={recipeIngredient ? true : false}
+      >
+        {options}
+      </select>
       <input
         type="number"
         name="amount"
@@ -80,11 +102,7 @@ const RecipeIngredientForm = (props: RecipeIngredientFormProps) => {
         value={amount}
         onChange={handleAmountChange}
       />
-      <label>ingredient</label>
-      <select name="ingredient" onChange={handleIngredientChange}>
-        {options}
-      </select>
-      <input type="submit" value="Save" />
+      <input type="submit" value={recipeIngredient ? "Update" : "Add"} />
     </form>
   );
 };

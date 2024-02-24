@@ -30,13 +30,25 @@ export function putRecipe(recipe: Recipe) {
   return put("/api/recipes/" + recipe.id, { recipe: recipe });
 }
 
-export function postRecipeIngredient(
+export function saveRecipeIngredient(
   recipeId: number,
   recipeIngredient: RecipeIngredientNew
 ) {
   return post("/api/recipes/" + recipeId + "/ingredients", {
     recipe_ingredient: recipeIngredient,
   });
+}
+
+export function updateRecipeIngredient(
+  recipeId: number,
+  recipeIngredient: RecipeIngredient
+) {
+  return put(
+    "/api/recipes/" + recipeId + "/ingredients/" + recipeIngredient.id,
+    {
+      recipe_ingredient: recipeIngredient,
+    }
+  );
 }
 
 export function getRecipes() {

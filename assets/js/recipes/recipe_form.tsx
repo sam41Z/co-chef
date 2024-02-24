@@ -49,9 +49,12 @@ const RecipeForm = (props: RecipeFormProps) => {
   if (recipe) {
     const items = ingredients ? (
       ingredients.map((item) => (
-        <div key={item.id}>
-          {item.ingredient.name} {item.amount}
-        </div>
+        <RecipeIngredientForm
+          key={item.id}
+          recipeId={recipe.id}
+          recipeIngredient={item}
+          setRecipeIngredient={setRecipeIngredient}
+        />
       ))
     ) : (
       <div>No ingredients</div>
