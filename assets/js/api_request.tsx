@@ -25,7 +25,5 @@ export function post(path: string, data: any) {
 export function deleteFetch(path: string) {
   return fetch(host + path, {
     method: "DELETE",
-  })
-    .then((res) => console.log(res))
-    .catch((error) => console.log(error));
+  }).catch((error) => console.log(error));
 }
