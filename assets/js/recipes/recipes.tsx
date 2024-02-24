@@ -62,7 +62,7 @@ const Recipes = () => {
           key={item.id}
           id={item.id}
           name={name}
-          path={basePath + item.id}
+          linkTarget={basePath + item.id}
           onClickDelete={onClickDelete}
         />
       );

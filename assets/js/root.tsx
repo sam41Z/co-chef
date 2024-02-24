@@ -25,10 +25,10 @@ const Root = () => {
           <nav>
             <ul>
               <li>
-                <NavLink to="/recipes">Recipes</NavLink>
+                <NavLink to="/recipes" activeClassName="nav-active">Recipes</NavLink>
               </li>
               <li>
-                <NavLink to="/ingredients">Ingredients</NavLink>
+                <NavLink to="/ingredients" activeClassName="nav-active">Ingredients</NavLink>
               </li>
             </ul>
           </nav>

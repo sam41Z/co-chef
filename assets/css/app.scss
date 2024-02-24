@@ -44,6 +44,11 @@ nav {
     li {
       display: inline;
     }
+    .nav-active {
+      @include hover;
+
+      text-decoration: underline;
+    }
   }
 }
 

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 const NamedItem = (props: {
   id: number;
   name: string;
-  path: string;
+  linkTarget: string;
   onClickDelete: (id: number) => void;
   showDelete?: boolean;
 }) => {
@@ -16,7 +16,7 @@ const NamedItem = (props: {
   );
   return (
     <li className="named-item">
-      <Link to={props.path}>
+      <Link className="named-item-name" to={props.linkTarget}>
         {props.name}
       </Link>
       {deleteButton}

@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 const Ingredients = () => {
   const { ingredients, setIngredients } = useIngredients();
   const { id } = useParams<{ id?: string }>();
-
+  const basePath = "/ingredients/";
   const fetchIngredients = () => {
     getIngredients()
       .then((response: IngredientType[]) => {
@@ -41,7 +41,7 @@ const Ingredients = () => {
         key={item.id}
         id={item.id}
         name={prefix + item.name}
-        path={`/ingredients/${item.id}`}
+        linkTarget={basePath + item.id}
         onClickDelete={onClickDelete}
         showDelete={item.type !== "water"}
       />
