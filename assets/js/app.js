@@ -15,7 +15,7 @@ const _css = require("../css/app.scss");
 import React from "react";
 import ReactDOM from "react-dom";
 
-import Greeter from "./hello";
+import Root from "./root";
 
 const root = document.getElementById("root");
-ReactDOM.render(<Greeter name="Phoenix" />, root);
+ReactDOM.render(<Root/>, root);
