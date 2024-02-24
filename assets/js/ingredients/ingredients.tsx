@@ -7,10 +7,11 @@ import {
 import NamedItem from "../named_item";
 import IngredientForm from "./ingredient_form";
 import { useIngredients } from "./context";
+import { useParams } from "react-router-dom";
 
 const Ingredients = () => {
   const { ingredients, setIngredients } = useIngredients();
-  const [ingredient, setIngredient] = useState<IngredientType>();
+  const { id } = useParams<{ id?: string }>();
 
   const fetchIngredients = () => {
     getIngredients()
@@ -23,14 +24,8 @@ const Ingredients = () => {
     fetchIngredients();
   }, []);
 
-  const onItemSelect = (id: number) => {
-    const selected = ingredients.find((item) => item.id === id);
-    setIngredient(
-      ingredient && selected && ingredient.id === selected.id
-        ? undefined
-        : selected
-    );
-  };
+  const findIngredient = (id?: number | string) =>
+    ingredients.find((item) => item.id === Number(id));
 
   const onClickDelete = (id: number) => {
     deleteIngerdient(id)
@@ -40,18 +35,19 @@ const Ingredients = () => {
 
   const onSave = (_ingredient: IngredientType) => fetchIngredients();
   const items = ingredients.map((item) => {
-    const prefix = ingredient && ingredient.id === item.id ? "👉 " : "  ";
+    const prefix = id && Number(id) === item.id ? "👀 " : "  ";
     return (
       <NamedItem
         key={item.id}
         id={item.id}
         name={prefix + item.name}
-        onItemSelect={onItemSelect}
+        path={`/ingredients/${item.id}`}
         onClickDelete={onClickDelete}
         showDelete={item.type !== "water"}
       />
     );
   });
+  const ingredient = findIngredient(id);
   const details = ingredient && (
     <div>
       <div className="info-box">

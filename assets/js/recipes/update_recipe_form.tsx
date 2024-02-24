@@ -10,6 +10,7 @@ import UpdateRecipeIngredientForm from "./update_recipe_ingredient_form";
 import UpdateRecipeNameForm from "./update_recipe_name_form";
 import AddRecipeIngredientForm from "./add_recipe_ingredient_form";
 import Lists from "../lists";
+import { Link } from "react-router-dom";
 
 export type RecipeContextType = {
   recipeIngredients: RecipeIngredient[];
@@ -25,7 +26,6 @@ export const useRecipeIngredients = () => useContext(RecipeContext);
 
 type UpdateRecipeFormProps = {
   recipe: Recipe;
-  onUpdateDone: (recipe: Recipe) => void;
   onCopy: (recipe: Recipe) => void;
 };
 
@@ -33,6 +33,9 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   const [recipeIngredients, setRecipeIngredients] = useState<
     RecipeIngredient[]
   >([]);
+
+  const basePath = "/recipes/";
+
   useEffect(() => {
     fetchRecipeIngredients(props.recipe.id);
   }, []);
@@ -43,10 +46,6 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
         setRecipeIngredients(response);
       })
       .catch((error) => console.log(error));
-  };
-
-  const onDone = () => {
-    props.onUpdateDone(props.recipe);
   };
 
   const onDeleteRecipeIngredient = (
@@ -111,8 +110,9 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   return (
     <RecipeContext.Provider value={{ recipeIngredients, setRecipeIngredients }}>
       <div className="recipe-form-box">
-        <div>
-          Update Recipe
+        <div className="recipe-form-box-title">
+          📖 Update Recipe 
+          <Link to={basePath}>📕</Link>
           <a onClick={(_event) => onCopy(props.recipe.id)}>♻️</a>
         </div>
         <div className="info-box">
@@ -135,12 +135,6 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
           converter={converter}
           inverter={inverter}
           setRecipeIngredient={addRecipeIngredient}
-        />
-        <input
-          className="recipe-form-done"
-          type="button"
-          onClick={onDone}
-          value="🍻 Done 🍻"
         />
       </div>
     </RecipeContext.Provider>

@@ -3,10 +3,14 @@ import { Recipe, getRecipes, deleteRecipe } from "./recipes_api";
 import NamedItem from "../named_item";
 import UpdateRecipeForm from "./update_recipe_form";
 import AddRecipeForm from "./add_recipe_form";
+import { useParams, useHistory } from "react-router-dom";
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [recipe, setRecipe] = useState<Recipe>();
+  const { id } = useParams<{ id?: string }>();
+  const history = useHistory();
+  const basePath = "/recipes/";
+
   const fetchRecipes = () => {
     getRecipes()
       .then((response: Recipe[]) => {
@@ -18,59 +22,57 @@ const Recipes = () => {
     fetchRecipes();
   }, []);
 
-  const onClickDelete = (id: number) => {
-    deleteRecipe(id)
+  const findRecipe = (id?: number | string) =>
+    recipes.find((recipe) => recipe.id === Number(id));
+
+  const onClickDelete = (deleteId: number) => {
+    deleteRecipe(deleteId)
       .then(() => {
-        const index = recipes.findIndex((recipe) => recipe.id === id);
-      const copy = [...recipes];
+        const index = recipes.findIndex((recipe) => recipe.id === deleteId);
+        const copy = [...recipes];
         copy.splice(index, 1);
         setRecipes(recipes);
-        if (recipe && id === recipe.id) setRecipe(undefined);
         fetchRecipes();
+        history.push(basePath);
       })
       .catch((error) => console.log(error));
-  };
-  const onItemSelect = (id: number) => {
-    const selected = recipes.find((recipe) => recipe.id === id);
-    setRecipe(selected);
   };
   const onUpdateDone = (updatedRecipe: Recipe) => {
     const index = recipes.findIndex((recipe) => recipe.id === updatedRecipe.id);
     const copy = [...recipes];
     copy.splice(index, 1, updatedRecipe);
     setRecipes(copy);
-    setRecipe(undefined);
     fetchRecipes();
+    history.push(basePath);
   };
   const addNewRecipe = (newRecipe: Recipe) => {
     const copy = [...recipes];
     copy.push(newRecipe);
     setRecipes(copy);
-    setRecipe(newRecipe);
     fetchRecipes();
+    history.push(basePath + newRecipe.id);
   };
 
   const items = recipes
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((item) => {
-      const name =
-        recipe && recipe.id === item.id ? "✏️ " + item.name : item.name;
+      const name = Number(id) === item.id ? "✏️ " + item.name : item.name;
       return (
         <NamedItem
           key={item.id}
           id={item.id}
           name={name}
-          onItemSelect={onItemSelect}
+          path={basePath + item.id}
           onClickDelete={onClickDelete}
         />
       );
     });
+  const recipe = findRecipe(id);
   const recipeForm = recipe ? (
     <UpdateRecipeForm
       key={recipe.id}
       recipe={recipe}
       onCopy={addNewRecipe}
-      onUpdateDone={onUpdateDone}
     />
   ) : (
     <AddRecipeForm setRecipe={addNewRecipe} />

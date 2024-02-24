@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom"
 
 const NamedItem = (props: {
   id: number;
   name: string;
-  onItemSelect: (id: number) => void;
+  path: string;
   onClickDelete: (id: number) => void;
   showDelete?: boolean;
 }) => {
@@ -15,12 +16,9 @@ const NamedItem = (props: {
   );
   return (
     <li className="named-item">
-      <a
-        className="named-item-name"
-        onClick={(_event) => props.onItemSelect(props.id)}
-      >
+      <Link to={props.path}>
         {props.name}
-      </a>
+      </Link>
       {deleteButton}
     </li>
   );

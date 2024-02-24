@@ -3,7 +3,13 @@ import Ingredients from "./ingredients/ingredients";
 import Recipes from "./recipes/recipes";
 import { Ingredient, getIngredients } from "./ingredients/ingredients_api";
 import { IngredientContext } from "./ingredients/context";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  NavLink,
+  Redirect,
+} from "react-router-dom";
 
 const Root = () => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
@@ -19,19 +25,22 @@ const Root = () => {
           <nav>
             <ul>
               <li>
-                <Link to="/">Recipes</Link>
+                <NavLink to="/recipes">Recipes</NavLink>
               </li>
               <li>
-                <Link to="/ingredients">Ingredients</Link>
+                <NavLink to="/ingredients">Ingredients</NavLink>
               </li>
             </ul>
           </nav>
           <Switch>
-            <Route path="/ingredients">
+            <Route path="/ingredients/:id?">
               <Ingredients />
             </Route>
-            <Route path="/">
+            <Route path="/recipes/:id?">
               <Recipes />
+            </Route>
+            <Route path="/">
+              <Redirect to="/recipes/" />
             </Route>
           </Switch>
         </Router>

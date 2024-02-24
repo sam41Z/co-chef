@@ -283,9 +283,7 @@ input {
 .recipe-form-box {
   display: flex;
   flex-direction: column;
-  a {
-    float: right;
-  }
+
   hr {
     margin: 1.5rem 0 1.5rem;
     border-top: 1px solid;
@@ -293,6 +291,15 @@ input {
   }
   .info-box {
     margin: 1rem 0;
+  }
+  &-title {
+    a {
+      float: right;
+      margin: 0 1rem;
+      &:hover {
+        text-shadow: 0 0 0.2rem $highlight;
+      }
+    }
   }
 }
 .recipe-form-done {
