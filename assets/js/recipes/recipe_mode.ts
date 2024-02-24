@@ -45,8 +45,12 @@ export const getBreadMode = (total: number): RecipeMode => {
           .map((item) => item.amount)
           .reduce(sum, starterSum / 2);
         return [
-          { info: `Flour: ${flourSum}g (${convert(flourSum)}${suffix})` },
-          { info: `Hidration: ${convert(waterSum)}${suffix}` },
+          {
+            info: `Flour: ${flourSum}g (${convert(flourSum).toFixed(
+              0
+            )}${suffix})`,
+          },
+          { info: `Hidration: ${convert(waterSum).toFixed(0)}${suffix}` },
         ];
       },
     },

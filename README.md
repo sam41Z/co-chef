@@ -16,9 +16,6 @@
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## TODO
-### Bugs
- * Rounding issues in recipe info box
-
 ### Features
  * Use hook instead fo context for ingredients
  * Bread recipe total configurable
