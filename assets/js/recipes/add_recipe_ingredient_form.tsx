@@ -6,6 +6,7 @@ import { useIngredients } from "../ingredients/context";
 import Select, { ValueType, ActionMeta } from "react-select";
 import SelectStyles from "../select_react_styles";
 import ConvertableInput from "../convertable_input";
+import { useSnackBar } from "../snackbar";
 
 type NewRecipeIngredientFormProps = {
   recipeId: number;
@@ -21,6 +22,7 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
   const [amount, setAmount] = useState<number>(0);
   const [ingredient, setIngredient] = useState<Ingredient>();
   const { ingredients, setIngredients } = useIngredients();
+  const sendSnack = useSnackBar();
 
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -29,8 +31,6 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
         amount: amount,
         ingredient_id: ingredient.id,
       });
-    setIngredient(undefined);
-    setAmount(0);
   };
 
   type SelectType = { value: number; label: string };
@@ -50,9 +50,15 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
   const saveRecipeIngredient = (recipeIngredient: RecipeIngredientNew) => {
     saveRecipeIngredientApi(props.recipeId, recipeIngredient)
       .then((response: RecipeIngredient) => {
+        console.log(response);
         props.setRecipeIngredient(response);
+        setIngredient(undefined);
+        setAmount(0);
       })
-      .catch((error: any) => console.log(error));
+      .catch((error: any) => {
+        sendSnack("Unable to save recipe ingredient!");
+        console.log(error);
+      });
   };
 
   const options = ingredients.map((item) => {

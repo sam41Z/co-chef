@@ -1,12 +1,20 @@
 const host = "http://localhost:4000";
 
+const checkError = (response: any) => {
+  if (response.ok) {
+    return response;
+  } else {
+    throw Error(response.statusText);
+  }
+};
+
 export function get(path: string) {
   return fetch(host + path, {
     method: "GET",
   })
+    .then((res) => checkError(res))
     .then((res) => res.json())
     .then((res) => res.data)
-    .catch((error) => console.log(error));
 }
 
 export function post(path: string, data: any) {
@@ -17,9 +25,9 @@ export function post(path: string, data: any) {
     },
     body: JSON.stringify(data),
   })
+    .then((res) => checkError(res))
     .then((res) => res.json())
-    .then((res) => res.data)
-    .catch((error) => console.log(error));
+    .then((res) => res.data);
 }
 
 export function put(path: string, data: any) {
@@ -30,13 +38,14 @@ export function put(path: string, data: any) {
     },
     body: JSON.stringify(data),
   })
+    .then((res) => checkError(res))
     .then((res) => res.json())
     .then((res) => res.data)
-    .catch((error) => console.log(error));
 }
 
 export function deleteFetch(path: string) {
   return fetch(host + path, {
     method: "DELETE",
-  }).catch((error) => console.log(error));
+  })
+    .then((res) => checkError(res))
 }

@@ -26,6 +26,7 @@ defmodule BreadtrackerWeb.RecipeIngredientController do
       |> put_resp_header("location", Routes.recipe_path(conn, :show, recipe_ingredient))
       |> render("show.json", recipe_ingredient: recipe_ingredient)
     end
+    
   end
 
   def update(conn, %{

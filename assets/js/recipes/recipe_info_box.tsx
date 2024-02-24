@@ -35,8 +35,8 @@ const RecipeInfoBox = (props: RecipeInfoBoxProps) => {
     <div className="info-box">
       <div className="info-box-title">{props.altInfo.title}</div>
       <ul>
-        {props.altInfo.get(props.recipeIngredients).map((item) => {
-          return <li>{item.info}</li>;
+        {props.altInfo.get(props.recipeIngredients).map((item, index) => {
+          return <li key={index}>{item.info}</li>;
         })}
       </ul>
     </div>

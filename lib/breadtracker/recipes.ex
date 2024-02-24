@@ -187,6 +187,8 @@ defmodule Breadtracker.Recipes do
       {:ok, new} -> {:ok, Repo.preload(new, :ingredient)}
       x -> x
     end
+
+    {:error, "hello there"}
   end
 
   @doc """
