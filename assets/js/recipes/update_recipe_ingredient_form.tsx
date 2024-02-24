@@ -35,14 +35,14 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
     const value = event.target.value;
     const actualAmount = props.converter(Number(value));
     setAmountValue(value);
-    setActualAmountValue(String(actualAmount));
+    setActualAmountValue(actualAmount.toFixed(0));
     updateAmount(actualAmount);
   };
 
   const onActualAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     const amount = Number(value);
-    setAmountValue(String(props.inverter(amount)));
+    setAmountValue(props.inverter(amount).toFixed(0));
     setActualAmountValue(value);
     updateAmount(amount);
   };

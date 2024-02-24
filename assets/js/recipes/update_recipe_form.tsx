@@ -11,6 +11,7 @@ import UpdateRecipeNameForm from "./update_recipe_name_form";
 import AddRecipeIngredientForm from "./add_recipe_ingredient_form";
 import Lists from "../lists";
 import { Link } from "react-router-dom";
+import RecipeInfoBox from "./recipe_info_box";
 
 export type RecipeContextType = {
   recipeIngredients: RecipeIngredient[];
@@ -64,27 +65,11 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   };
   const total = 400;
   const converter = (percent: number) => {
-    return Math.round(total * percent) / 100;
+    return total * percent;
   };
   const inverter = (actual: number) => {
-    return Math.round((actual / total) * 10000) / 100;
+    return (actual / total) * 100;
   };
-  const sum = (accumulator: number, currentValue: number) =>
-    accumulator + currentValue;
-
-  const starterSum = recipeIngredients
-    .filter((item) => item.ingredient.type === "starter")
-    .map((item) => item.amount)
-    .reduce(sum, 0);
-
-  const flourSum = recipeIngredients
-    .filter((item) => item.ingredient.type === "flour")
-    .map((item) => item.amount)
-    .reduce(sum, starterSum / 2);
-  const waterSum = recipeIngredients
-    .filter((item) => item.ingredient.type === "water")
-    .map((item) => item.amount)
-    .reduce(sum, starterSum / 2);
 
   const recipeIngredientList =
     recipeIngredients.length > 0 ? (
@@ -111,22 +96,12 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     <RecipeContext.Provider value={{ recipeIngredients, setRecipeIngredients }}>
       <div className="recipe-form-box">
         <div className="recipe-form-box-title">
-          📖 Update Recipe 
+          📖 Update Recipe
           <Link to={basePath}>📕</Link>
           <a onClick={(_event) => onCopy(props.recipe.id)}>♻️</a>
         </div>
-        <div className="info-box">
-          <div className="info-box-title">Total</div>
-          <ul>
-            <li>
-              Flour: {flourSum} ({inverter(flourSum)}%)
-            </li>
-            <li>
-              Water: {waterSum} ({inverter(waterSum)}%)
-            </li>
-          </ul>
-        </div>
         <UpdateRecipeNameForm recipe={props.recipe} />
+        <RecipeInfoBox suffix="%" inverter={inverter} converter={converter} />
         {recipeIngredientList}
         <hr />
         <AddRecipeIngredientForm
