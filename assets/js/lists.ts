@@ -1,4 +1,4 @@
-type Compare<T> = (a: T, b: T) => boolean;
+type Comparator<T> = (a: T, b: T) => boolean;
 
 const Lists = {
   add: <T>(list: T[], item: T): T[] => {
@@ -6,13 +6,13 @@ const Lists = {
     copy.push(item);
     return copy;
   },
-  replace: <T>(list: T[], item: T, compare: Compare<T>): T[] => {
+  replace: <T>(list: T[], item: T, compare: Comparator<T>): T[] => {
     const copy = [...list];
     const index = copy.findIndex((a) => compare(a, item));
     copy.splice(index, 1, item);
     return copy;
   },
-  remove: <T>(list: T[], item: T, compare: Compare<T>): T[] => {
+  remove: <T>(list: T[], item: T, compare: Comparator<T>): T[] => {
     const copy = [...list];
     const index = copy.findIndex((a) => compare(a, item));
     copy.splice(index, 1);

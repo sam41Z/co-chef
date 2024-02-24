@@ -23,15 +23,15 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
     props.recipeIngredient
   );
   const [saving, setSaving] = useState<boolean>(false);
-  const [amountValue, setAmountValue] = useState<number>(
-    props.inverter(props.recipeIngredient.amount)
+  const [amountValue, setAmountValue] = useState<string>(
+    String(props.inverter(props.recipeIngredient.amount))
   );
   const { recipeIngredients, setRecipeIngredients } = useRecipeIngredients();
 
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
+    const value = event.target.value;
     const copy = { ...recipeIngredient };
-    copy.amount = props.converter(value);
+    copy.amount = props.converter(Number(value));
     setRecipeIngredient(copy);
     setAmountValue(value);
     updateRecipeIngredient(copy);

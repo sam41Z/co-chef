@@ -1,4 +1,4 @@
-/* Grabal styles */
+/* Global styles */
 $background: black;
 $color: #00e000;
 $highlight: #00ff00;
@@ -117,7 +117,7 @@ input {
   border: 0.12rem solid $highlight-lines;
   border-radius: 0.2rem;
   padding: 0.6rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin: 0.2rem;
   background: $background;
   color: $color;
@@ -172,7 +172,7 @@ input {
 .recipe-name-form {
   padding: 2rem 0 1rem;
   form {
-    font-size: 1.1rem;
+    font-size: 1rem;
     display: flex;
     input {
       flex-grow: 10;
@@ -211,7 +211,7 @@ input {
   border: 0.12rem solid $lines;
   border-radius: 0.2rem;
   padding: 0.6rem;
-  font-size: 1.1rem;
+  font-size: 1rem;
   margin: 0.2rem;
   background: $background;
   color: $color;
@@ -222,7 +222,7 @@ input {
 }
 
 .recipe-ingredient-form-loading-bar {
-  margin: 0.1rem 2.12rem 1rem;
+  margin: 0.1rem 0.12rem 1rem;
   .loading-bar {
     background: $highlight-lines;
   }
