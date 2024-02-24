@@ -25,6 +25,12 @@ defmodule BreadtrackerWeb.RecipeController do
     end
   end
 
+  def copy(conn, %{"recipe_id" => id}) do
+    with {:ok, %Recipe{} = recipe} <- Recipes.copy_recipe(id) do
+      render(conn, "show.json", recipe: recipe)
+    end
+  end
+
   def update(conn, %{"id" => id, "recipe" => recipe_params}) do
     recipe = Recipes.get_recipe!(id)
 

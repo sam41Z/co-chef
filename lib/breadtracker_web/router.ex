@@ -22,6 +22,8 @@ defmodule BreadtrackerWeb.Router do
     resources "/recipes", RecipeController, only: [:index, :create, :update, :show, :delete] do
       resources "/ingredients", RecipeIngredientController,
         only: [:index, :create, :update, :show, :delete]
+
+      post "/copy", RecipeController, :copy
     end
   end
 
@@ -30,7 +32,6 @@ defmodule BreadtrackerWeb.Router do
 
     get "/*path", PageController, :index
   end
-
 
   # Enables LiveDashboard only for development
   #

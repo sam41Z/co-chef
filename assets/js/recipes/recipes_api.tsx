@@ -32,6 +32,10 @@ export function postRecipe(recipe: RecipeNew) {
   return post("/api/recipes", { recipe: recipe });
 }
 
+export function copyRecipe(id: number) {
+  return post("/api/recipes/" + id + "/copy", {});
+}
+
 export function putRecipe(recipe: Recipe) {
   return put("/api/recipes/" + recipe.id, { recipe: recipe });
 }

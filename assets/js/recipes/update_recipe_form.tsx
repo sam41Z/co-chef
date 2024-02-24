@@ -3,6 +3,7 @@ import {
   Recipe,
   RecipeIngredient,
   getRecipeIngredients,
+  copyRecipe,
   compareIds,
 } from "./recipes_api";
 import UpdateRecipeIngredientForm from "./update_recipe_ingredient_form";
@@ -25,6 +26,7 @@ export const useRecipeIngredients = () => useContext(RecipeContext);
 type UpdateRecipeFormProps = {
   recipe: Recipe;
   onUpdateDone: (recipe: Recipe) => void;
+  onCopy: (recipe: Recipe) => void;
 };
 
 const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
@@ -53,6 +55,13 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     setRecipeIngredients(
       Lists.remove(recipeIngredients, deletedRecipeIngredient, compareIds)
     );
+  };
+
+  const onCopy = (id: number) => {
+    console.log(id);
+    copyRecipe(id)
+      .then((response: Recipe) => props.onCopy(response))
+      .catch((error) => console.log(error));
   };
   const total = 400;
   const converter = (percent: number) => {
@@ -102,7 +111,10 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   return (
     <RecipeContext.Provider value={{ recipeIngredients, setRecipeIngredients }}>
       <div className="recipe-form-box">
-        <div>Update Recipe</div>
+        <div>
+          Update Recipe
+          <a onClick={(_event) => onCopy(props.recipe.id)}>♻️</a>
+        </div>
         <div className="info-box">
           <div className="info-box-title">Total</div>
           <ul>

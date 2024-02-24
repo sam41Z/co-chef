@@ -22,7 +22,7 @@ const Recipes = () => {
     deleteRecipe(id)
       .then(() => {
         const index = recipes.findIndex((recipe) => recipe.id === id);
-        const copy = [...recipes];
+      const copy = [...recipes];
         copy.splice(index, 1);
         setRecipes(recipes);
         if (recipe && id === recipe.id) setRecipe(undefined);
@@ -69,6 +69,7 @@ const Recipes = () => {
     <UpdateRecipeForm
       key={recipe.id}
       recipe={recipe}
+      onCopy={addNewRecipe}
       onUpdateDone={onUpdateDone}
     />
   ) : (

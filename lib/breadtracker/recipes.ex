@@ -33,7 +33,7 @@ defmodule Breadtracker.Recipes do
       %Recipe{}
 
       iex> get_recipe!(456)
-      ** (Ecto.NoResultsError)
+  e     ** (Ecto.NoResultsError)
 
   """
   def get_recipe!(id) do
@@ -57,6 +57,29 @@ defmodule Breadtracker.Recipes do
     %Recipe{}
     |> Recipe.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Creates a deep copy of a recipe
+  """
+  def copy_recipe(id) do
+    source = Repo.get!(Recipe, id)
+
+    %Recipe{name: "#{source.name} - copy"}
+    |> Repo.insert()
+    |> case do
+      {:ok, copy} ->
+        Repo.preload(source, :recipe_ingredients)
+        |> Map.fetch!(:recipe_ingredients)
+        |> Enum.each(fn item ->
+          copy_recipe_ingredient(copy.id, item.id)
+        end)
+
+        {:ok, copy}
+
+      x ->
+        x
+    end
   end
 
   @doc """
@@ -161,6 +184,19 @@ defmodule Breadtracker.Recipes do
     |> case do
       {:ok, new} -> {:ok, Repo.preload(new, :ingredient)}
       x -> x
+    end
+  end
+
+  @doc """
+  Copy recipe ingredient
+  """
+  def copy_recipe_ingredient(recipe_id, id) do
+    RecipeIngredient
+    |> Repo.get!(id)
+    |> case do
+      %RecipeIngredient{amount: amount, ingredient_id: ingredient_id} ->
+        %RecipeIngredient{recipe_id: recipe_id, amount: amount, ingredient_id: ingredient_id}
+        |> Repo.insert()
     end
   end
 

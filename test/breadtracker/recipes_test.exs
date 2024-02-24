@@ -18,6 +18,15 @@ defmodule Breadtracker.RecipesTest do
       assert Recipes.get_recipe!(recipe.id) == recipe
     end
 
+    test "copy_recipe/1 returns an exact copy of a recipe" do
+      recipe_ingredient = recipe_ingredient_fixture();
+      recipe = Recipes.get_recipe!(recipe_ingredient.recipe_id)
+      
+      {:ok, %Recipe{}= new_recipe} = Recipes.copy_recipe(recipe.id)
+      assert recipe.id != new_recipe.id
+      assert "#{recipe.name} - copy" == new_recipe.name
+    end
+
     test "create_recipe/1 with valid data creates a recipe" do
       assert {:ok, %Recipe{} = recipe} = Recipes.create_recipe(@recipe_valid_attrs)
       assert recipe.name == "some name"
@@ -81,6 +90,16 @@ defmodule Breadtracker.RecipesTest do
                Recipes.create_recipe_ingredient(@recipe_ingredient_invalid_attrs)
     end
 
+    test "copy_recip_ingrediente/2 returns an exact copy of a recipe ingredient linked to the specified recipe" do
+      recipe_ingredient = recipe_ingredient_fixture();
+      recipe = recipe_fixture()
+      
+      {:ok, %RecipeIngredient{}= new_recipe_ingredient} = Recipes.copy_recipe_ingredient(recipe.id, recipe_ingredient.id)
+      assert recipe_ingredient.recipe_id != new_recipe_ingredient.recipe_id
+      assert recipe_ingredient.amount == new_recipe_ingredient.amount
+      assert recipe_ingredient.ingredient_id == new_recipe_ingredient.ingredient_id
+    end
+    
     test "update_recipe_ingredient/2 with valid data updates the recipe_ingredient" do
       recipe_ingredient = recipe_ingredient_fixture()
 

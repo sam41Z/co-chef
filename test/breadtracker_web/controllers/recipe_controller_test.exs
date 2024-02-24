@@ -47,6 +47,22 @@ defmodule BreadtrackerWeb.RecipeControllerTest do
     end
   end
 
+  describe "copy recipe" do
+    setup [:create_recipe]
+
+    test "renders copy successfull", %{conn: conn, recipe: %Recipe{id: id} = recipe} do
+ #     conn = post(conn, Routes.(conn, :copy, id))
+ #     assert %{"id" => ^id} = json_response(conn, 200)["data"]
+
+ #     conn = get(conn, Routes.recipe_path(conn, :show, id))
+
+ #     assert %{
+ #              "id" => id,
+ #              "name" => "some updated name"
+ #            } = json_response(conn, 200)["data"]
+    end
+  end
+
   describe "update recipe" do
     setup [:create_recipe]
 
