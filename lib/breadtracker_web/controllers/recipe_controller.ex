@@ -11,6 +11,12 @@ defmodule BreadtrackerWeb.RecipeController do
     render(conn, "index.json", recipes: recipes)
   end
 
+  def show(conn, %{"id" => id}) do 
+    recipe = Recipes.get_recipe!(id)
+    render(conn, "show.json", recipe: recipe)
+  end
+
+
   def create(conn, %{"recipe" => recipe_params}) do
     with {:ok, %Recipe{} = recipe} <- Recipes.create_recipe(recipe_params) do
       conn

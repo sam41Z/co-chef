@@ -6,102 +6,6 @@ defmodule Breadtracker.Recipes do
   import Ecto.Query, warn: false
   alias Breadtracker.Repo
 
-  alias Breadtracker.Recipes.Ingredient
-
-  @doc """
-  Returns the list of ingredients.
-
-  ## Examples
-
-      iex> list_ingredients()
-      [%Ingredient{}, ...]
-
-  """
-  def list_ingredients do
-    Repo.all(Ingredient)
-  end
-
-  @doc """
-  Gets a single ingredient.
-
-  Raises `Ecto.NoResultsError` if the Ingredient does not exist.
-
-  ## Examples
-
-      iex> get_ingredient!(123)
-      %Ingredient{}
-
-      iex> get_ingredient!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_ingredient!(id), do: Repo.get!(Ingredient, id)
-
-  @doc """
-  Creates a ingredient.
-
-  ## Examples
-
-      iex> create_ingredient(%{field: value})
-      {:ok, %Ingredient{}}
-
-      iex> create_ingredient(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def create_ingredient(attrs \\ %{}) do
-    %Ingredient{}
-    |> Ingredient.changeset(attrs)
-    |> Repo.insert()
-  end
-
-  @doc """
-  Updates a ingredient.
-
-  ## Examples
-
-      iex> update_ingredient(ingredient, %{field: new_value})
-      {:ok, %Ingredient{}}
-
-      iex> update_ingredient(ingredient, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_ingredient(%Ingredient{} = ingredient, attrs) do
-    ingredient
-    |> Ingredient.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a ingredient.
-
-  ## Examples
-
-      iex> delete_ingredient(ingredient)
-      {:ok, %Ingredient{}}
-
-      iex> delete_ingredient(ingredient)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_ingredient(%Ingredient{} = ingredient) do
-    Repo.delete(ingredient)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking ingredient changes.
-
-  ## Examples
-
-      iex> change_ingredient(ingredient)
-      %Ecto.Changeset{data: %Ingredient{}}
-
-  """
-  def change_ingredient(%Ingredient{} = ingredient, attrs \\ %{}) do
-    Ingredient.changeset(ingredient, attrs)
-  end
-
   alias Breadtracker.Recipes.Recipe
 
   @doc """
@@ -114,7 +18,9 @@ defmodule Breadtracker.Recipes do
 
   """
   def list_recipes do
-    Repo.all(Recipe)
+    Recipe
+    |> Repo.all()
+    |> Repo.preload(:recipe_ingredient)
   end
 
   @doc """
@@ -131,7 +37,11 @@ defmodule Breadtracker.Recipes do
       ** (Ecto.NoResultsError)
 
   """
-  def get_recipe!(id), do: Repo.get!(Recipe, id)
+  def get_recipe!(id), do
+    Recipe
+    |> Repo.get!(id)
+    |> Repo.preload(:recipe_ingredient)
+
 
   @doc """
   Creates a recipe.
@@ -196,5 +106,101 @@ defmodule Breadtracker.Recipes do
   """
   def change_recipe(%Recipe{} = recipe, attrs \\ %{}) do
     Recipe.changeset(recipe, attrs)
+  end
+
+  alias Breadtracker.Recipes.RecipeIngredient
+
+  @doc """
+  Returns the list of recipe_ingredients.
+
+  ## Examples
+
+      iex> list_recipe_ingredients()
+      [%RecipeIngredient{}, ...]
+
+  """
+  def list_recipe_ingredients do
+    Repo.all(RecipeIngredient)
+  end
+
+  @doc """
+  Gets a single recipe_ingredient.
+
+  Raises `Ecto.NoResultsError` if the Recipe ingredient does not exist.
+
+  ## Examples
+
+      iex> get_recipe_ingredient!(123)
+      %RecipeIngredient{}
+
+      iex> get_recipe_ingredient!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_recipe_ingredient!(id), do: Repo.get!(RecipeIngredient, id)
+
+  @doc """
+  Creates a recipe_ingredient.
+
+  ## Examples
+
+      iex> create_recipe_ingredient(%{field: value})
+      {:ok, %RecipeIngredient{}}
+
+      iex> create_recipe_ingredient(%{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def create_recipe_ingredient(attrs \\ %{}) do
+    %RecipeIngredient{}
+    |> RecipeIngredient.changeset(attrs)
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a recipe_ingredient.
+
+  ## Examples
+
+      iex> update_recipe_ingredient(recipe_ingredient, %{field: new_value})
+      {:ok, %RecipeIngredient{}}
+
+      iex> update_recipe_ingredient(recipe_ingredient, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_recipe_ingredient(%RecipeIngredient{} = recipe_ingredient, attrs) do
+    recipe_ingredient
+    |> RecipeIngredient.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a recipe_ingredient.
+
+  ## Examples
+
+      iex> delete_recipe_ingredient(recipe_ingredient)
+      {:ok, %RecipeIngredient{}}
+
+      iex> delete_recipe_ingredient(recipe_ingredient)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_recipe_ingredient(%RecipeIngredient{} = recipe_ingredient) do
+    Repo.delete(recipe_ingredient)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking recipe_ingredient changes.
+
+  ## Examples
+
+      iex> change_recipe_ingredient(recipe_ingredient)
+      %Ecto.Changeset{data: %RecipeIngredient{}}
+
+  """
+  def change_recipe_ingredient(%RecipeIngredient{} = recipe_ingredient, attrs \\ %{}) do
+    RecipeIngredient.changeset(recipe_ingredient, attrs)
   end
 end

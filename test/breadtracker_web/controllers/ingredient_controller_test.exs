@@ -1,8 +1,8 @@
 defmodule BreadtrackerWeb.IngredientControllerTest do
   use BreadtrackerWeb.ConnCase
 
-  alias Breadtracker.Recipes
-  alias Breadtracker.Recipes.Ingredient
+  alias Breadtracker.Ingredients
+  alias Breadtracker.Ingredients.Ingredient
 
   @create_attrs %{
     name: "some name"
@@ -13,7 +13,7 @@ defmodule BreadtrackerWeb.IngredientControllerTest do
   @invalid_attrs %{name: nil}
 
   def fixture(:ingredient) do
-    {:ok, ingredient} = Recipes.create_ingredient(@create_attrs)
+    {:ok, ingredient} = Ingredients.create_ingredient(@create_attrs)
     ingredient
   end
 

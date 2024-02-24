@@ -17,7 +17,7 @@ config :breadtracker, Breadtracker.Repo,
 # with webpack to recompile .js and .css sources.
 config :breadtracker, BreadtrackerWeb.Endpoint,
   http: [port: 4000],
-  debug_errors: true,
+  debug_errors: false,
   code_reloader: true,
   check_origin: false,
   watchers: [

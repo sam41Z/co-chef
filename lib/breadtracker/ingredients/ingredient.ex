@@ -1,4 +1,4 @@
-defmodule Breadtracker.Recipes.Ingredient do
+defmodule Breadtracker.Ingredients.Ingredient do
   use Ecto.Schema
   import Ecto.Changeset
 
