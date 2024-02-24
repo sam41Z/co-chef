@@ -64,6 +64,10 @@ a:hover {
   border-radius: 0.5rem;
   padding: 2rem;
   margin: 2rem;
+
+  .delete:hover {
+    text-shadow: 0 0 1rem $highlight-lines;
+  }
 }
 
 /* List item style */
@@ -79,9 +83,6 @@ ul {
   padding-bottom: 0.5rem;
   &:last-child {
     border: none;
-  }
-  .delete:hover {
-    text-shadow: 0 0 1rem $highlight-lines;
   }
 }
 /* Froms */
@@ -148,9 +149,14 @@ input {
     font-size: 1.1rem;
     display: flex;
     & input {
-      flex-grow: 2;
+      flex-grow: 10;
       padding: 0.8rem;
+
+      &[type="submit"] {
+        flex-grow: 1;
+      }
     }
+
     & label {
       align-self: center;
       font-weight: bold;
@@ -169,6 +175,10 @@ input {
   padding-bottom: 0;
   & input[type="number"] {
     max-width: 3rem;
+  }
+  & .delete {
+    padding: 0.6rem;
+    align-self: center;
   }
 }
 .recipe-ingredient-form-name {

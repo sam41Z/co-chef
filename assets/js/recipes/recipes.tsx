@@ -19,13 +19,15 @@ const Recipes = () => {
   }, []);
 
   const onClickDelete = (id: number) => {
-    const index = recipes.findIndex((recipe) => recipe.id === id);
-    const copy = [...recipes];
-    copy.splice(index, 1);
-    setRecipes(recipes);
-    if (recipe && id === recipe.id) setRecipe(undefined);
     deleteRecipe(id)
-      .then(() => fetchRecipes())
+      .then(() => {
+        const index = recipes.findIndex((recipe) => recipe.id === id);
+        const copy = [...recipes];
+        copy.splice(index, 1);
+        setRecipes(recipes);
+        if (recipe && id === recipe.id) setRecipe(undefined);
+        fetchRecipes();
+      })
       .catch((error) => console.log(error));
   };
   const onItemSelect = (id: number) => {

@@ -50,6 +50,9 @@ export function updateRecipeIngredient(
     }
   );
 }
+export function deleteRecipeIngredient(recipeId: number, id: number) {
+  return deleteFetch("/api/recipes/" + recipeId + "/ingredients/" + id);
+}
 
 export function getRecipes() {
   return get("/api/recipes");

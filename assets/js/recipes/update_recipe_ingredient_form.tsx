@@ -1,12 +1,16 @@
 import React, { useState, useCallback, SyntheticEvent } from "react";
 import { RecipeIngredient } from "./recipes_api";
-import { updateRecipeIngredient as updateRecipeIngredientApi } from "./recipes_api";
+import {
+  updateRecipeIngredient as updateRecipeIngredientApi,
+  deleteRecipeIngredient,
+} from "./recipes_api";
 import { debounce } from "../debounce";
 import LoadingBar from "../loading_bar";
 
 interface UpdateRecipeIngredientFormProps {
   recipeId: number;
   recipeIngredient: RecipeIngredient;
+  onDelete: (recipeIngredient: RecipeIngredient) => void;
 }
 
 const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
@@ -34,6 +38,14 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
     []
   );
 
+  const handleDelete = (recipeIngredient: RecipeIngredient) => {
+    deleteRecipeIngredient(props.recipeId, recipeIngredient.id)
+      .then(() => {
+        props.onDelete(recipeIngredient);
+      })
+      .catch((error: any) => console.log(error));
+  };
+
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) =>
     event.target.select();
 
@@ -51,6 +63,12 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
           value={recipeIngredient.amount}
           onChange={handleAmountChange}
         />
+        <a
+          className="delete"
+          onClick={(_event) => handleDelete(recipeIngredient)}
+        >
+          🔥
+        </a>
       </form>
       <div className="recipe-ingredient-form-loading-bar">
         <LoadingBar loading={saving} />

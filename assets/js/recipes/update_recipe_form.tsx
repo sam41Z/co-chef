@@ -13,7 +13,7 @@ interface UpdateRecipeFormProps {
 const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   const [recipeIngredients, setRecipeIngredients] = useState<
     RecipeIngredient[]
-  >();
+  >([]);
   useEffect(() => {
     fetchRecipeIngredients(props.recipe.id);
   }, []);
@@ -30,37 +30,47 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     props.onUpdateDone(props.recipe);
   };
 
+  const onDeleteRecipeIngredient = (
+    deletedRecipeIngredient: RecipeIngredient
+  ) => {
+    const index = recipeIngredients.findIndex(
+      (recipeIngredient) => recipeIngredient.id === deletedRecipeIngredient.id
+    );
+    const copy = [...recipeIngredients];
+    copy.splice(index, 1);
+    setRecipeIngredients(copy);
+  };
+
   const recipeIngredientList =
-    recipeIngredients && recipeIngredients.length > 0 ? (
+    recipeIngredients.length > 0 ? (
       recipeIngredients.map((item) => (
         <UpdateRecipeIngredientForm
           key={item.id}
           recipeId={props.recipe.id}
           recipeIngredient={item}
+          onDelete={onDeleteRecipeIngredient}
         />
       ))
     ) : (
       <div className="recipe-form-no-ingredients">No ingredients</div>
     );
 
-  const setRecipeIngredient = (newIngredient: RecipeIngredient) => {
-    const copy = recipeIngredients ? [...recipeIngredients] : [];
+  const addRecipeIngredient = (newIngredient: RecipeIngredient) => {
+    const copy = [...recipeIngredients];
     copy.push(newIngredient);
     setRecipeIngredients(copy);
   };
-  const addRecipeIngredientForm = recipeIngredients && (
-    <AddRecipeIngredientForm
-      recipeId={props.recipe.id}
-      setRecipeIngredient={setRecipeIngredient}
-    />
-  );
+
   return (
     <div className="recipe-form-box">
       <div>Update Recipe</div>
       <UpdateRecipeNameForm recipe={props.recipe} />
       {recipeIngredientList}
       <hr className="recipe-ingredient-form-divider" />
-      {addRecipeIngredientForm}
+      <AddRecipeIngredientForm
+        recipeId={props.recipe.id}
+        setRecipeIngredient={addRecipeIngredient}
+      />
       <input
         className="recipe-form-done"
         type="button"
