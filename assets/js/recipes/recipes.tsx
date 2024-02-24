@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "./recipes.scss";
 import { Recipe, getRecipes, deleteRecipe } from "./recipes_api";
 import NamedItem from "../named_item";
 import UpdateRecipeForm from "./update_recipe_form";

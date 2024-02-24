@@ -1,0 +1,26 @@
+@import "../../css/colors";
+
+.ingredient-form {
+  display: grid;
+  align-items: center;
+  label {
+    justify-self: end;
+    grid-column: 1;
+  }
+  input[type="text"] {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    justify-self: stretch;
+    grid-column: 2;
+  }
+  input[type="number"] {
+    justify-self: start;
+    max-width: 3rem;
+  }
+
+  input[type="submit"] {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: end;
+  }
+}

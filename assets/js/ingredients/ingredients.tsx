@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./ingredients.scss";
 import {
   Ingredient as IngredientType,
   getIngredients,

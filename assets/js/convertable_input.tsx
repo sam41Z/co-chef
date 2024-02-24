@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./convertable_input.scss";
 
 type ConvertableInputProps = {
   value: number;

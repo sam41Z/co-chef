@@ -1,0 +1,15 @@
+@import "../css/colors";
+
+.named-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 0.1rem solid $lines;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  &-name {
+    width: 100%;
+  }
+  &:last-child {
+    border: none;
+  }
+}

@@ -1,0 +1,16 @@
+@import "../css/colors"
+
+.loading-bar {
+  opacity: 1;
+  background: $highlight;
+  height: 1px;
+}
+.loading-bar-inactive {
+  width: 0%;
+}
+.loading-bar-load {
+  opacity: 0;
+  width: 100%;
+  transition: width 500ms, opacity 200ms ease 400ms;
+}
+

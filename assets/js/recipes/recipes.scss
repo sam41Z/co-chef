@@ -1,0 +1,92 @@
+@import "../../css/colors";
+
+.recipe-name-form {
+  padding: 1rem 0 1rem;
+  form {
+    font-size: 1rem;
+    display: flex;
+    input {
+      flex-grow: 10;
+
+      &[type="submit"] {
+        flex-grow: 1;
+      }
+    }
+
+    label {
+      align-self: center;
+      font-weight: bold;
+    }
+  }
+  div {
+    margin: 0.1rem 0 1rem;
+  }
+  .loading-bar {
+    background: $highlight-lines;
+  }
+}
+.recipe-ingredient-selector {
+  flex-grow: 1;
+}
+.recipe-ingredient-form {
+  display: flex;
+  padding-top: 0;
+  padding-bottom: 0;
+  input[type="number"] {
+    max-width: 3rem;
+  }
+  .delete {
+    padding: 0.6rem;
+    align-self: center;
+  }
+}
+.recipe-ingredient-form-name {
+  flex-grow: 2;
+  border: 0.12rem solid $lines;
+  border-radius: 0.2rem;
+  padding: 0.6rem;
+  font-size: 1rem;
+  margin: 0.2rem;
+  background: $background;
+  color: $color;
+}
+
+.recipe-ingredient-form-saved {
+  width: 3rem;
+}
+
+.recipe-ingredient-form-loading-bar {
+  margin: 0.1rem 0.12rem 1rem;
+  .loading-bar {
+    background: $highlight-lines;
+  }
+}
+.recipe-form-no-ingredients {
+  padding: 0 0;
+  font-size: 0.9rem;
+}
+.recipe-form-box {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+
+  hr {
+    margin: 1.5rem 0 1.5rem;
+  }
+  .info-box {
+    margin: 1rem 0;
+  }
+  &-title {
+    a {
+      float: right;
+      margin: 0 1rem;
+      &:hover {
+        text-shadow: 0 0 0.2rem $highlight;
+      }
+    }
+  }
+}
+.recipe-form-done {
+  align-self: end;
+  margin-top: 1.5rem;
+}
