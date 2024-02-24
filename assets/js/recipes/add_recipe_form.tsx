@@ -15,12 +15,15 @@ const AddRecipeForm = (props: { setRecipe: (recipe: Recipe) => void }) => {
       .catch((error) => console.log(error));
   };
   return (
-    <div className="recipe-name-form">
-      <form onSubmit={handleSubmit}>
-        <label>Name:</label>
-        <input type="text" name="name" value={name} onChange={handleChange} />
-        <input type="submit" value="Save" />
-      </form>
+    <div className="recipe-form-box">
+      New Recipe
+      <div className="recipe-name-form">
+        <form onSubmit={handleSubmit}>
+          <label>Name:</label>
+          <input type="text" name="name" value={name} onChange={handleChange} />
+          <input type="submit" value="Save" />
+        </form>
+      </div>
     </div>
   );
 };

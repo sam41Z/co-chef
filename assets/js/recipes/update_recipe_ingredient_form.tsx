@@ -6,10 +6,14 @@ import {
 } from "./recipes_api";
 import { debounce } from "../debounce";
 import LoadingBar from "../loading_bar";
+import { useRecipeIngredients } from "./update_recipe_form"
 
 interface UpdateRecipeIngredientFormProps {
   recipeId: number;
   recipeIngredient: RecipeIngredient;
+  suffix: string;
+  converter: (input: number) => number;
+  inverter: (input: number) => number;
   onDelete: (recipeIngredient: RecipeIngredient) => void;
 }
 
@@ -18,11 +22,16 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
     props.recipeIngredient
   );
   const [saving, setSaving] = useState<boolean>(false);
+  const [amountValue, setAmountValue] = useState<number>(
+    props.inverter(props.recipeIngredient.amount)
+  );
 
   const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value);
     const copy = { ...recipeIngredient };
-    copy.amount = Number(event.target.value);
+    copy.amount = props.converter(value);
     setRecipeIngredient(copy);
+    setAmountValue(value);
     updateRecipeIngredient(copy);
   };
 
@@ -53,16 +62,17 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
     <div>
       <form className="recipe-ingredient-form">
         <div className="recipe-ingredient-form-name">
-          {recipeIngredient.ingredient.name}
+          {recipeIngredient.ingredient.name} ({recipeIngredient.amount}g)
         </div>
         <input
           type="number"
           name="amount"
           onFocus={handleFocus}
           style={{ width: 10 + "em" }}
-          value={recipeIngredient.amount}
+          value={amountValue}
           onChange={handleAmountChange}
         />
+        <div>{props.suffix}</div>
         <a
           className="delete"
           onClick={(_event) => handleDelete(recipeIngredient)}

@@ -6,12 +6,18 @@ $lines: #590059;
 $highlight-lines: #b200b2;
 $hihighlight-lines: #ff00ff;
 
+@mixin hover {
+  cursor: pointer;
+  color: $highlight;
+  text-shadow: 0 0 0.005rem $highlight;
+}
+
 body {
   color: $color;
   background: $background;
   font-family: monospace, monospace;
-  font-size: 1.2em;
-  font-weight: 500;
+  font-size: 1em;
+  font-weight: 550;
   font-stretch: ultra-expanded;
   line-height: 1.6;
   width: 75rem;
@@ -20,12 +26,12 @@ body {
 hr {
   color: $lines;
 }
-a:hover {
-  cursor: pointer;
-  color: $highlight;
-}
-/* Alerts and form errors */
 
+a:hover {
+  @include hover;
+}
+
+/* Alerts and form errors */
 .alert {
   padding: 15px;
   margin-bottom: 20px;
@@ -65,6 +71,9 @@ a:hover {
   padding: 2rem;
   margin: 2rem;
 
+  hr {
+    margin: 0 2rem;
+  }
   .delete:hover {
     text-shadow: 0 0 1rem $highlight-lines;
   }
@@ -73,16 +82,13 @@ a:hover {
   display: flex;
   align-items: stretch;
   justify-content: space-around;
-  & div {
-    & ul {
+  div {
+    ul {
       width: 25rem;
     }
     &:last-child {
       flex-grow: 1;
     }
-  }
-  & hr {
-    margin: 2rem;
   }
 }
 
@@ -90,6 +96,7 @@ a:hover {
 ul {
   list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 .named-item {
   display: flex;
@@ -97,11 +104,14 @@ ul {
   border-bottom: 0.1rem solid $lines;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
+  &-name {
+    width: 100%;
+  }
   &:last-child {
     border: none;
   }
 }
-/* Froms */
+/* Forms */
 select,
 input {
   border: 0.12rem solid $highlight-lines;
@@ -111,6 +121,7 @@ input {
   margin: 0.2rem;
   background: $background;
   color: $color;
+  line-height: inherit;
 }
 
 select {
@@ -124,8 +135,7 @@ input {
   }
   &[type="submit"]:hover,
   &[type="button"]:hover {
-    cursor: pointer;
-    color: $highlight;
+    @include hover;
     border-color: $hihighlight-lines;
   }
   &[type="number"] {
@@ -137,22 +147,22 @@ input {
   display: grid;
   align-items: center;
   grid-column-gap: 0.75rem;
-  & label {
+  label {
     justify-self: end;
     grid-column: 1;
   }
-  & input [type="text"] {
+  input[type="text"] {
     grid-column-start: 2;
     grid-column-end: 4;
     justify-self: stretch;
     grid-column: 2;
   }
-  & input[type="number"] {
+  input[type="number"] {
     justify-self: start;
     max-width: 3rem;
   }
 
-  & input[type="submit"] {
+  input[type="submit"] {
     grid-column-start: 1;
     grid-column-end: 4;
     justify-self: center;
@@ -161,27 +171,26 @@ input {
 
 .recipe-name-form {
   padding: 2rem 0 1rem;
-  & form {
+  form {
     font-size: 1.1rem;
     display: flex;
-    & input {
+    input {
       flex-grow: 10;
-      padding: 0.8rem;
 
       &[type="submit"] {
         flex-grow: 1;
       }
     }
 
-    & label {
+    label {
       align-self: center;
       font-weight: bold;
     }
   }
-  & div {
+  div {
     margin: 0.1rem 0 1rem;
   }
-  & .loading-bar {
+  .loading-bar {
     background: $highlight-lines;
   }
 }
@@ -189,10 +198,10 @@ input {
   display: flex;
   padding-top: 0;
   padding-bottom: 0;
-  & input[type="number"] {
+  input[type="number"] {
     max-width: 3rem;
   }
-  & .delete {
+  .delete {
     padding: 0.6rem;
     align-self: center;
   }
@@ -214,7 +223,7 @@ input {
 
 .recipe-ingredient-form-loading-bar {
   margin: 0.1rem 2.12rem 1rem;
-  & .loading-bar {
+  .loading-bar {
     background: $highlight-lines;
   }
 }
@@ -225,7 +234,7 @@ input {
 .recipe-form-box {
   display: flex;
   flex-direction: column;
-  & hr {
+  hr {
     margin: 1.5rem 0 1.5rem;
     border-top: 1px solid;
     border-bottom: none;

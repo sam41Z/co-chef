@@ -11,6 +11,14 @@ defmodule BreadtrackerWeb.RecipeIngredientView do
   end
 
   def render("recipe_ingredient.json", %{recipe_ingredient: recipe_ingredient}) do
-    %{id: recipe_ingredient.id, amount: recipe_ingredient.amount, ingredient: %{id: recipe_ingredient.ingredient.id, name: recipe_ingredient.ingredient.name}}
+    %{
+      id: recipe_ingredient.id,
+      amount: recipe_ingredient.amount,
+      ingredient: %{
+        id: recipe_ingredient.ingredient.id,
+        name: recipe_ingredient.ingredient.name,
+        type: recipe_ingredient.ingredient.type
+      }
+    }
   end
 end

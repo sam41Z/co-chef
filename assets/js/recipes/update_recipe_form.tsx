@@ -1,9 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext, useContext } from "react";
+import {} from "react";
 import { Recipe, RecipeIngredient } from "./recipes_api";
 import { getRecipeIngredients } from "./recipes_api";
 import UpdateRecipeIngredientForm from "./update_recipe_ingredient_form";
 import UpdateRecipeNameForm from "./update_recipe_name_form";
 import AddRecipeIngredientForm from "./add_recipe_ingredient_form";
+
+export type RecipeContextType = {
+  recipeIngredients: RecipeIngredient[];
+  setRecipeIngredients: (recipeIngredients: RecipeIngredient[]) => void;
+};
+
+export const RecipeContext = createContext<RecipeContextType>({
+  recipeIngredients: [],
+  setRecipeIngredients: (_ingredients) =>
+    console.warn("no ingredients provider"),
+});
+export const useRecipeIngredients = () => useContext(RecipeContext);
 
 interface UpdateRecipeFormProps {
   recipe: Recipe;
@@ -40,6 +53,27 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     copy.splice(index, 1);
     setRecipeIngredients(copy);
   };
+  const total = 400;
+  const converter = (percent: number) => {
+    return total * percent * 0.01;
+  };
+  const inverter = (actual: number) => {
+    return (actual / total) * 100;
+  };
+  const sum = (accumulator: number, currentValue: number) =>
+    accumulator + currentValue;
+  const flourSum = recipeIngredients
+    .map((item) => {
+      console.log(item.ingredient);
+      return item;
+    })
+    .filter((item) => item.ingredient.type === "flour")
+    .map((item) => item.amount)
+    .reduce(sum, 0);
+  const waterSum = recipeIngredients
+    .filter((item) => item.ingredient.type === "water")
+    .map((item) => item.amount)
+    .reduce(sum, 0);
 
   const recipeIngredientList =
     recipeIngredients.length > 0 ? (
@@ -48,6 +82,9 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
           key={item.id}
           recipeId={props.recipe.id}
           recipeIngredient={item}
+          suffix="%"
+          converter={converter}
+          inverter={inverter}
           onDelete={onDeleteRecipeIngredient}
         />
       ))
@@ -62,22 +99,30 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   };
 
   return (
-    <div className="recipe-form-box">
-      <div>Update Recipe</div>
-      <UpdateRecipeNameForm recipe={props.recipe} />
-      {recipeIngredientList}
-      <hr />
-      <AddRecipeIngredientForm
-        recipeId={props.recipe.id}
-        setRecipeIngredient={addRecipeIngredient}
-      />
-      <input
-        className="recipe-form-done"
-        type="button"
-        onClick={onDone}
-        value="🍻 Done 🍻"
-      />
-    </div>
+    <RecipeContext.Provider
+      value={{ recipeIngredients, setRecipeIngredients }}
+    >
+      <div className="recipe-form-box">
+        <div>Update Recipe</div>
+        <div>
+          Total flour: {flourSum} ({inverter(flourSum)}%), total water:{" "}
+          {waterSum} ({inverter(waterSum)}%)
+        </div>
+        <UpdateRecipeNameForm recipe={props.recipe} />
+        {recipeIngredientList}
+        <hr />
+        <AddRecipeIngredientForm
+          recipeId={props.recipe.id}
+          setRecipeIngredient={addRecipeIngredient}
+        />
+        <input
+          className="recipe-form-done"
+          type="button"
+          onClick={onDone}
+          value="🍻 Done 🍻"
+        />
+      </div>
+    </RecipeContext.Provider>
   );
 };
 
