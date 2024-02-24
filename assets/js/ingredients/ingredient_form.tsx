@@ -7,22 +7,22 @@ const IngredientForm = (props: {
   onSave: (ingredient: Ingredient) => void;
 }) => {
   const [name, setName] = useState("");
-  const [energy, setEneregy] = useState(0);
-  const [fat, setFat] = useState(0);
-  const [carbohydrates, setCarbohydartes] = useState(0);
-  const [fiber, setFiber] = useState(0);
-  const [protein, setProtein] = useState(0);
+  const [energy, setEneregy] = useState("0");
+  const [fat, setFat] = useState("0");
+  const [carbohydrates, setCarbohydartes] = useState("0");
+  const [fiber, setFiber] = useState("0");
+  const [protein, setProtein] = useState("0");
 
   const sendSnack = useSnackBox();
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     saveIngredient({
       name: name,
-      energy: energy,
-      fat: fat,
-      carbohydrates: carbohydrates,
-      fiber: fiber,
-      protein: protein,
+      energy: Number(energy),
+      fat:Number(fat),
+      carbohydrates: Number(carbohydrates),
+      fiber: Number(fiber),
+      protein: Number(protein),
       type: "flour",
     });
   };
@@ -32,19 +32,19 @@ const IngredientForm = (props: {
         setName(event.target.value);
         break;
       case "energy":
-        setEneregy(Number(event.target.value));
+        setEneregy(event.target.value);
         break;
       case "fat":
-        setFat(Number(event.target.value));
+        setFat(event.target.value);
         break;
       case "carbohydrates":
-        setCarbohydartes(Number(event.target.value));
+        setCarbohydartes(event.target.value);
         break;
       case "fiber":
-        setFiber(Number(event.target.value));
+        setFiber(event.target.value);
         break;
       case "protein":
-        setProtein(Number(event.target.value));
+        setProtein(event.target.value);
     }
   };
   const saveIngredient = (ingredient: IngredientNew) => {
@@ -52,11 +52,11 @@ const IngredientForm = (props: {
       .then((response: Ingredient) => {
         props.onSave(response);
         setName("");
-        setEneregy(0);
-        setFat(0);
-        setCarbohydartes(0);
-        setFiber(0);
-        setProtein(0);
+        setEneregy("0");
+        setFat("0");
+        setCarbohydartes("0");
+        setFiber("0");
+        setProtein("0");
       })
       .catch((error: any) => {
         sendSnack("Unable to save ingredient!");
