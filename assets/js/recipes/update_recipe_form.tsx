@@ -66,7 +66,7 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
       <div>Update Recipe</div>
       <UpdateRecipeNameForm recipe={props.recipe} />
       {recipeIngredientList}
-      <hr className="recipe-ingredient-form-divider" />
+      <hr />
       <AddRecipeIngredientForm
         recipeId={props.recipe.id}
         setRecipeIngredient={addRecipeIngredient}

@@ -76,10 +76,12 @@ const Recipes = () => {
   );
 
   return (
-    <div className="box">
-      <ul>{items}</ul>
+    <div className="box recipes">
+      <div className="recipe-list">
+        <ul>{items}</ul>
+      </div>
       <hr />
-      {recipeForm}
+      <div className="recipe-forms">{recipeForm}</div>
     </div>
   );
 };
