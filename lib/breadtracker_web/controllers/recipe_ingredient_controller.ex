@@ -20,10 +20,11 @@ defmodule BreadtrackerWeb.RecipeIngredientController do
     {recipe_id_int, _} = Integer.parse(recipe_id)
     with {:ok, %RecipeIngredient{} = recipe_ingredient} <-
            Recipes.create_recipe_ingredient(recipe_id_int, recipe_ingredient_params) do
+      loaded = Recipes.get_recipe_ingredient!(recipe_ingredient.id)
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.recipe_path(conn, :show, recipe_ingredient))
-      |> render("show.json", recipe_ingredient: recipe_ingredient)
+      |> render("show.json", recipe_ingredient: loaded)
     end
   end
 
