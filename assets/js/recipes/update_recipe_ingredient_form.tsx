@@ -6,7 +6,7 @@ import {
 } from "./recipes_api";
 import { debounce } from "../debounce";
 import LoadingBar from "../loading_bar";
-import ConvertableInput from "../convertable_input"
+import ConvertableInput from "../convertable_input";
 
 type UpdateRecipeIngredientFormProps = {
   recipeId: number;
@@ -61,8 +61,16 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
         <div className="recipe-ingredient-form-name">
           {recipeIngredient.ingredient.name}
         </div>
-        <ConvertableInput value={recipeIngredient.amount} altUnit={props.altUnit} onChange={onAmountChange}/> 
-       <a className="delete" onClick={(_event) => onDelete(recipeIngredient)}>
+        <ConvertableInput
+          value={recipeIngredient.amount}
+          altUnit={props.altUnit}
+          onChange={onAmountChange}
+        />
+        <a
+          className="delete"
+          title="delete"
+          onClick={(_event) => onDelete(recipeIngredient)}
+        >
           🔥
         </a>
       </form>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const NamedItem = (props: {
   id: number;
@@ -10,7 +10,11 @@ const NamedItem = (props: {
 }) => {
   const showDelete = (showDelete: boolean = true) => showDelete;
   const deleteButton = showDelete(props.showDelete) && (
-    <a className="delete" onClick={(_event) => props.onClickDelete(props.id)}>
+    <a
+      className="delete"
+      title="delete"
+      onClick={(_event) => props.onClickDelete(props.id)}
+    >
       🔥
     </a>
   );
