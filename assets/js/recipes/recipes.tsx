@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Recipe, getRecipes, deleteRecipe } from "./recipes_api";
 import NamedItem from "../named_item";
 import UpdateRecipeForm from "./update_recipe_form";
+import AddRecipeForm from "./add_recipe_form";
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -18,6 +19,11 @@ const Recipes = () => {
   }, []);
 
   const onClickDelete = (id: number) => {
+    const index = recipes.findIndex((recipe) => recipe.id === id);
+    const copy = [...recipes];
+    copy.splice(index, 1);
+    setRecipes(recipes);
+    if (recipe && id === recipe.id) setRecipe(undefined);
     deleteRecipe(id)
       .then(() => fetchRecipes())
       .catch((error) => console.log(error));
@@ -26,32 +32,52 @@ const Recipes = () => {
     const selected = recipes.find((recipe) => recipe.id === id);
     setRecipe(selected);
   };
-  const onDone = () => {
+  const onUpdateDone = (updatedRecipe: Recipe) => {
+    const index = recipes.findIndex((recipe) => recipe.id === updatedRecipe.id);
+    const copy = [...recipes];
+    copy.splice(index, 1, updatedRecipe);
+    setRecipes(copy);
     setRecipe(undefined);
     fetchRecipes();
   };
+  const addNewRecipe = (newRecipe: Recipe) => {
+    const copy = [...recipes];
+    copy.push(newRecipe);
+    setRecipes(copy);
+    setRecipe(newRecipe);
+    fetchRecipes();
+  };
 
-  const items = recipes.map((item) => {
-    const name =
-      recipe && recipe.id === item.id ? "✏️ " + item.name : item.name;
-    return (
-      <NamedItem
-        key={item.id}
-        id={item.id}
-        name={name}
-        onItemSelect={onItemSelect}
-        onClickDelete={onClickDelete}
-      />
-    );
-  });
-  const recipeUpdateForm = recipe && (
-    <UpdateRecipeForm key={recipe.id} recipe={recipe} onDone={onDone} />
+  const items = recipes
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((item) => {
+      const name =
+        recipe && recipe.id === item.id ? "✏️ " + item.name : item.name;
+      return (
+        <NamedItem
+          key={item.id}
+          id={item.id}
+          name={name}
+          onItemSelect={onItemSelect}
+          onClickDelete={onClickDelete}
+        />
+      );
+    });
+  const recipeForm = recipe ? (
+    <UpdateRecipeForm
+      key={recipe.id}
+      recipe={recipe}
+      onUpdateDone={onUpdateDone}
+    />
+  ) : (
+    <AddRecipeForm setRecipe={addNewRecipe} />
   );
+
   return (
     <div className="box">
       <ul>{items}</ul>
       <hr />
-      {recipeUpdateForm}
+      {recipeForm}
     </div>
   );
 };

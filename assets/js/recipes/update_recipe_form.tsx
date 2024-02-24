@@ -7,7 +7,7 @@ import AddRecipeIngredientForm from "./add_recipe_ingredient_form";
 
 interface UpdateRecipeFormProps {
   recipe: Recipe;
-  onDone: (recipe: Recipe) => void;
+  onUpdateDone: (recipe: Recipe) => void;
 }
 
 const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
@@ -27,7 +27,7 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   };
 
   const onDone = () => {
-    props.onDone(props.recipe);
+    props.onUpdateDone(props.recipe);
   };
 
   const recipeIngredientList =

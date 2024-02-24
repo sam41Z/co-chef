@@ -4,6 +4,7 @@ $color: #00e000;
 $highlight: #00ff00;
 $lines: #590059;
 $highlight-lines: #b200b2;
+$hihighlight-lines: #ff00ff;
 
 body {
   color: $color;
@@ -86,7 +87,7 @@ ul {
 /* Froms */
 select,
 input {
-  border: 0.12rem solid $lines;
+  border: 0.12rem solid $highlight-lines;
   border-radius: 0.2rem;
   padding: 0.6rem;
   font-size: 1.1rem;
@@ -101,14 +102,14 @@ select {
 
 input {
   &:focus {
-    border-color: $highlight-lines;
+    border-color: $hihighlight-lines;
     color: $highlight;
   }
   &[type="submit"]:hover,
   &[type="button"]:hover {
     cursor: pointer;
     color: $highlight;
-    border-color: $highlight-lines;
+    border-color: $hihighlight-lines;
   }
   &[type="number"] {
     appearance: textfield;
@@ -157,12 +158,11 @@ input {
   }
   & div {
     margin: 0.1rem 0 1rem;
-    & .loading-bar {
-      background: $highlight-lines;
-    }
+  }
+  & .loading-bar {
+    background: $highlight-lines;
   }
 }
-
 .recipe-ingredient-form {
   display: flex;
   padding-top: 0;
@@ -219,5 +219,5 @@ input {
 .loading-bar-load {
   opacity: 0;
   width: 100%;
-  transition: width 700ms, opacity 200ms ease 700ms;
+  transition: width 500ms, opacity 200ms ease 400ms;
 }
