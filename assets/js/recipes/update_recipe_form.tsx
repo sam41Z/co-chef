@@ -106,6 +106,9 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
         <hr />
         <AddRecipeIngredientForm
           recipeId={props.recipe.id}
+          suffix="%"
+          converter={converter}
+          inverter={inverter}
           setRecipeIngredient={addRecipeIngredient}
         />
         <input

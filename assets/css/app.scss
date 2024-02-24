@@ -82,12 +82,9 @@ a:hover {
   display: flex;
   align-items: stretch;
   justify-content: space-around;
-  div {
+  & div {
     ul {
       width: 25rem;
-    }
-    &:last-child {
-      flex-grow: 1;
     }
   }
 }
@@ -132,6 +129,7 @@ input {
   &:focus {
     border-color: $hihighlight-lines;
     color: $highlight;
+    outline: none;
   }
   &[type="submit"]:hover,
   &[type="button"]:hover {
@@ -168,6 +166,10 @@ input {
     justify-self: center;
   }
 }
+.recipe-forms {
+  flex-grow: 1;
+}
+    
 
 .recipe-name-form {
   padding: 2rem 0 1rem;
@@ -193,6 +195,9 @@ input {
   .loading-bar {
     background: $highlight-lines;
   }
+}
+.recipe-ingredient-selector {
+  flex-grow: 1;
 }
 .recipe-ingredient-form {
   display: flex;
@@ -241,7 +246,8 @@ input {
   }
 }
 .recipe-form-done {
-  align-self: center;
+  align-self: end;
+  margin-top: 1.5rem;
 }
 .loading-bar {
   opacity: 1;

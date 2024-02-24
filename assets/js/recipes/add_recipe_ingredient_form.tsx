@@ -4,9 +4,13 @@ import { saveRecipeIngredient as saveRecipeIngredientApi } from "./recipes_api";
 import { Ingredient } from "../ingredients/ingredients_api";
 import { useIngredients } from "../ingredients/context";
 import Select, { ValueType, ActionMeta } from "react-select";
+import SelectStyles from "../select_react_styles";
 
 type NewRecipeIngredientFormProps = {
   recipeId: number;
+  suffix: string;
+  converter: (input: number) => number;
+  inverter: (input: number) => number;
   setRecipeIngredient: { (ingredient: RecipeIngredient): any };
 };
 
@@ -19,7 +23,7 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
     event.preventDefault();
     if (ingredient)
       saveRecipeIngredient({
-        amount: Number(amount),
+        amount: props.converter(Number(amount)),
         ingredient_id: ingredient.id,
       });
     setIngredient(undefined);
@@ -52,10 +56,11 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
       .catch((error: any) => console.log(error));
   };
 
-  const options = ingredients.map((ingredient) => {
+  const options = ingredients.map((item) => {
+    const prefix = ingredient && ingredient.id === item.id ? "👉 " : "  ";
     return {
-      value: ingredient.id,
-      label: ingredient.name,
+      value: item.id,
+      label: prefix + item.name,
     };
   });
   const selectedOption = ingredient
@@ -64,46 +69,18 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
 
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) =>
     event.target.select();
-
-  const customStyles = {
-    control: (styles: any) => ({
-      ...styles,
-      borderColor: "#b200b2",
-      boxShadow: "none",
-    }),
-  };
-  const customTheme = (theme: any) => ({
-    ...theme,
-    borderRadius: "0.2rem",
-    colors: {
-      ...theme.colors,
-      primary: "#00e000",
-      primary25: "b200b2",
-      primary50: "#ff00ff",
-      primary75: "#ff00ff",
-      neutral0: "black",
-      neutral5: "black",
-      neutral10: "#ff00ff",
-      neutral20: "#b200b2",
-      neutral30: "#ff00ff",
-      neutral40: "#ff00ff",
-      neutral50: "#00e000",
-      neutral60: "#b200b2",
-      neutral70: "#ff00ff",
-      neutral80: "#00e000",
-      neutral90: "#ff00ff",
-      danger: "yellow",
-    },
-  });
   return (
     <form onSubmit={handleSubmit} className="recipe-ingredient-form">
-      <Select
-        options={options}
-        value={selectedOption}
-        onChange={handleIngredientChange}
-        theme={customTheme}
-        styles={customStyles}
-      />
+      <div className="recipe-ingredient-selector">
+        <Select
+          placeholder="Add ingredient..."
+          options={options}
+          value={selectedOption}
+          onChange={handleIngredientChange}
+          theme={SelectStyles.theme}
+          styles={SelectStyles.styles}
+        />
+      </div>
       <input
         type="number"
         name="amount"
@@ -112,6 +89,7 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
         onChange={handleAmountChange}
         onFocus={handleFocus}
       />
+      <div>{props.suffix}</div>
       <input type="submit" value="Add" />
     </form>
   );
