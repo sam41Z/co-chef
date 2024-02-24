@@ -32,7 +32,7 @@ const Recipes = () => {
   ));
   return (
     <div>
-      <div>{items}</div>
+      <ul>{items}</ul>
       <RecipeForm onDone={fetchRecipes} />
     </div>
   );

@@ -34,3 +34,18 @@
   display: block;
   margin: -1rem 0 2rem;
 }
+.named-item {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 0.1rem solid white;
+  &:last-child {
+    border: none;
+  }
+  .delete {
+    &:hover {
+      cursor: pointer;
+      text-shadow: 0 0 1.5rem red;
+    }
+  }
+}
+

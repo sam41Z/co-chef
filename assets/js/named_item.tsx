@@ -6,16 +6,15 @@ const NamedItem = (props: {
   onClickDelete: (id: number) => void;
 }) => {
   return (
-    <div>
+    <li className="named-item">
       {props.name}
-      <span> - </span>
-      <input
-        type="button"
+      <span
+        className="delete"
         onClick={(_event) => props.onClickDelete(props.id)}
-        value="🔥🔥🔥"
-        style={{ paddingLeft: 1 + "em", paddingRight: 1 + "em" }}
-      />
-    </div>
+      >
+        🔥
+      </span>
+    </li>
   );
 };
 

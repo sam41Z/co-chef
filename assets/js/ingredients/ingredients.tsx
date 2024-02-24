@@ -40,7 +40,7 @@ const Ingredients = () => {
   ));
   return (
     <div>
-      <div>{items}</div>
+      <ul>{items}</ul>
       <IngredientForm onSave={onSave} />
     </div>
   );
