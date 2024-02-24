@@ -16,15 +16,22 @@
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## TODO
+### Bugs
+ * Number input ingredients form
+ * Missing saving indicator in recipe form
+ * Rounding issues in recipe info box
+
+### Features
  * Use hook instead fo context for ingredients
  * Bread recipe total configurable
  * Store recipe mode
- * Filter ingredients for in bread recipe mode
+ * Filter ingredients form in bread recipe mode
  * Recipe description
  * Recipe comments
  * Attach images to recipes
  * Account management
 
+## Production
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
 ## Learn more
