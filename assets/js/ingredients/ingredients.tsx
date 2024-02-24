@@ -41,7 +41,11 @@ const Ingredients = () => {
         name={prefix + item.name}
         linkTarget={basePath + item.id}
         onClickDelete={onClickDelete}
-        showDelete={item.type !== "water"}
+        showDelete={
+          item.type !== "water" &&
+          item.type !== "spice" &&
+          item.type !== "starter"
+        }
       />
     );
   });
