@@ -1,14 +1,18 @@
-import { post, get } from "../api_request.tsx";
+import { post, get } from "../api_request";
 
 export interface Ingredient {
-  id?: number,
-  name: string
-};
+  id: number;
+  name: string;
+}
 
-export function postIngredient (ingredient: Ingredient) {
-  return post('/api/ingredients', {ingredient: ingredient});
-};
+export interface IngredientNew {
+  name: string;
+}
 
-export function getIngredients () {
-  return get('/api/ingredients');
-};
+export function postIngredient(ingredient: IngredientNew) {
+  return post("/api/ingredients", { ingredient: ingredient });
+}
+
+export function getIngredients() {
+  return get("/api/ingredients");
+}

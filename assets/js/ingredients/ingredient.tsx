@@ -1,14 +1,8 @@
 import React from "react";
+import { Ingredient } from "./ingredients_api";
 
-interface IngredientProps {
-  id: number,
-  name: string
-};
-
-const Ingredient: React.FC<IngredientProps> = (props: IngredientProps) => {
-  return (
-    <div>{props.name}</div>
-  );
+const Ingredient: React.FC<Ingredient> = (props: Ingredient) => {
+  return <div>{props.name}</div>;
 };
 
 export default Ingredient;
