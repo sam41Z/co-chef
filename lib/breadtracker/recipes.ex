@@ -158,6 +158,10 @@ defmodule Breadtracker.Recipes do
     |> RecipeIngredient.create_changeset(attrs)
     |> Ecto.Changeset.put_change(:recipe_id, recipe_id)
     |> Repo.insert()
+    |> case do
+      {:ok, new} -> {:ok, Repo.preload(new, :ingredient)}
+      x -> x
+    end
   end
 
   @doc """
