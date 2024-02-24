@@ -3,13 +3,9 @@ import { RecipeIngredient } from "./recipes_api";
 
 type RecipeInfoBoxProps = {
   recipeIngredients: RecipeIngredient[];
-  getTypeInfo: (
-    recipeIngredients: RecipeIngredient[]
-  ) => { name: string; value: number }[];
-  altUnit?: {
-    suffix: string;
-    invert: (input: number) => number;
-    convert: (input: number) => number;
+  altInfo?: {
+    title: string;
+    get: (recipeIngredients: RecipeIngredient[]) => { info: string }[];
   };
 };
 const RecipeInfoBox = (props: RecipeInfoBoxProps) => {
@@ -35,25 +31,14 @@ const RecipeInfoBox = (props: RecipeInfoBoxProps) => {
     .map((item) => (item.amount * item.ingredient.protein) / 100)
     .reduce(sum, 0);
 
-  const typeInfo = props.getTypeInfo(props.recipeIngredients).map((item) => {
-    const altInfo = props.altUnit && (
-      <span>
-        ({props.altUnit.convert(item.value).toFixed(0)})
-        {props.altUnit.suffix}
-      </span>
-    );
-    return (
-      <li>
-        {item.name}: {item.value}
-        {altInfo}
-      </li>
-    );
-  });
-
-  const typeInfoBox = typeInfo.length > 0 && (
+  const typeInfoBox = props.altInfo && (
     <div className="info-box">
-      <div className="info-box-title">🥖🥖🥖</div>
-      <ul>{typeInfo}</ul>
+      <div className="info-box-title">{props.altInfo.title}</div>
+      <ul>
+        {props.altInfo.get(props.recipeIngredients).map((item) => {
+          return <li>{item.info}</li>;
+        })}
+      </ul>
     </div>
   );
 

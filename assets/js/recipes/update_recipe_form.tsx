@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createContext, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Recipe,
   RecipeIngredient,
@@ -13,18 +13,7 @@ import Lists from "../lists";
 import { Link } from "react-router-dom";
 import RecipeInfoBox from "./recipe_info_box";
 import { CSSTransition } from "react-transition-group";
-
-export type RecipeContextType = {
-  recipeIngredients: RecipeIngredient[];
-  setRecipeIngredients: (recipeIngredients: RecipeIngredient[]) => void;
-};
-
-export const RecipeContext = createContext<RecipeContextType>({
-  recipeIngredients: [],
-  setRecipeIngredients: (_ingredients) =>
-    console.warn("no ingredients provider"),
-});
-export const useRecipeIngredients = () => useContext(RecipeContext);
+import { RecipeMode, getBreadMode, getNormalMode } from "./recipe_mode";
 
 type UpdateRecipeFormProps = {
   recipe: Recipe;
@@ -33,11 +22,18 @@ type UpdateRecipeFormProps = {
 };
 
 const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
+  const [recipeMode, setRecipeMode] = useState<RecipeMode>(getBreadMode(400));
   const [recipeIngredients, setRecipeIngredients] = useState<
     RecipeIngredient[]
   >([]);
   const [loading, setLoading] = useState<boolean>(true);
+
   const basePath = "/recipes/";
+
+  const toggleRecipeMode = () =>
+    recipeMode.name == "normal"
+      ? setRecipeMode(getBreadMode(400))
+      : setRecipeMode(getNormalMode());
 
   useEffect(() => {
     fetchRecipeIngredients(props.recipe.id);
@@ -73,15 +69,6 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
       .then((response: Recipe) => props.onCopy(response))
       .catch((error) => console.log(error));
   };
-  const total = 400;
-  const invert = (percent: number) => {
-    return (total * percent) / 100;
-  };
-  const convert = (actual: number) => {
-    return (actual / total) * 100;
-  };
-
-  const altUnit = { suffix: "%", convert: convert, invert: invert };
 
   const recipeIngredientList =
     recipeIngredients.length > 0 ? (
@@ -90,7 +77,7 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
           key={item.id}
           recipeId={props.recipe.id}
           recipeIngredient={item}
-          altUnit={altUnit}
+          altUnit={recipeMode.altUnit}
           onChange={onChangeRecipeIngredient}
           onDelete={onDeleteRecipeIngredient}
         />
@@ -103,27 +90,6 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     setRecipeIngredients(Lists.add(recipeIngredients, newIngredient));
   };
 
-  const getTypeInfo = (recipeIngredients: RecipeIngredient[]) => {
-    const sum = (accumulator: number, currentValue: number) =>
-      accumulator + currentValue;
-    const starterSum = recipeIngredients
-      .filter((item) => item.ingredient.type === "starter")
-      .map((item) => item.amount)
-      .reduce(sum, 0);
-    const flourSum = recipeIngredients
-      .filter((item) => item.ingredient.type === "flour")
-      .map((item) => item.amount)
-      .reduce(sum, starterSum / 2);
-    const waterSum = recipeIngredients
-      .filter((item) => item.ingredient.type === "water")
-      .map((item) => item.amount)
-      .reduce(sum, starterSum / 2);
-    return [
-      { name: "Flour", value: flourSum },
-      { name: "Water", value: waterSum },
-    ];
-  };
-
   const loadingComponent = !loading && (
     <div>
       <UpdateRecipeNameForm
@@ -132,32 +98,30 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
       />
       <RecipeInfoBox
         recipeIngredients={recipeIngredients}
-        getTypeInfo={getTypeInfo}
-        altUnit={altUnit}
+        altInfo={recipeMode.altInfo}
       />
       {recipeIngredientList}
       <hr />
       <AddRecipeIngredientForm
         recipeId={props.recipe.id}
-        altUnit={altUnit}
+        altUnit={recipeMode.altUnit}
         setRecipeIngredient={addRecipeIngredient}
       />
     </div>
   );
 
   return (
-    <RecipeContext.Provider value={{ recipeIngredients, setRecipeIngredients }}>
-      <div className="recipe-form-box">
-        <div className="recipe-form-box-title">
-          📖 Update Recipe
-          <Link to={basePath}>📕</Link>
-          <a onClick={(_event) => onCopy(props.recipe.id)}>🧑‍🍳</a>
-        </div>
-        <CSSTransition in={!loading} timeout={500} classNames="loading-box">
-          <div>{loadingComponent}</div>
-        </CSSTransition>
+    <div className="recipe-form-box">
+      <div className="recipe-form-box-title">
+        📖 Update Recipe
+        <Link to={basePath}>📕</Link>
+        <a onClick={(_event) => onCopy(props.recipe.id)}>🧑‍🍳</a>
+        <a onClick={(_event) => toggleRecipeMode()}>🍞</a>
       </div>
-    </RecipeContext.Provider>
+      <CSSTransition in={!loading} timeout={500} classNames="loading-box">
+        <div>{loadingComponent}</div>
+      </CSSTransition>
+    </div>
   );
 };
 
