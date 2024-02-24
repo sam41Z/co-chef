@@ -1,19 +1,14 @@
 import React, { useState, useEffect }from "react";
-import Ingredient from "./ingredient.tsx"
+import Ingredient from "./ingredient.tsx";
+import { getIngredients } from "./ingredients_api.tsx";
 
 const IngredientList: React.FC<{}> = (props: {}) => {
   const [ingredients, setIngredients] = useState<{id: number, name: string}[]>([]);
 
   useEffect(() => {
-    fetch(
-      `http://localhost:4000/api/ingredients`,
-      {
-        method: "GET"
-      }
-    )
-    .then(res => res.json())
+    getIngredients()
     .then(response => {
-      setIngredients(response.data)
+      setIngredients(response)
     })
     .catch(error => console.log(error));
   }, []);
