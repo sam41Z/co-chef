@@ -1,11 +1,16 @@
 # Breadtracker
 
-To start your Phoenix server:
-
+## Local setup
+### Requirements
+  * Elixir and Pheonix [installation guide](https://hexdocs.pm/phoenix/installation.html)
+  * Docker Compose [installation guid](https://docs.docker.com/compose/install/)
+  * Yarn [installation guide](https://yarnpkg.com/getting-started/install)
+  
+### Run local setup
   * Install dependencies with `mix deps.get`
+  * Run postgreSQL with docker compose `docker-compose up -d`
   * Create and migrate your database with `mix ecto.setup`
-  * Install Node.js dependencies with `npm install` inside the `assets` directory
-    (We are using `yarn` now)
+  * Install Node.js dependencies with `yarn install` inside the `assets` directory
   * Start Phoenix endpoint with `mix phx.server`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
