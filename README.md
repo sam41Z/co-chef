@@ -15,6 +15,19 @@
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
+## TODO
+ * Error handling
+ * Split up CSS
+ * Use hook instead fo context for ingredients
+ * Bread recipe total configurable
+ * Store recipe mode
+ * Filter ingredients for in bread recipe mode
+ * Recipe description
+ * Recipe comments
+ * Attach images to recipes
+ * Account management
+ * Rename project to something more general
+
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
 ## Learn more
