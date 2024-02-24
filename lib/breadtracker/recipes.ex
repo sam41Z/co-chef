@@ -20,7 +20,6 @@ defmodule Breadtracker.Recipes do
   def list_recipes do
     Recipe
     |> Repo.all()
-    |> Repo.preload(:recipe_ingredient)
   end
 
   @doc """
@@ -37,10 +36,11 @@ defmodule Breadtracker.Recipes do
       ** (Ecto.NoResultsError)
 
   """
-  def get_recipe!(id), do
+  def get_recipe!(id) do
     Recipe
     |> Repo.get!(id)
-    |> Repo.preload(:recipe_ingredient)
+  end
+
 
 
   @doc """
@@ -119,8 +119,9 @@ defmodule Breadtracker.Recipes do
       [%RecipeIngredient{}, ...]
 
   """
-  def list_recipe_ingredients do
-    Repo.all(RecipeIngredient)
+  def list_recipe_ingredients(recipe) do
+    Repo.all(from i in RecipeIngredient, where: i.recipe_id == ^recipe)
+    |> Repo.preload(:ingredient)
   end
 
   @doc """
@@ -137,7 +138,10 @@ defmodule Breadtracker.Recipes do
       ** (Ecto.NoResultsError)
 
   """
-  def get_recipe_ingredient!(id), do: Repo.get!(RecipeIngredient, id)
+  def get_recipe_ingredient!(id) do 
+    Repo.get!(RecipeIngredient, id)
+    |> Repo.preload(:ingredient)
+  end
 
   @doc """
   Creates a recipe_ingredient.
@@ -151,9 +155,10 @@ defmodule Breadtracker.Recipes do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_recipe_ingredient(attrs \\ %{}) do
+  def create_recipe_ingredient(recipe_id, attrs \\ %{}) do
     %RecipeIngredient{}
     |> RecipeIngredient.changeset(attrs)
+    |> Ecto.Changeset.put_change(:recipe_id, recipe_id)
     |> Repo.insert()
   end
 

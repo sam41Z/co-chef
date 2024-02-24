@@ -9,7 +9,7 @@ defmodule Breadtracker.Recipes.RecipeIngredient do
   schema "recipe_ingredients" do
     field :amount, :float
     belongs_to :recipe, Recipe
-    has_one :ingredient, Ingredient
+    belongs_to :ingredient, Ingredient
 
     timestamps()
   end
@@ -19,6 +19,5 @@ defmodule Breadtracker.Recipes.RecipeIngredient do
     recipe_ingredient
     |> cast(attrs, [:amount])
     |> validate_required([:amount])
-    |> cast_assoc(:ingredient, required: true)
   end
 end

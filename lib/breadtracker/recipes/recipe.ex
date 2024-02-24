@@ -15,6 +15,6 @@ defmodule Breadtracker.Recipes.Recipe do
     recipe
     |> cast(attrs, [:name])
     |> validate_required([:name])
-    |> cast_assoc(:recipe_ingredients, required: true)
+    |> cast_assoc(:recipe_ingredients, required: false)
   end
 end

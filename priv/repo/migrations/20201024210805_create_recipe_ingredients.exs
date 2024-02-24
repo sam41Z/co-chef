@@ -4,13 +4,13 @@ defmodule Breadtracker.Repo.Migrations.CreateRecipeIngredients do
   def change do
     create table(:recipe_ingredients) do
       add :amount, :float
-      add :recipe, references(:recipes, on_delete: :nothing)
-      add :ingredient, references(:ingredients, on_delete: :nothing)
+      add :recipe_id, references(:recipes, on_delete: :nothing)
+      add :ingredient_id, references(:ingredients, on_delete: :nothing)
 
       timestamps()
     end
 
-    create index(:recipe_ingredients, [:recipe])
-    create index(:recipe_ingredients, [:ingredient])
+    create index(:recipe_ingredients, [:recipe_id])
+    create index(:recipe_ingredients, [:ingredient_id])
   end
 end

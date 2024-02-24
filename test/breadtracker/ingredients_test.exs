@@ -6,9 +6,9 @@ defmodule Breadtracker.IngredientsTest do
   describe "ingredients" do
     alias Breadtracker.Ingredients.Ingredient
 
-    @valid_attrs %{}
-    @update_attrs %{}
-    @invalid_attrs %{}
+    @valid_attrs %{name: "some name"}
+    @update_attrs %{name: "some updated name"}
+    @invalid_attrs %{name: nil}
 
     def ingredient_fixture(attrs \\ %{}) do
       {:ok, ingredient} =

@@ -23,8 +23,11 @@ defmodule BreadtrackerWeb.Router do
   scope "/api", BreadtrackerWeb do
     pipe_through :api
 
-    resources "/ingredients", IngredientController, only: [:index, :create, :update, :show]
-    resources "/recipes", RecipeController, only: [:index, :create, :update, :show]
+    resources "/ingredients", IngredientController, only: [:index, :create, :update, :show, :delete]
+
+    resources "/recipes", RecipeController, only: [:index, :create, :update, :show, :delete] do
+      resources "/ingerdients", RecipeIngredientController, only: [:index, :create, :update, :show, :delete]
+    end
   end
 
   # Enables LiveDashboard only for development

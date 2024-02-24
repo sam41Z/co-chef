@@ -13,7 +13,7 @@ defmodule BreadtrackerWeb.IngredientController do
 
   def show(conn, %{"id" => id}) do 
     ingredient = Ingredients.get_ingredient!(id)
-    render("show.json", ingredient: ingredient)
+    render(conn, "show.json", ingredient: ingredient)
   end
 
   def create(conn, %{"ingredient" => ingredient_params}) do
