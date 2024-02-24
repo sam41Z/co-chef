@@ -3,6 +3,7 @@ import Ingredients from "./ingredients/ingredients";
 import Recipes from "./recipes/recipes";
 import { Ingredient, getIngredients } from "./ingredients/ingredients_api";
 import { IngredientContext } from "./ingredients/context";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 const Root = () => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
@@ -14,8 +15,16 @@ const Root = () => {
   return (
     <section className="phx-hero">
       <IngredientContext.Provider value={{ ingredients, setIngredients }}>
-        <Recipes />
-        <Ingredients />
+        <Router>
+          <Switch>
+            <Route path="/ingredients">
+              <Ingredients />
+            </Route>
+            <Route path="/">
+              <Recipes />
+            </Route>
+          </Switch>
+        </Router>
       </IngredientContext.Provider>
     </section>
   );

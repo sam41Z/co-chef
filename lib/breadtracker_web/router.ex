@@ -13,12 +13,6 @@ defmodule BreadtrackerWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", BreadtrackerWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
-  end
-
   scope "/api", BreadtrackerWeb do
     pipe_through :api
 
@@ -30,6 +24,13 @@ defmodule BreadtrackerWeb.Router do
         only: [:index, :create, :update, :show, :delete]
     end
   end
+
+  scope "/", BreadtrackerWeb do
+    pipe_through :browser
+
+    get "/*path", PageController, :index
+  end
+
 
   # Enables LiveDashboard only for development
   #
