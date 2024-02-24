@@ -14,7 +14,14 @@ defmodule Breadtracker.Recipes.RecipeIngredient do
   end
 
   @doc false
-  def changeset(recipe_ingredient, attrs) do
+  def create_changeset(recipe_ingredient, attrs) do
+    recipe_ingredient
+    |> cast(attrs, [:amount, :ingredient_id])
+    |> validate_required([:amount, :ingredient_id])
+  end
+
+  @doc false
+  def update_changeset(recipe_ingredient, attrs) do
     recipe_ingredient
     |> cast(attrs, [:amount])
     |> validate_required([:amount])

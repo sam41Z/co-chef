@@ -155,7 +155,7 @@ defmodule Breadtracker.Recipes do
   """
   def create_recipe_ingredient(recipe_id, attrs \\ %{}) do
     %RecipeIngredient{}
-    |> RecipeIngredient.changeset(attrs)
+    |> RecipeIngredient.create_changeset(attrs)
     |> Ecto.Changeset.put_change(:recipe_id, recipe_id)
     |> Repo.insert()
   end
@@ -174,7 +174,7 @@ defmodule Breadtracker.Recipes do
   """
   def update_recipe_ingredient(%RecipeIngredient{} = recipe_ingredient, attrs) do
     recipe_ingredient
-    |> RecipeIngredient.changeset(attrs)
+    |> RecipeIngredient.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -204,6 +204,6 @@ defmodule Breadtracker.Recipes do
 
   """
   def change_recipe_ingredient(%RecipeIngredient{} = recipe_ingredient, attrs \\ %{}) do
-    RecipeIngredient.changeset(recipe_ingredient, attrs)
+    RecipeIngredient.update_changeset(recipe_ingredient, attrs)
   end
 end

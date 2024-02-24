@@ -1,43 +1,49 @@
 defmodule BreadtrackerWeb.RecipeIngredientControllerTest do
   use BreadtrackerWeb.ConnCase
 
+  use Breadtracker.Fixtures, [:ingredient, :recipe, :recipe_ingredient]
+  
   alias Breadtracker.Recipes
   alias Breadtracker.Recipes.RecipeIngredient
-
-  @valid_attrs %{amount: 120.5}
-  @update_attrs %{amount: 456.7}
-  @invalid_attrs %{amount: nil}
-
-  def fixture(:recipe_ingredient) do
-    {:ok, recipe_ingredient} = Recipes.create_recipe_ingredient(@create_attrs)
-    recipe_ingredient
-  end
 
   setup %{conn: conn} do
     {:ok, conn: put_req_header(conn, "accept", "application/json")}
   end
 
+  defp create_recipe_ingredient(_) do
+    recipe_ingredient = recipe_ingredient_fixture()
+    %{recipe_ingredient: recipe_ingredient}
+  end
+
   describe "index" do
-    test "lists all recipe_ingredients", %{conn: conn} do
-      conn = get(conn, Routes.recipe_recipe_ingredient_path(conn, :index))
-      assert json_response(conn, 200)["data"] == []
+    setup [:create_recipe_ingredient]
+
+    test "lists all recipe_ingredients", %{
+      conn: conn,
+      recipe_ingredient: %RecipeIngredient{id: id, recipe_id: recipe_id} = recipe_ingredient
+    } do
+      conn = get(conn, Routes.recipe_recipe_ingredient_path(conn, :index, recipe_id))
+      data = json_response(conn, 200)["data"]
+      assert length(data) == 1
     end
   end
 
   describe "create recipe_ingredient" do
     test "renders recipe_ingredient when data is valid", %{conn: conn} do
+      recipe = recipe_fixture()
+      ingredient = ingredient_fixture()
+      attrs = Enum.into(@recipe_ingredient_valid_attrs, %{ingredient_id: ingredient.id })
       conn =
-        post(conn, Routes.recipe_recipe_ingredient_path(conn, :create),
-          recipe_ingredient: @create_attrs
-        )
+        post(conn, Routes.recipe_recipe_ingredient_path(conn, :create, recipe.id),
+          recipe_ingredient: attrs)
 
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
-      conn = get(conn, Routes.recipe_recipe_ingredient_path(conn, :show, id))
+      conn = get(conn, Routes.recipe_recipe_ingredient_path(conn, :show,recipe.id, id))
 
       assert %{
                "id" => id,
-               "name" => "some name"
+               "amount" => 120.5
              } = json_response(conn, 200)["data"]
     end
 
@@ -60,7 +66,7 @@ defmodule BreadtrackerWeb.RecipeIngredientControllerTest do
     } do
       conn =
         put(conn, Routes.recipe_recipe_ingredient_path(conn, :update, recipe_ingredient),
-          recipe_ingredient: @update_attrs
+          recipe_ingredient: @recipe_ingredient_update_attrs
         )
 
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
@@ -79,7 +85,7 @@ defmodule BreadtrackerWeb.RecipeIngredientControllerTest do
     } do
       conn =
         put(conn, Routes.recipe_recipe_ingredient_path(conn, :update, recipe_ingredient),
-          recipe_ingredient: @invalid_attrs
+          recipe_ingredient: @recipe_ingredient_invalid_attrs
         )
 
       assert json_response(conn, 422)["errors"] != %{}
@@ -97,10 +103,5 @@ defmodule BreadtrackerWeb.RecipeIngredientControllerTest do
         get(conn, Routes.recipe_recipe_ingredient_path(conn, :show, recipe_ingredient))
       end
     end
-  end
-
-  defp create_recipe_ingredient(_) do
-    recipe_ingredient = fixture(:recipe_ingredient)
-    %{recipe_ingredient: recipe_ingredient}
   end
 end

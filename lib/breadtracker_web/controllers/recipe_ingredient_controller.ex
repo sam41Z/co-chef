@@ -17,8 +17,9 @@ defmodule BreadtrackerWeb.RecipeIngredientController do
   end
 
   def create(conn, %{"recipe_id" => recipe_id, "recipe_ingredient" => recipe_ingredient_params}) do
+    {recipe_id_int, _} = Integer.parse(recipe_id)
     with {:ok, %RecipeIngredient{} = recipe_ingredient} <-
-           Recipes.create_recipe_ingredient(recipe_id, recipe_ingredient_params) do
+           Recipes.create_recipe_ingredient(recipe_id_int, recipe_ingredient_params) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.recipe_path(conn, :show, recipe_ingredient))

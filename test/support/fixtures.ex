@@ -23,10 +23,10 @@ defmodule Breadtracker.Fixtures do
       end
     end
   end
+  
 
   def ingredient do
     alias Breadtracker.Ingredients
-    alias Breadtracker.Ingredients.Ingredient
 
     quote do
       @ingredient_valid_attrs %{name: "some name"}
@@ -46,7 +46,6 @@ defmodule Breadtracker.Fixtures do
 
   def recipe_ingredient do
     alias Breadtracker.Recipes
-    alias Breadtracker.Fixtures
     alias Breadtracker.Repo
 
     quote do

@@ -2,7 +2,7 @@ defmodule BreadtrackerWeb.RecipeIngredientView do
   use BreadtrackerWeb, :view
   alias BreadtrackerWeb.RecipeIngredientView
 
-  def render("index.json", %{recipe_ingrediens: recipe_ingredients}) do
+  def render("index.json", %{recipe_ingredients: recipe_ingredients}) do
     %{data: render_many(recipe_ingredients, RecipeIngredientView, "recipe_ingredient.json")}
   end
 
@@ -11,6 +11,6 @@ defmodule BreadtrackerWeb.RecipeIngredientView do
   end
 
   def render("recipe_ingredient.json", %{recipe_ingredient: recipe_ingredient}) do
-    %{id: recipe_ingredient.id, name: recipe_ingredient.name}
+    %{id: recipe_ingredient.id, amount: recipe_ingredient.amount}
   end
 end

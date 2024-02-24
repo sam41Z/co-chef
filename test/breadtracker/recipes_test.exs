@@ -66,7 +66,7 @@ defmodule Breadtracker.RecipesTest do
     end
 
     test "create_recipe_ingredient/1 with valid data creates a recipe_ingredient" do
-      ingredient = IngredientsTest.ingredient_fixture()
+      ingredient = ingredient_fixture()
       recipe = recipe_fixture()
       ingredient_attr = %{ingredient_id: ingredient.id}
       recipe_ingredient = Enum.into(@recipe_ingredient_valid_attrs, ingredient_attr)
