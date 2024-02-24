@@ -1,4 +1,4 @@
-defmodule BreadtrackerWeb.ChannelCase do
+defmodule CoChefWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -11,7 +11,7 @@ defmodule BreadtrackerWeb.ChannelCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use BreadtrackerWeb.ChannelCase, async: true`, although
+  by setting `use CoChefWeb.ChannelCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -21,18 +21,18 @@ defmodule BreadtrackerWeb.ChannelCase do
     quote do
       # Import conveniences for testing with channels
       import Phoenix.ChannelTest
-      import BreadtrackerWeb.ChannelCase
+      import CoChefWeb.ChannelCase
 
       # The default endpoint for testing
-      @endpoint BreadtrackerWeb.Endpoint
+      @endpoint CoChefWeb.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Breadtracker.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(CoChef.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(Breadtracker.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(CoChef.Repo, {:shared, self()})
     end
 
     :ok

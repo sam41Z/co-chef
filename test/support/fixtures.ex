@@ -1,12 +1,12 @@
-defmodule Breadtracker.Fixtures do
+defmodule CoChef.Fixtures do
   @moduledoc """
   A module for defining fixtures that can be used in tests.
   This module can be used with a list of fixtures to apply as parameter:
-      use Breadtracker.Fixtures, [:recipe_ingredient]
+      use CoChef.Fixtures, [:recipe_ingredient]
   """
 
   def recipe do
-    alias Breadtracker.Recipes
+    alias CoChef.Recipes
 
     quote do
       @recipe_valid_attrs %{name: "some name"}
@@ -24,7 +24,7 @@ defmodule Breadtracker.Fixtures do
   end
 
   def ingredient do
-    alias Breadtracker.Ingredients
+    alias CoChef.Ingredients
 
     quote do
       @ingredient_valid_attrs %{
@@ -59,8 +59,8 @@ defmodule Breadtracker.Fixtures do
   end
 
   def recipe_ingredient do
-    alias Breadtracker.Recipes
-    alias Breadtracker.Repo
+    alias CoChef.Recipes
+    alias CoChef.Repo
 
     quote do
       @recipe_ingredient_valid_attrs %{amount: 120.5}

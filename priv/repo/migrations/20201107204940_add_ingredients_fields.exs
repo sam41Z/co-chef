@@ -1,4 +1,4 @@
-defmodule Breadtracker.Repo.Migrations.AddIngredientsFields do
+defmodule CoChef.Repo.Migrations.AddIngredientsFields do
   use Ecto.Migration
 
   def change do

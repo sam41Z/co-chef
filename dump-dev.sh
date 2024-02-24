@@ -1,2 +1,2 @@
 #!/bin/bash
-docker exec -i breadtracker_db_1 pg_dump --username postgres breadtracker_dev > dump.sql
+docker exec -i cochef_db_1 pg_dump --username postgres cochef_dev > dump.sql

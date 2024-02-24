@@ -1,4 +1,4 @@
-defmodule Breadtracker.Repo.Migrations.RecipeIngredientOnDeleteCascade do
+defmodule CoChef.Repo.Migrations.RecipeIngredientOnDeleteCascade do
   use Ecto.Migration
 
   def change do

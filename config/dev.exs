@@ -1,10 +1,10 @@
 use Mix.Config
 
 # Configure your database
-config :breadtracker, Breadtracker.Repo,
+config :cochef, CoChef.Repo,
   username: "postgres",
   password: "secret",
-  database: "breadtracker_dev",
+  database: "cochef_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
@@ -15,7 +15,7 @@ config :breadtracker, Breadtracker.Repo,
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we use it
 # with webpack to recompile .js and .css sources.
-config :breadtracker, BreadtrackerWeb.Endpoint,
+config :cochef, CoChefWeb.Endpoint,
   http: [port: 4000],
   debug_errors: false,
   code_reloader: true,
@@ -55,13 +55,13 @@ config :breadtracker, BreadtrackerWeb.Endpoint,
 # different ports.
 
 # Watch static and templates for browser reloading.
-config :breadtracker, BreadtrackerWeb.Endpoint,
+config :cochef, CoChefWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/breadtracker_web/(live|views)/.*(ex)$",
-      ~r"lib/breadtracker_web/templates/.*(eex)$"
+      ~r"lib/cochef_web/(live|views)/.*(ex)$",
+      ~r"lib/cochef_web/templates/.*(eex)$"
     ]
   ]
 

@@ -7,15 +7,15 @@
 # General application configuration
 use Mix.Config
 
-config :breadtracker,
-  ecto_repos: [Breadtracker.Repo]
+config :cochef,
+  ecto_repos: [CoChef.Repo]
 
 # Configures the endpoint
-config :breadtracker, BreadtrackerWeb.Endpoint,
+config :cochef, CoChefWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "updewuJKvTpcChgs3E98kDaBDfkXqPj+1vBdFw4alzg3/PmLEHYZVQN+IGzkhMlo",
-  render_errors: [view: BreadtrackerWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Breadtracker.PubSub,
+  render_errors: [view: CoChefWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: CoChef.PubSub,
   live_view: [signing_salt: "j+Th8KwZ"]
 
 # Configures Elixir's Logger
