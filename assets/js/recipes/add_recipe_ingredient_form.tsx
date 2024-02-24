@@ -5,18 +5,20 @@ import { Ingredient } from "../ingredients/ingredients_api";
 import { useIngredients } from "../ingredients/context";
 import Select, { ValueType, ActionMeta } from "react-select";
 import SelectStyles from "../select_react_styles";
+import ConvertableInput from "../convertable_input";
 
 type NewRecipeIngredientFormProps = {
   recipeId: number;
-  suffix: string;
-  converter: (input: number) => number;
-  inverter: (input: number) => number;
+  altUnit?: {
+    suffix: string;
+    convert: (input: number) => number;
+    invert: (input: number) => number;
+  };
   setRecipeIngredient: { (ingredient: RecipeIngredient): any };
 };
 
 const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
-  const [amount, setAmount] = useState<string>("0");
-  const [actualAmount, setActualAmount] = useState<string>("0");
+  const [amount, setAmount] = useState<number>(0);
   const [ingredient, setIngredient] = useState<Ingredient>();
   const { ingredients, setIngredients } = useIngredients();
 
@@ -24,21 +26,11 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
     event.preventDefault();
     if (ingredient)
       saveRecipeIngredient({
-        amount: Number(actualAmount),
+        amount: amount,
         ingredient_id: ingredient.id,
       });
     setIngredient(undefined);
-    setAmount("0");
-  };
-
-  const onAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAmount(event.target.value);
-    setActualAmount(String(props.converter(Number(event.target.value))));
-  };
-
-  const onActualAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setActualAmount(event.target.value);
-    setAmount(String(props.inverter(Number(event.target.value))));
+    setAmount(0);
   };
 
   type SelectType = { value: number; label: string };
@@ -74,8 +66,6 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
     ? { value: ingredient.id, label: ingredient.name }
     : null;
 
-  const onFocus = (event: React.FocusEvent<HTMLInputElement>) =>
-    event.target.select();
   return (
     <form onSubmit={onSubmit} className="recipe-ingredient-form">
       <div className="recipe-ingredient-selector">
@@ -89,24 +79,11 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
           menuPlacement="top"
         />
       </div>
-      <input
-        type="number"
-        name="amount"
-        style={{ width: 2.5 + "rem" }}
-        value={actualAmount}
-        onChange={onActualAmountChange}
-        onFocus={onFocus}
-      />
-      <div>g</div>
-      <input
-        type="number"
-        name="amount"
-        style={{ width: 2.5 + "rem" }}
+      <ConvertableInput
         value={amount}
-        onChange={onAmountChange}
-        onFocus={onFocus}
+        altUnit={props.altUnit}
+        onChange={(value: number) => setAmount(value)}
       />
-      <div>{props.suffix}</div>
       <input type="submit" value="Add" />
     </form>
   );

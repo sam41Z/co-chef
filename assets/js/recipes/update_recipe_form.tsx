@@ -52,6 +52,13 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
       .catch((error) => console.log(error));
   };
 
+  const onChangeRecipeIngredient = (
+    changedRecipeIngredient: RecipeIngredient
+  ) => {
+    setRecipeIngredients(
+      Lists.replace(recipeIngredients, changedRecipeIngredient, compareIds)
+    );
+  };
   const onDeleteRecipeIngredient = (
     deletedRecipeIngredient: RecipeIngredient
   ) => {
@@ -67,10 +74,10 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
       .catch((error) => console.log(error));
   };
   const total = 400;
-  const converter = (percent: number) => {
-    return total * percent;
+  const invert = (percent: number) => {
+    return (total * percent) / 100;
   };
-  const inverter = (actual: number) => {
+  const convert = (actual: number) => {
     return (actual / total) * 100;
   };
 
@@ -81,9 +88,8 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
           key={item.id}
           recipeId={props.recipe.id}
           recipeIngredient={item}
-          suffix="%"
-          converter={converter}
-          inverter={inverter}
+          altUnit={{ suffix: "%", convert: convert, invert: invert }}
+          onChange={onChangeRecipeIngredient}
           onDelete={onDeleteRecipeIngredient}
         />
       ))
@@ -96,15 +102,16 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   };
   const loadingComponent = !loading && (
     <div>
-      <UpdateRecipeNameForm recipe={props.recipe} onNameChange={props.onNameChange}/>
-      <RecipeInfoBox suffix="%" inverter={inverter} converter={converter} />
+      <UpdateRecipeNameForm
+        recipe={props.recipe}
+        onNameChange={props.onNameChange}
+      />
+      <RecipeInfoBox suffix="%" inverter={invert} converter={convert} />
       {recipeIngredientList}
       <hr />
       <AddRecipeIngredientForm
         recipeId={props.recipe.id}
-        suffix="%"
-        converter={converter}
-        inverter={inverter}
+        altUnit={{ suffix: "%", convert: convert, invert: invert }}
         setRecipeIngredient={addRecipeIngredient}
       />
     </div>
@@ -118,11 +125,7 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
           <Link to={basePath}>📕</Link>
           <a onClick={(_event) => onCopy(props.recipe.id)}>🧑‍🍳</a>
         </div>
-        <CSSTransition
-          in={!loading}
-          timeout={500}
-          classNames="loading-box"
-        >
+        <CSSTransition in={!loading} timeout={500} classNames="loading-box">
           <div>{loadingComponent}</div>
         </CSSTransition>
       </div>
