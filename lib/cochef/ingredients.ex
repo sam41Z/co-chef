@@ -38,7 +38,7 @@ defmodule CoChef.Ingredients do
   def get_ingredient!(id), do: Repo.get!(Ingredient, id)
 
   @doc """
-  Creates a ingredient.
+  Creates an ingredient.
 
   ## Examples
 
@@ -56,7 +56,7 @@ defmodule CoChef.Ingredients do
   end
 
   @doc """
-  Updates a ingredient.
+  Updates an ingredient.
 
   ## Examples
 
@@ -74,7 +74,7 @@ defmodule CoChef.Ingredients do
   end
 
   @doc """
-  Deletes a ingredient.
+  Deletes an ingredient.
 
   ## Examples
 

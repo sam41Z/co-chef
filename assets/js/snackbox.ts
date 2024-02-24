@@ -23,7 +23,7 @@ const reducer = (snacks: Snack[], action: Action): Snack[] => {
   }
 };
 export const SnackBoxContext = createContext<SnackBoxMessenger>(
-  (_content: string) => console.warn("no funtion provided for content")
+  (_content: string) => console.warn("no function provided for content")
 );
 export const useSnackBox = () => useContext(SnackBoxContext);
 export const useSnackBoxReducer = (time: number) => {
