@@ -5,7 +5,7 @@ config :breadtracker, Breadtracker.Repo,
   username: "postgres",
   password: "secret",
   database: "breadtracker_dev",
-  hostname: "172.17.0.2",
+  hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
