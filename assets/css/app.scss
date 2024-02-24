@@ -117,12 +117,12 @@ input {
 
 form {
   padding: 2rem;
-  display: grid;
-  align-items: center;
   grid-column-gap: 0.75rem;
 }
 
 .ingredient-form {
+  display: grid;
+  align-items: center;
   & label {
     justify-self: end;
     grid-column: 1;
@@ -153,19 +153,58 @@ form {
 }
 
 .recipe-ingredient-form {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  & select {
-    grid-column-start: 1;
-    grid-column-end: 3;
-  }
+  display: flex;
+  padding-top: 0;
+  padding-bottom: 0;
   & input[type="number"] {
-    justify-self: start;
     max-width: 3rem;
-    grid-column: 3;
   }
-  & input[type="submit"] {
-    grid-column: 4;
-    justify-self: stretch;
+}
+.recipe-ingredient-form-name {
+  flex-grow: 2;
+  border: 0.12rem solid $lines;
+  border-radius: 0.2rem;
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  margin: 0.2rem;
+  background: $background;
+  color: $color;
+}
+.recipe-ingredient-form-saved {
+  width: 3rem;
+}
+
+.recipe-ingredient-form-divider {
+  margin: 1.5rem 2rem 1.5rem;
+  border-top: 1px solid;
+  border-bottom: none;
+}
+.recipe-ingredient-form-loading-bar {
+  margin: 0.1rem 2.12rem 1rem;
+  & .loading-bar {
+    background: $highlight-lines;
   }
+}
+.recipe-form-no-ingredients {
+  padding: 2rem;
+}
+.recipe-form-box {
+  display: flex;
+  flex-direction: column;
+}
+.recipe-form-done {
+  align-self: center;
+}
+.loading-bar {
+  opacity: 1;
+  background: $highlight;
+  height: 1px;
+}
+.loading-bar-inactive {
+  width: 0%;
+}
+.loading-bar-load {
+  opacity: 0;
+  width: 100%;
+  transition: width 700ms, opacity 200ms ease 700ms;
 }

@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Recipe, RecipeIngredient } from "./recipes_api";
 import { getRecipeIngredients } from "./recipes_api";
-import RecipeIngredientForm from "./recipe_ingredient_form";
+import UpdateRecipeIngredientForm from "./update_recipe_ingredient_form";
 import RecipeNameForm from "./recipe_name_form";
+import AddRecipeIngredientForm from "./add_recipe_ingredient_form";
+import { Ingredient, getIngredients } from "../ingredients/ingredients_api";
 
 interface RecipeFormProps {
   recipe: Recipe | undefined;
@@ -12,28 +14,38 @@ interface RecipeFormProps {
 const RecipeForm = (props: RecipeFormProps) => {
   const [loading, setLeading] = useState(false);
   const [recipe, setRecipe] = useState<Recipe>();
-  const [ingredients, setIngredients] = useState<
+  const [recipeIngredients, setRecipeIngredients] = useState<
     RecipeIngredient[] | undefined
   >();
-  const fetchIngredients = (id: number) => {
+  const [ingredients, setIngredients] = useState<Ingredient[]>();
+
+  useEffect(() => {
+    getIngredients()
+      .then((response: Ingredient[]) => {
+        setIngredients(response);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
+  const fetchRecipeIngredients = (id: number) => {
     getRecipeIngredients(id)
       .then((response: RecipeIngredient[]) => {
-        setIngredients(response);
+        setRecipeIngredients(response);
         setLeading(false);
       })
       .catch((error) => console.log(error));
   };
 
   const reset = () => {
-    setIngredients(undefined);
+    setRecipeIngredients(undefined);
     setRecipe(undefined);
     setLeading(false);
   };
 
-  if (props.recipe && !ingredients && !loading) {
+  if (props.recipe && !recipeIngredients && !loading) {
     setLeading(true);
     setRecipe(props.recipe);
-    fetchIngredients(props.recipe.id);
+    fetchRecipeIngredients(props.recipe.id);
   } else if (recipe && props.recipe && props.recipe.id != recipe.id) {
     reset();
   }
@@ -46,42 +58,48 @@ const RecipeForm = (props: RecipeFormProps) => {
   };
 
   let ingredientsForm;
-  if (recipe) {
-    const items = ingredients ? (
-      ingredients.map((item) => (
-        <RecipeIngredientForm
-          key={item.id}
-          recipeId={recipe.id}
-          recipeIngredient={item}
-          setRecipeIngredient={setRecipeIngredient}
-        />
-      ))
-    ) : (
-      <div>No ingredients</div>
-    );
+  if (recipe && ingredients) {
+    const items =
+      recipeIngredients && recipeIngredients.length > 0 ? (
+        recipeIngredients.map((item) => (
+          <UpdateRecipeIngredientForm
+            key={item.id}
+            recipeId={recipe.id}
+            recipeIngredient={item}
+          />
+        ))
+      ) : (
+        <div className="recipe-form-no-ingredients">No ingredients</div>
+      );
     const setRecipeIngredient = (newIngredient: RecipeIngredient) => {
-      const copy = ingredients ? [...ingredients] : [];
+      const copy = recipeIngredients ? [...recipeIngredients] : [];
       copy.push(newIngredient);
-      setIngredients(copy);
+      setRecipeIngredients(copy);
     };
 
     ingredientsForm = (
       <div>
         {items}
-        <RecipeIngredientForm
+        <hr className="recipe-ingredient-form-divider" />
+        <AddRecipeIngredientForm
           recipeId={recipe.id}
+          ingredients={ingredients}
           setRecipeIngredient={setRecipeIngredient}
         />
       </div>
     );
   }
   return (
-    <div>
-      <br />
+    <div className="recipe-form-box">
       <div>{recipe ? "Update Recipe" : "New Recipe"}</div>
       <RecipeNameForm recipe={recipe} setRecipe={setRecipe} />
       {ingredientsForm}
-      <input type="button" onClick={onDone} value="🍻" />
+      <input
+        className="recipe-form-done"
+        type="button"
+        onClick={onDone}
+        value="🍻 Done 🍻"
+      />
     </div>
   );
 };
