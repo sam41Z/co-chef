@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Recipe, getRecipes, deleteRecipe } from "./recipes_api";
 import NamedItem from "../named_item";
-import RecipeForm from "./recipe_form";
+import UpdateRecipeForm from "./update_recipe_form";
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -44,12 +44,14 @@ const Recipes = () => {
       />
     );
   });
-  console.log(recipe);
+  const recipeUpdateForm = recipe && (
+    <UpdateRecipeForm key={recipe.id} recipe={recipe} onDone={onDone} />
+  );
   return (
     <div className="box">
       <ul>{items}</ul>
       <hr />
-      <RecipeForm recipe={recipe} onDone={onDone} />
+      {recipeUpdateForm}
     </div>
   );
 };

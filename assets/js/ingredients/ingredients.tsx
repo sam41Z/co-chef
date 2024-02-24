@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Ingredient as IngredientType,
   getIngredients,
@@ -6,11 +6,10 @@ import {
 } from "./ingredients_api";
 import NamedItem from "../named_item";
 import IngredientForm from "./ingredient_form";
+import { useIngredients } from "./context";
 
 const Ingredients = () => {
-  const [ingredients, setIngredients] = useState<
-    { id: number; name: string }[]
-  >([]);
+  const { ingredients, setIngredients } = useIngredients();
 
   const fetchIngredients = () => {
     getIngredients()

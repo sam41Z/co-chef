@@ -2,16 +2,17 @@ import React, { useState, SyntheticEvent } from "react";
 import { RecipeIngredient, RecipeIngredientNew } from "./recipes_api";
 import { saveRecipeIngredient as saveRecipeIngredientApi } from "./recipes_api";
 import { Ingredient } from "../ingredients/ingredients_api";
+import { useIngredients } from "../ingredients/context";
 
 interface NewRecipeIngredientFormProps {
   recipeId: number;
-  ingredients: Ingredient[];
   setRecipeIngredient: { (ingredient: RecipeIngredient): any };
 }
 
 const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
   const [amount, setAmount] = useState<number>(0);
   const [ingredient, setIngredient] = useState<Ingredient>();
+  const { ingredients, setIngredients } = useIngredients();
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -29,7 +30,7 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
     const id: number = Number(event.target.value);
-    const selected: Ingredient | undefined = props.ingredients.find(
+    const selected: Ingredient | undefined = ingredients.find(
       (item) => item.id === id
     );
     if (selected) setIngredient(selected);
@@ -43,7 +44,7 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
       .catch((error: any) => console.log(error));
   };
 
-  const options = props.ingredients.map((ingredient) => (
+  const options = ingredients.map((ingredient) => (
     <option key={ingredient.id} value={ingredient.id}>
       {ingredient.name}
     </option>
