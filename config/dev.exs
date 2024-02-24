@@ -6,6 +6,7 @@ config :cochef, CoChef.Repo,
   password: "secret",
   database: "cochef_dev",
   hostname: "localhost",
+  port: "6543",
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
