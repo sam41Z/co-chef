@@ -59,7 +59,7 @@ const IngredientForm = (props: {
       .catch((error: any) => console.log(error));
   };
   return (
-    <form className="ingredient-form box" onSubmit={handleSubmit}>
+    <form className="ingredient-form" onSubmit={handleSubmit}>
       <label>Name:</label>
       <input type="text" name="name" value={name} onChange={handleChange} />
       <label>Energy (kj):</label>

@@ -5,14 +5,21 @@ import { Ingredient, getIngredients } from "../ingredients/ingredients_api";
 
 interface RecipeIngredientFormProps {
   recipeId: number;
+  recipeIngredient: RecipeIngredient;
   setRecipeIngredient: { (ingredient: RecipeIngredient): any };
 }
 
 const RecipeIngredientForm = (props: RecipeIngredientFormProps) => {
+  const [recipeIngredient, setRecipeIngredient] = useState<RecipeIngredient>();
   const [amount, setAmount] = useState<number>(0);
-  const [ingredient, setIngredient] = useState<Ingredient | undefined>();
+  const [ingredient, setIngredient] = useState<Ingredient>();
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
+  if (props.recipeIngredient && !recipeIngredient) {
+    setRecipeIngredient(props.recipeIngredient);
+    setAmount(props.recipeIngredient.amount);
+    setIngredient(props.recipeIngredient.ingredient);
+  }
   useEffect(() => {
     getIngredients()
       .then((response: Ingredient[]) => {
@@ -23,7 +30,9 @@ const RecipeIngredientForm = (props: RecipeIngredientFormProps) => {
 
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
-    if (ingredient) {
+    if (recipeIngredient) {
+      updateRecipeIngredient(recipeIngredient);
+    } else if (ingredient) {
       saveRecipeIngredient({ amount: amount, ingredient_id: ingredient.id });
       setIngredient(undefined);
       setAmount(0);

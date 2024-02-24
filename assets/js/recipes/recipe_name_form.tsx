@@ -1,6 +1,6 @@
 import React, { useState, SyntheticEvent } from "react";
 import { Recipe, RecipeNew } from "./recipes_api";
-import { postRecipe } from "./recipes_api";
+import { postRecipe, putRecipe } from "./recipes_api";
 
 interface RecipeNameFormProps {
   setRecipe: { (recipe: Recipe): any };
@@ -41,20 +41,22 @@ const RecipeNameForm = (props: RecipeNameFormProps) => {
       .catch((error: any) => console.log(error));
   };
   const updateRecipe = (recipe: Recipe) => {
-    console.log(recipe);
+    putRecipe(recipe)
+      .then((response: Recipe) => {
+        props.setRecipe(response);
+      })
+      .catch((error: any) => console.log(error));
   };
   return (
     <form className="recipe-form" onSubmit={handleSubmit}>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <label>Recipe name:</label>
-        <input
-          type="text"
-          size={25}
-          name="name"
-          value={name}
-          onChange={handleChange}
-        />
-      </div>
+      <label>Name:</label>
+      <input
+        type="text"
+        size={25}
+        name="name"
+        value={name}
+        onChange={handleChange}
+      />
       <input type="submit" value={recipe ? "Update" : "Save"} />
     </form>
   );

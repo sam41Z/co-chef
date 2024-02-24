@@ -74,6 +74,8 @@ const RecipeForm = (props: RecipeFormProps) => {
   }
   return (
     <div>
+      <br />
+      <div>{recipe ? "Update Recipe" : "New Recipe"}</div>
       <RecipeNameForm recipe={recipe} setRecipe={setRecipe} />
       {ingredientsForm}
       <input type="button" onClick={onDone} value="🍻" />

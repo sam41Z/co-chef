@@ -55,7 +55,8 @@ a:hover {
 .box {
   border: 0.05rem solid #8080808f;
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 2rem;
+  margin: 2rem;
 }
 
 /* List item style */
@@ -67,6 +68,8 @@ ul {
   display: flex;
   justify-content: space-between;
   border-bottom: 0.1rem solid $lines;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
   &:last-child {
     border: none;
   }
@@ -104,10 +107,11 @@ input {
   }
 }
 
-.ingredient-form {
+form {
+  padding: 2rem;
   display: grid;
   align-items: center;
-  grid-column-gap: 1rem;
+  grid-column-gap: 0.75rem;
   & label {
     justify-self: end;
     grid-column: 1;
@@ -130,7 +134,36 @@ input {
   }
 }
 
+.ingredient-form {
+  padding: 2rem;
+  display: grid;
+  align-items: center;
+  grid-column-gap: 1rem;
+  & label {
+    justify-self: end;
+    grid-column: 1;
+  }
+  & input [type="text"] {
+    grid-column-start: 2;
+    grid-column-end: 4;
+    justify-self: stretch;
+    grid-column: 2;
+  }
+  & input[type="number"] {
+    justify-self: start;
+    max-width: 3rem;
+  }
+
+  & input[type="submit"] {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    justify-self: center;
+  }
+}
+
 .recipe-form {
-  display: flex;
-  justify-content: space-between;
+  & input[type="submit"] {
+    grid-column: 4;
+    justify-self: stretch;
+  }
 }

@@ -42,8 +42,9 @@ const Recipes = () => {
   ));
   console.log(recipe);
   return (
-    <div>
+    <div className="box">
       <ul>{items}</ul>
+      <hr />
       <RecipeForm recipe={recipe} onDone={onDone} />
     </div>
   );
