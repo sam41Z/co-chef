@@ -116,7 +116,7 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
         <div className="recipe-form-box-title">
           📖 Update Recipe
           <Link to={basePath}>📕</Link>
-          <a onClick={(_event) => onCopy(props.recipe.id)}>♻️</a>
+          <a onClick={(_event) => onCopy(props.recipe.id)}>🧑‍🍳</a>
         </div>
         <CSSTransition
           in={!loading}

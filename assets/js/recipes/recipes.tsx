@@ -57,7 +57,7 @@ const Recipes = () => {
   const items = recipes
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((item) => {
-      const name = Number(id) === item.id ? "✏️ " + item.name : item.name;
+      const name = Number(id) === item.id ? "😋 " + item.name : item.name;
       return (
         <NamedItem
           key={item.id}

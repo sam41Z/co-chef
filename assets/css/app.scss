@@ -23,8 +23,19 @@ body {
   line-height: 1.6;
   width: 75rem;
   margin: auto;
+
+  /* scrollbar Firefox */
   scrollbar-color: $lines $background;
   scrollbar-width: thin;
+
+  /* scrollbar Webkit */
+  ::-webkit-scrollbar {
+    width: 0.5rem;
+    background: $background;
+    &-thumb {
+      background: $lines;
+    }
+  }
 }
 
 #root {
@@ -41,6 +52,10 @@ body {
 
 hr {
   color: $lines;
+  border: none;
+  background: $lines;
+  min-width: 0.05rem;
+  min-height: 0.05rem;
 }
 
 a {
@@ -336,8 +351,6 @@ input {
 
   hr {
     margin: 1.5rem 0 1.5rem;
-    border-top: 1px solid;
-    border-bottom: none;
   }
   .info-box {
     margin: 1rem 0;
