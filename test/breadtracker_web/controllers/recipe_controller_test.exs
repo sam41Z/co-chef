@@ -34,10 +34,11 @@ defmodule BreadtrackerWeb.RecipeControllerTest do
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.recipe_path(conn, :show, id))
+      name = "some name"
 
       assert %{
-               "id" => id,
-               "name" => "some name"
+               "id" => ^id,
+               "name" => ^name
              } = json_response(conn, 200)["data"]
     end
 
@@ -50,16 +51,11 @@ defmodule BreadtrackerWeb.RecipeControllerTest do
   describe "copy recipe" do
     setup [:create_recipe]
 
-    test "renders copy successfull", %{conn: conn, recipe: %Recipe{id: id} = recipe} do
- #     conn = post(conn, Routes.(conn, :copy, id))
- #     assert %{"id" => ^id} = json_response(conn, 200)["data"]
-
- #     conn = get(conn, Routes.recipe_path(conn, :show, id))
-
- #     assert %{
- #              "id" => id,
- #              "name" => "some updated name"
- #            } = json_response(conn, 200)["data"]
+    test "renders copy successfull", %{conn: conn, recipe: %Recipe{id: id} = _recipe} do
+      conn = post(conn, Routes.recipe_recipe_path(conn, :copy, id))
+      name = "some name - copy"
+      assert %{"id" => id_copy, "name" => ^name} = json_response(conn, 200)["data"]
+      assert id != id_copy
     end
   end
 
@@ -71,10 +67,11 @@ defmodule BreadtrackerWeb.RecipeControllerTest do
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.recipe_path(conn, :show, id))
+      name = "some updated name"
 
       assert %{
-               "id" => id,
-               "name" => "some updated name"
+               "id" => ^id,
+               "name" => ^name
              } = json_response(conn, 200)["data"]
     end
 

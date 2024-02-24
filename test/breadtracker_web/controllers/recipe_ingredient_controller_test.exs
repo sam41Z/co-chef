@@ -42,11 +42,8 @@ defmodule BreadtrackerWeb.RecipeIngredientControllerTest do
 
       conn = get(conn, Routes.recipe_recipe_ingredient_path(conn, :show, recipe.id, id))
 
-      assert %{
-               "id" => id,
-               "amount" => 120.5,
-               "ingredient" => %{"id" => ingredient_id}
-             } = json_response(conn, 200)["data"]
+      amount = attrs.amount
+      assert %{"id" => ^id, "amount" => ^amount} = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -76,10 +73,11 @@ defmodule BreadtrackerWeb.RecipeIngredientControllerTest do
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.recipe_recipe_ingredient_path(conn, :show, recipe_id, id))
+      amount = @recipe_ingredient_update_attrs.amount
 
       assert %{
-               "id" => id,
-               "amount" => 456.7
+               "id" => ^id,
+               "amount" => ^amount
              } = json_response(conn, 200)["data"]
     end
 

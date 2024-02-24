@@ -18,8 +18,7 @@ defmodule Breadtracker.Fixtures do
           attrs
           |> Enum.into(@recipe_valid_attrs)
           |> Recipes.create_recipe()
-
-        recipe
+        Recipes.get_recipe!(recipe.id)
       end
     end
   end

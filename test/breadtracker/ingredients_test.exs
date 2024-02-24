@@ -18,7 +18,7 @@ defmodule Breadtracker.IngredientsTest do
     end
 
     test "create_ingredient/1 with valid data creates a ingredient" do
-      assert {:ok, %Ingredient{} = ingredient} =
+      assert {:ok, %Ingredient{} = _ingredient} =
                Ingredients.create_ingredient(@ingredient_valid_attrs)
     end
 
@@ -30,7 +30,7 @@ defmodule Breadtracker.IngredientsTest do
     test "update_ingredient/2 with valid data updates the ingredient" do
       ingredient = ingredient_fixture()
 
-      assert {:ok, %Ingredient{} = ingredient} =
+      assert {:ok, %Ingredient{} = _ingredient} =
                Ingredients.update_ingredient(ingredient, @ingredient_update_attrs)
     end
 

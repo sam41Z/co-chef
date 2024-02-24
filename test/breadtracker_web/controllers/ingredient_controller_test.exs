@@ -47,16 +47,18 @@ defmodule BreadtrackerWeb.IngredientControllerTest do
 
       conn = get(conn, Routes.ingredient_path(conn, :show, id))
 
-      assert %{
-               "id" => id,
-               "name" => "some name",
-               "energy" => 1454.1,
-               "fat" => 1.9,
-               "carbohydrates" => 53.0,
-               "fiber" => 5.2,
-               "protein" => 7.6,
-               "type" => "flour"
-             } = json_response(conn, 200)["data"]
+      expected = %{
+        "id" => id,
+        "name" => "some name",
+        "energy" => 1454.1,
+        "fat" => 1.9,
+        "carbohydrates" => 53.0,
+        "fiber" => 5.2,
+        "protein" => 7.6,
+        "type" => "flour"
+      }
+
+      assert ^expected = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -79,9 +81,11 @@ defmodule BreadtrackerWeb.IngredientControllerTest do
 
       conn = get(conn, Routes.ingredient_path(conn, :show, id))
 
+      name = "some updated name"
+
       assert %{
-               "id" => id,
-               "name" => "some updated name"
+               "id" => ^id,
+               "name" => ^name
              } = json_response(conn, 200)["data"]
     end
 

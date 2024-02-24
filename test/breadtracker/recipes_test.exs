@@ -19,12 +19,18 @@ defmodule Breadtracker.RecipesTest do
     end
 
     test "copy_recipe/1 returns an exact copy of a recipe" do
-      recipe_ingredient = recipe_ingredient_fixture();
+      recipe_ingredient = recipe_ingredient_fixture()
       recipe = Recipes.get_recipe!(recipe_ingredient.recipe_id)
-      
-      {:ok, %Recipe{}= new_recipe} = Recipes.copy_recipe(recipe.id)
-      assert recipe.id != new_recipe.id
-      assert "#{recipe.name} - copy" == new_recipe.name
+
+      {:ok, %Recipe{} = new_recipe} = Recipes.copy_recipe(recipe.id)
+      recipe_copy = Recipes.get_recipe!(new_recipe.id)
+      assert recipe_copy.id == new_recipe.id
+      assert recipe.id != recipe_copy.id
+      assert "#{recipe.name} - copy" == recipe_copy.name
+      recipe_ingredient_copy = List.first(recipe_copy.recipe_ingredients)
+      assert recipe_ingredient.id != recipe_ingredient_copy.id
+      assert recipe_ingredient.amount == recipe_ingredient_copy.amount
+      assert recipe_ingredient.ingredient_id == recipe_ingredient_copy.ingredient_id
     end
 
     test "create_recipe/1 with valid data creates a recipe" do
@@ -91,15 +97,17 @@ defmodule Breadtracker.RecipesTest do
     end
 
     test "copy_recip_ingrediente/2 returns an exact copy of a recipe ingredient linked to the specified recipe" do
-      recipe_ingredient = recipe_ingredient_fixture();
+      recipe_ingredient = recipe_ingredient_fixture()
       recipe = recipe_fixture()
-      
-      {:ok, %RecipeIngredient{}= new_recipe_ingredient} = Recipes.copy_recipe_ingredient(recipe.id, recipe_ingredient.id)
+
+      {:ok, %RecipeIngredient{} = new_recipe_ingredient} =
+        Recipes.copy_recipe_ingredient(recipe.id, recipe_ingredient.id)
+
       assert recipe_ingredient.recipe_id != new_recipe_ingredient.recipe_id
       assert recipe_ingredient.amount == new_recipe_ingredient.amount
       assert recipe_ingredient.ingredient_id == new_recipe_ingredient.ingredient_id
     end
-    
+
     test "update_recipe_ingredient/2 with valid data updates the recipe_ingredient" do
       recipe_ingredient = recipe_ingredient_fixture()
 

@@ -20,6 +20,7 @@ defmodule Breadtracker.Recipes do
   def list_recipes do
     Recipe
     |> Repo.all()
+    |> Repo.preload(:recipe_ingredients)
   end
 
   @doc """
@@ -39,6 +40,7 @@ defmodule Breadtracker.Recipes do
   def get_recipe!(id) do
     Recipe
     |> Repo.get!(id)
+    |> Repo.preload(:recipe_ingredients)
   end
 
   @doc """
