@@ -1,5 +1,6 @@
 /* Global styles */
 $background: black;
+$color-dark: #008900;
 $color: #00e000;
 $highlight: #00ff00;
 $lines: #590059;
@@ -23,12 +24,27 @@ body {
   width: 75rem;
   margin: auto;
 }
+
 hr {
   color: $lines;
 }
 
-a:hover {
-  @include hover;
+a {
+  text-decoration: none;
+  color: $color;
+  &:hover {
+    @include hover;
+  }
+}
+
+nav {
+  ul {
+    display: flex;
+    justify-content: space-around;
+    li {
+      display: inline;
+    }
+  }
 }
 
 /* Alerts and form errors */
@@ -77,8 +93,12 @@ a:hover {
   .delete:hover {
     text-shadow: 0 0 1rem $highlight-lines;
   }
+  &-title {
+    color: $highlight;
+    margin-top: -1.65rem;
+  }
 }
-.recipes {
+.box-row {
   display: flex;
   align-items: stretch;
   justify-content: space-around;
@@ -86,6 +106,32 @@ a:hover {
     ul {
       width: 25rem;
     }
+  }
+  &-item hr {
+    margin: 2rem 0;
+  }
+}
+
+.info-box {
+  border: 1px solid $color-dark;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  font-size: 0.8rem;
+  margin-bottom: 2rem;
+  &-title {
+    font-size: 0.85rem;
+    margin-top: -1.65rem;
+    margin-bottom: 0.5rem;
+    margin-left: -1px;
+    background-color: $background;
+    width: max-content;
+    padding: 0 2px;
+  }
+  ul {
+    margin-top: 0.5rem;
+  }
+  li {
+    margin-left: 1rem;
   }
 }
 
@@ -144,7 +190,6 @@ input {
 .ingredient-form {
   display: grid;
   align-items: center;
-  grid-column-gap: 0.75rem;
   label {
     justify-self: end;
     grid-column: 1;
@@ -163,16 +208,15 @@ input {
   input[type="submit"] {
     grid-column-start: 1;
     grid-column-end: 4;
-    justify-self: center;
+    justify-self: end;
   }
 }
 .recipe-forms {
   flex-grow: 1;
 }
-    
 
 .recipe-name-form {
-  padding: 2rem 0 1rem;
+  padding: 1rem 0 1rem;
   form {
     font-size: 1rem;
     display: flex;
@@ -243,6 +287,9 @@ input {
     margin: 1.5rem 0 1.5rem;
     border-top: 1px solid;
     border-bottom: none;
+  }
+  .info-box {
+    margin: 1rem 0;
   }
 }
 .recipe-form-done {

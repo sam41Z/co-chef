@@ -97,9 +97,16 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     <RecipeContext.Provider value={{ recipeIngredients, setRecipeIngredients }}>
       <div className="recipe-form-box">
         <div>Update Recipe</div>
-        <div>
-          Total flour: {flourSum} ({inverter(flourSum)}%), total water:{" "}
-          {waterSum} ({inverter(waterSum)}%)
+        <div className="info-box">
+          <div className="info-box-title">Total</div>
+          <ul>
+            <li>
+              Flour: {flourSum} ({inverter(flourSum)}%)
+            </li>
+            <li>
+              Water: {waterSum} ({inverter(waterSum)}%)
+            </li>
+          </ul>
         </div>
         <UpdateRecipeNameForm recipe={props.recipe} />
         {recipeIngredientList}

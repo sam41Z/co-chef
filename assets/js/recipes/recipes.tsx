@@ -76,7 +76,7 @@ const Recipes = () => {
   );
 
   return (
-    <div className="box recipes">
+    <div className="box box-row">
       <div className="recipe-list">
         <ul>{items}</ul>
       </div>

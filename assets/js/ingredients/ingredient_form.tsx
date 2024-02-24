@@ -87,7 +87,7 @@ const IngredientForm = (props: {
         value={protein}
         onChange={handleChange}
       />
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Add" />
     </form>
   );
 };
