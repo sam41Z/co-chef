@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./ingredients.scss";
 import {
   Ingredient as IngredientType,
-  getIngredients,
   deleteIngerdient,
 } from "./ingredients_api";
 import NamedItem from "../named_item";
 import IngredientForm from "./ingredient_form";
-import { useIngredients } from "./context";
+import useIngredients from "./hook";
 import { useParams } from "react-router-dom";
 import ContentBox from "../content_box";
 import IngredientInfo from "./ingredient_info";
@@ -15,24 +14,10 @@ import { CSSTransition } from "react-transition-group";
 import { useSnackBox } from "../snackbox";
 
 const Ingredients = () => {
-  const { ingredients, setIngredients } = useIngredients();
+  const { ingredients, fetchIngredients } = useIngredients();
   const { id } = useParams<{ id?: string }>();
   const basePath = "/ingredients/";
   const sendSnack = useSnackBox();
-
-  const fetchIngredients = () => {
-    getIngredients()
-      .then((response: IngredientType[]) => {
-        setIngredients(response);
-      })
-      .catch((error) => {
-        sendSnack("Unable to fetch ingredients!");
-        console.log(error);
-      });
-  };
-  useEffect(() => {
-    fetchIngredients();
-  }, []);
 
   const findIngredient = (id?: number | string) =>
     ingredients.find((item) => item.id === Number(id));

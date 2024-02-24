@@ -2,7 +2,7 @@ import React, { useState, SyntheticEvent } from "react";
 import { RecipeIngredient, RecipeIngredientNew } from "./recipes_api";
 import { saveRecipeIngredient as saveRecipeIngredientApi } from "./recipes_api";
 import { Ingredient } from "../ingredients/ingredients_api";
-import { useIngredients } from "../ingredients/context";
+import useIngredients from "../ingredients/hook";
 import Select, { ValueType, ActionMeta } from "react-select";
 import SelectStyles from "../select_react_styles";
 import ConvertableInput from "../convertable_input";
@@ -21,8 +21,8 @@ type NewRecipeIngredientFormProps = {
 const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
   const [amount, setAmount] = useState<number>(0);
   const [ingredient, setIngredient] = useState<Ingredient>();
-  const { ingredients, setIngredients } = useIngredients();
   const sendSnack = useSnackBox();
+  const { ingredients } = useIngredients();
 
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();

@@ -17,7 +17,6 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## TODO
 ### Features
- * Use hook instead fo context for ingredients
  * Bread recipe total configurable
  * Store recipe mode
  * Filter ingredients form in bread recipe mode
