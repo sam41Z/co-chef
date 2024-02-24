@@ -10,7 +10,8 @@ import {
   NavLink,
   Redirect,
 } from "react-router-dom";
-import { SnackBarContext } from "./snackbar";
+import { SnackBoxContext, useSnackBoxReducer } from "./snackbox";
+
 
 const Root = () => {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
@@ -19,16 +20,17 @@ const Root = () => {
       setIngredients(ingredients);
     });
   }, []);
-  const [snacks, setSnacks] = useState<string[]>([])
 
-  const showSnack = (snack: string) => {
-    setSnacks([...snacks, snack]);
-  };
+  const {snacks, showSnack} = useSnackBoxReducer(5000);
 
-  const snackBoxes = snacks.map(snack =>( <div className="snackbox">{snack}</div>));
+  const snackBoxes = snacks.map((snack) => (
+    <div key={snack.id} className="snackbox">
+      {snack.snack}
+    </div>
+  ));
 
   return (
-    <SnackBarContext.Provider value={showSnack}>
+    <SnackBoxContext.Provider value={showSnack}>
       <IngredientContext.Provider value={{ ingredients, setIngredients }}>
         <Router>
           <nav>
@@ -45,7 +47,9 @@ const Root = () => {
               </li>
             </ul>
           </nav>
+          <div className="snackbox-container">
           {snackBoxes}
+          </div>
           <section>
             <Switch>
               <Route path="/ingredients/:id?">
@@ -61,7 +65,7 @@ const Root = () => {
           </section>
         </Router>
       </IngredientContext.Provider>
-    </ErrorContext.Provider>
+    </SnackBoxContext.Provider>
   );
 };
 

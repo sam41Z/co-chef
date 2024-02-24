@@ -7,6 +7,7 @@ import {
 import { debounce } from "../debounce";
 import LoadingBar from "../loading_bar";
 import ConvertableInput from "../convertable_input";
+import { useSnackBox } from "../snackbox";
 
 type UpdateRecipeIngredientFormProps = {
   recipeId: number;
@@ -26,6 +27,7 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
     props.recipeIngredient
   );
   const [saving, setSaving] = useState<boolean>(false);
+  const sendSnack = useSnackBox();
 
   const onAmountChange = (amount: number) => {
     const copy = { ...recipeIngredient };
@@ -42,7 +44,10 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
         .then(() => {
           setSaving(false);
         })
-        .catch((error: any) => console.log(error));
+        .catch((error: any) => {
+          sendSnack("Unable to update recipe ingredient!");
+          console.log(error);
+        });
     }, 1000),
     []
   );

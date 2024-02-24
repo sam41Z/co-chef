@@ -3,15 +3,19 @@ import { Recipe } from "./recipes_api";
 import { putRecipe } from "./recipes_api";
 import { debounce } from "../debounce";
 import LoadingBar from "../loading_bar";
+import { useSnackBox } from "../snackbox";
 
 interface UpdateRecipeNameFormProps {
   recipe: Recipe;
-  onNameChange: (recipe:Recipe) => void;
+  onNameChange: (recipe: Recipe) => void;
 }
 
 const UpdateRecipeNameForm = (props: UpdateRecipeNameFormProps) => {
   const [recipe, setRecipe] = useState<Recipe>(props.recipe);
   const [saving, setSaving] = useState<boolean>(false);
+
+  const sendSnack = useSnackBox();
+
   if (recipe.id !== props.recipe.id) {
     setRecipe(props.recipe);
   }
@@ -31,7 +35,10 @@ const UpdateRecipeNameForm = (props: UpdateRecipeNameFormProps) => {
           setSaving(false);
           props.onNameChange(recipe);
         })
-        .catch((error: any) => console.log(error));
+        .catch((error: any) => {
+          sendSnack("Unable to update recipe name!");
+          console.log(error);
+        });
     }, 500),
     []
   );

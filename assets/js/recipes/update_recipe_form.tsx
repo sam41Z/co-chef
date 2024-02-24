@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import RecipeInfoBox from "./recipe_info_box";
 import { CSSTransition } from "react-transition-group";
 import { RecipeMode, getBreadMode, getNormalMode } from "./recipe_mode";
+import { useSnackBox } from "../snackbox";
 
 type UpdateRecipeFormProps = {
   recipe: Recipe;
@@ -35,6 +36,7 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
       ? setRecipeMode(getBreadMode(400))
       : setRecipeMode(getNormalMode());
 
+  const sendSnack = useSnackBox();
   useEffect(() => {
     fetchRecipeIngredients(props.recipe.id);
   }, []);
@@ -45,7 +47,10 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
         setRecipeIngredients(response);
         setLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error: any) => {
+        sendSnack("Unable to fetch recipe ingredients!");
+        console.log(error);
+      });
   };
 
   const onChangeRecipeIngredient = (
@@ -67,7 +72,10 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     console.log(id);
     copyRecipe(id)
       .then((response: Recipe) => props.onCopy(response))
-      .catch((error) => console.log(error));
+      .catch((error: any) => {
+        sendSnack("Unable to copy recipe!");
+        console.log(error);
+      });
   };
 
   const recipeIngredientList =
@@ -114,9 +122,15 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     <div className="recipe-form-box">
       <div className="recipe-form-box-title">
         📖 Update Recipe
-        <Link to={basePath} title="close recipe">📕</Link>
-        <a onClick={(_event) => onCopy(props.recipe.id)} title="copy recipe">🧑‍🍳</a>
-        <a onClick={(_event) => toggleRecipeMode()} title="toggle recipe mode">🍞</a>
+        <Link to={basePath} title="close recipe">
+          📕
+        </Link>
+        <a onClick={(_event) => onCopy(props.recipe.id)} title="copy recipe">
+          🧑‍🍳
+        </a>
+        <a onClick={(_event) => toggleRecipeMode()} title="toggle recipe mode">
+          🍞
+        </a>
       </div>
       <CSSTransition in={!loading} timeout={500} classNames="loading-box">
         <div>{loadingComponent}</div>

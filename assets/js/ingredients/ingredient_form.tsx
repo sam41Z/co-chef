@@ -1,6 +1,7 @@
 import React, { useState, SyntheticEvent } from "react";
 import { IngredientNew, Ingredient } from "./ingredients_api";
 import { postIngredient } from "./ingredients_api";
+import { useSnackBox } from "../snackbox";
 
 const IngredientForm = (props: {
   onSave: (ingredient: Ingredient) => void;
@@ -12,6 +13,7 @@ const IngredientForm = (props: {
   const [fiber, setFiber] = useState(0);
   const [protein, setProtein] = useState(0);
 
+  const sendSnack = useSnackBox();
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     saveIngredient({
@@ -56,7 +58,10 @@ const IngredientForm = (props: {
         setFiber(0);
         setProtein(0);
       })
-      .catch((error: any) => console.log(error));
+      .catch((error: any) => {
+        sendSnack("Unable to save ingredient!");
+        console.log(error);
+      });
   };
   return (
     <form className="ingredient-form" onSubmit={handleSubmit}>

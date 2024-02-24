@@ -5,19 +5,24 @@ import UpdateRecipeForm from "./update_recipe_form";
 import AddRecipeForm from "./add_recipe_form";
 import { useParams, useHistory } from "react-router-dom";
 import ContentBox from "../content_box";
+import { useSnackBox } from "../snackbox";
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const { id } = useParams<{ id?: string }>();
   const history = useHistory();
   const basePath = "/recipes/";
+  const sendSnack = useSnackBox();
 
   const fetchRecipes = () => {
     getRecipes()
       .then((response: Recipe[]) => {
         setRecipes(response);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        sendSnack("Unable to fetch recipes!");
+        console.log(error);
+      });
   };
   useEffect(() => {
     fetchRecipes();
@@ -36,7 +41,10 @@ const Recipes = () => {
         fetchRecipes();
         history.push(basePath);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        sendSnack("Unable to delete recipe!");
+        console.log(error);
+      });
   };
 
   const onNameChange = (updatedRecipe: Recipe) => {
@@ -70,7 +78,12 @@ const Recipes = () => {
     });
   const recipe = findRecipe(id);
   const recipeForm = recipe ? (
-    <UpdateRecipeForm key={recipe.id} recipe={recipe} onCopy={addNewRecipe} onNameChange={onNameChange} />
+    <UpdateRecipeForm
+      key={recipe.id}
+      recipe={recipe}
+      onCopy={addNewRecipe}
+      onNameChange={onNameChange}
+    />
   ) : (
     <AddRecipeForm setRecipe={addNewRecipe} />
   );

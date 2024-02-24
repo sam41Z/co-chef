@@ -11,17 +11,23 @@ import { useParams } from "react-router-dom";
 import ContentBox from "../content_box";
 import IngredientInfo from "./ingredient_info";
 import { CSSTransition } from "react-transition-group";
+import { useSnackBox } from "../snackbox";
 
 const Ingredients = () => {
   const { ingredients, setIngredients } = useIngredients();
   const { id } = useParams<{ id?: string }>();
   const basePath = "/ingredients/";
+  const sendSnack = useSnackBox();
+
   const fetchIngredients = () => {
     getIngredients()
       .then((response: IngredientType[]) => {
         setIngredients(response);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        sendSnack("Unable to fetch ingredients!");
+        console.log(error);
+      });
   };
   useEffect(() => {
     fetchIngredients();
@@ -33,7 +39,10 @@ const Ingredients = () => {
   const onClickDelete = (id: number) => {
     deleteIngerdient(id)
       .then(() => fetchIngredients())
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        sendSnack("Unable to delete ingredient");
+        console.log(error);
+      });
   };
 
   const onSave = (_ingredient: IngredientType) => fetchIngredients();

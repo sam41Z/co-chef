@@ -6,7 +6,7 @@ import { useIngredients } from "../ingredients/context";
 import Select, { ValueType, ActionMeta } from "react-select";
 import SelectStyles from "../select_react_styles";
 import ConvertableInput from "../convertable_input";
-import { useSnackBar } from "../snackbar";
+import { useSnackBox } from "../snackbox";
 
 type NewRecipeIngredientFormProps = {
   recipeId: number;
@@ -22,7 +22,7 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
   const [amount, setAmount] = useState<number>(0);
   const [ingredient, setIngredient] = useState<Ingredient>();
   const { ingredients, setIngredients } = useIngredients();
-  const sendSnack = useSnackBar();
+  const sendSnack = useSnackBox();
 
   const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
