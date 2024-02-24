@@ -29,6 +29,7 @@ export const useRecipeIngredients = () => useContext(RecipeContext);
 type UpdateRecipeFormProps = {
   recipe: Recipe;
   onCopy: (recipe: Recipe) => void;
+  onNameChange: (recipe: Recipe) => void;
 };
 
 const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
@@ -95,7 +96,7 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   };
   const loadingComponent = !loading && (
     <div>
-      <UpdateRecipeNameForm recipe={props.recipe} />
+      <UpdateRecipeNameForm recipe={props.recipe} onNameChange={props.onNameChange}/>
       <RecipeInfoBox suffix="%" inverter={inverter} converter={converter} />
       {recipeIngredientList}
       <hr />

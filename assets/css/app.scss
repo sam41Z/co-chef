@@ -35,7 +35,7 @@ body {
     height: 2rem;
   }
   section {
-    height: calc(100% - 3rem);
+    height: calc(100% - 2rem);
   }
 }
 
@@ -104,8 +104,8 @@ nav {
   border: 0.05rem solid $lines;
   border-radius: 0.5rem;
   padding: 0 0.5rem;
-  margin: 0 2rem 1rem;
-  height: calc(100% - 2.1rem);
+  margin: 0 2rem;
+  height: calc(100% - 1rem);
   position: relative;
 
   hr {
@@ -257,14 +257,11 @@ input {
 .scrollable-right {
   overflow: auto;
   padding: 2rem 2rem 2rem 1rem;
+  flex-grow: 1;
 }
 .scrollable-left {
   padding: 2rem 2rem;
   overflow: auto;
-}
-
-.recipe-forms {
-  flex-grow: 1;
 }
 
 .recipe-name-form {

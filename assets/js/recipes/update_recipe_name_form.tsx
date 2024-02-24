@@ -6,6 +6,7 @@ import LoadingBar from "../loading_bar";
 
 interface UpdateRecipeNameFormProps {
   recipe: Recipe;
+  onNameChange: (recipe:Recipe) => void;
 }
 
 const UpdateRecipeNameForm = (props: UpdateRecipeNameFormProps) => {
@@ -28,6 +29,7 @@ const UpdateRecipeNameForm = (props: UpdateRecipeNameFormProps) => {
       putRecipe(recipe)
         .then(() => {
           setSaving(false);
+          props.onNameChange(recipe);
         })
         .catch((error: any) => console.log(error));
     }, 500),

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import {
   Ingredient as IngredientType,
   getIngredients,
@@ -8,6 +8,8 @@ import NamedItem from "../named_item";
 import IngredientForm from "./ingredient_form";
 import { useIngredients } from "./context";
 import { useParams } from "react-router-dom";
+import ContentBox from "../content_box";
+import IngredientInfo from "./ingredient_info";
 import { CSSTransition } from "react-transition-group";
 
 const Ingredients = () => {
@@ -49,47 +51,31 @@ const Ingredients = () => {
     );
   });
   const ingredient = findIngredient(id);
-  const details = ingredient && (
-    <div>
-      <div className="info-box">
-        <div className="info-box-title">{ingredient.name}</div>
-        Nutrition facts (per 100g):
-        <ul>
-          <li>Energy : {ingredient.energy} kj</li>
-          <li>Carbohydrates: {ingredient.carbohydrates}g</li>
-          <li>Fat: {ingredient.fat}g</li>
-          <li>Fiber: {ingredient.fiber}g</li>
-          <li>Protein: {ingredient.protein}g</li>
-        </ul>
-      </div>
-      <hr />
-    </div>
+  const ingredientInfo = ingredient && (
+    <IngredientInfo ingredient={ingredient} />
   );
   return (
-    <div className="box box-row">
-      <div className="fade-out-top" />
-      <div className="fade-out-bottom" />
-      <div className="ingredient-list scrollable-right">
-        <ul>{items}</ul>
-      </div>
-      <hr />
-      <div className="scrollable-right">
-        <div className="box-row-item">
-          <CSSTransition
-            appear={true}
-            in={ingredient ? true : false}
-            timeout={500}
-            classNames="loading-box"
-          >
-            <div>{details}</div>
-          </CSSTransition>
-          Add ingredient:
-          <div className="ingredient-form">
-            <IngredientForm onSave={onSave} />
+    <ContentBox>
+      {{
+        left: <ul>{items}</ul>,
+        right: (
+          <div>
+            <CSSTransition
+              appear={true}
+              in={ingredient ? true : false}
+              timeout={500}
+              classNames="loading-box"
+            >
+              <div>{ingredientInfo}</div>
+            </CSSTransition>
+            Add ingredient:
+            <div className="ingredient-form">
+              <IngredientForm onSave={onSave} />
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
+        ),
+      }}
+    </ContentBox>
   );
 };
 

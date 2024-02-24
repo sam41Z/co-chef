@@ -4,6 +4,7 @@ import NamedItem from "../named_item";
 import UpdateRecipeForm from "./update_recipe_form";
 import AddRecipeForm from "./add_recipe_form";
 import { useParams, useHistory } from "react-router-dom";
+import ContentBox from "../content_box";
 
 const Recipes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
@@ -37,13 +38,13 @@ const Recipes = () => {
       })
       .catch((error) => console.log(error));
   };
-  const onUpdateDone = (updatedRecipe: Recipe) => {
+
+  const onNameChange = (updatedRecipe: Recipe) => {
     const index = recipes.findIndex((recipe) => recipe.id === updatedRecipe.id);
     const copy = [...recipes];
     copy.splice(index, 1, updatedRecipe);
     setRecipes(copy);
     fetchRecipes();
-    history.push(basePath);
   };
   const addNewRecipe = (newRecipe: Recipe) => {
     const copy = [...recipes];
@@ -69,21 +70,18 @@ const Recipes = () => {
     });
   const recipe = findRecipe(id);
   const recipeForm = recipe ? (
-    <UpdateRecipeForm key={recipe.id} recipe={recipe} onCopy={addNewRecipe} />
+    <UpdateRecipeForm key={recipe.id} recipe={recipe} onCopy={addNewRecipe} onNameChange={onNameChange} />
   ) : (
     <AddRecipeForm setRecipe={addNewRecipe} />
   );
 
   return (
-    <div className="box box-row">
-      <div className="fade-out-top" />
-      <div className="fade-out-bottom" />
-      <div className="recipe-list scrollable-left">
-        <ul>{items}</ul>
-      </div>
-      <hr />
-      <div className="recipe-forms scrollable-right">{recipeForm}</div>
-    </div>
+    <ContentBox>
+      {{
+        left: <ul>{items}</ul>,
+        right: <div>{recipeForm}</div>,
+      }}
+    </ContentBox>
   );
 };
 
