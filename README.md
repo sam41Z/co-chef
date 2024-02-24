@@ -16,8 +16,6 @@
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## TODO
- * Error handling
- * Split up CSS
  * Use hook instead fo context for ingredients
  * Bread recipe total configurable
  * Store recipe mode
