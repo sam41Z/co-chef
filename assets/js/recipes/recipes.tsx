@@ -69,22 +69,20 @@ const Recipes = () => {
     });
   const recipe = findRecipe(id);
   const recipeForm = recipe ? (
-    <UpdateRecipeForm
-      key={recipe.id}
-      recipe={recipe}
-      onCopy={addNewRecipe}
-    />
+    <UpdateRecipeForm key={recipe.id} recipe={recipe} onCopy={addNewRecipe} />
   ) : (
     <AddRecipeForm setRecipe={addNewRecipe} />
   );
 
   return (
     <div className="box box-row">
-      <div className="recipe-list">
+      <div className="fade-out-top" />
+      <div className="fade-out-bottom" />
+      <div className="recipe-list scrollable-left">
         <ul>{items}</ul>
       </div>
       <hr />
-      <div className="recipe-forms">{recipeForm}</div>
+      <div className="recipe-forms scrollable-right">{recipeForm}</div>
     </div>
   );
 };

@@ -19,19 +19,23 @@ const Root = () => {
     });
   }, []);
   return (
-    <section className="phx-hero">
-      <IngredientContext.Provider value={{ ingredients, setIngredients }}>
-        <Router>
-          <nav>
-            <ul>
-              <li>
-                <NavLink to="/recipes" activeClassName="nav-active">Recipes</NavLink>
-              </li>
-              <li>
-                <NavLink to="/ingredients" activeClassName="nav-active">Ingredients</NavLink>
-              </li>
-            </ul>
-          </nav>
+    <IngredientContext.Provider value={{ ingredients, setIngredients }}>
+      <Router>
+        <nav>
+          <ul>
+            <li>
+              <NavLink to="/recipes" activeClassName="nav-active">
+                Recipes
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/ingredients" activeClassName="nav-active">
+                Ingredients
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+        <section>
           <Switch>
             <Route path="/ingredients/:id?">
               <Ingredients />
@@ -43,9 +47,9 @@ const Root = () => {
               <Redirect to="/recipes/" />
             </Route>
           </Switch>
-        </Router>
-      </IngredientContext.Provider>
-    </section>
+        </section>
+      </Router>
+    </IngredientContext.Provider>
   );
 };
 

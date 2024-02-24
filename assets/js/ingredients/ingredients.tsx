@@ -67,22 +67,26 @@ const Ingredients = () => {
   );
   return (
     <div className="box box-row">
-      <div className="ingredient-list">
+      <div className="fade-out-top" />
+      <div className="fade-out-bottom" />
+      <div className="ingredient-list scrollable-right">
         <ul>{items}</ul>
       </div>
       <hr />
-      <div className="box-row-item">
-        <CSSTransition
-          appear={true}
-          in={ingredient ? true : false}
-          timeout={500}
-          classNames="loading-box"
-        >
-          <div>{details}</div>
-        </CSSTransition>
-        Add ingredient:
-        <div className="ingredient-form">
-          <IngredientForm onSave={onSave} />
+      <div className="scrollable-right">
+        <div className="box-row-item">
+          <CSSTransition
+            appear={true}
+            in={ingredient ? true : false}
+            timeout={500}
+            classNames="loading-box"
+          >
+            <div>{details}</div>
+          </CSSTransition>
+          Add ingredient:
+          <div className="ingredient-form">
+            <IngredientForm onSave={onSave} />
+          </div>
         </div>
       </div>
     </div>
