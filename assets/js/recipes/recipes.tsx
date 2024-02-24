@@ -31,15 +31,19 @@ const Recipes = () => {
     fetchRecipes();
   };
 
-  const items = recipes.map((recipe) => (
-    <NamedItem
-      key={recipe.id}
-      id={recipe.id}
-      name={recipe.name}
-      onItemSelect={onItemSelect}
-      onClickDelete={onClickDelete}
-    />
-  ));
+  const items = recipes.map((item) => {
+    const name =
+      recipe && recipe.id === item.id ? "✏️ " + item.name : item.name;
+    return (
+      <NamedItem
+        key={item.id}
+        id={item.id}
+        name={name}
+        onItemSelect={onItemSelect}
+        onClickDelete={onClickDelete}
+      />
+    );
+  });
   console.log(recipe);
   return (
     <div className="box">

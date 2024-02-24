@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Recipe, RecipeIngredient } from "./recipes_api";
 import { getRecipeIngredients } from "./recipes_api";
 import UpdateRecipeIngredientForm from "./update_recipe_ingredient_form";
-import RecipeNameForm from "./recipe_name_form";
+import UpdateRecipeNameForm from "./update_recipe_name_form";
 import AddRecipeIngredientForm from "./add_recipe_ingredient_form";
 import { Ingredient, getIngredients } from "../ingredients/ingredients_api";
 
@@ -89,10 +89,11 @@ const RecipeForm = (props: RecipeFormProps) => {
       </div>
     );
   }
+  const updateForm = recipe && <UpdateRecipeNameForm recipe={recipe} />;
   return (
     <div className="recipe-form-box">
       <div>{recipe ? "Update Recipe" : "New Recipe"}</div>
-      <RecipeNameForm recipe={recipe} setRecipe={setRecipe} />
+      {updateForm}
       {ingredientsForm}
       <input
         className="recipe-form-done"

@@ -33,6 +33,7 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
     }, 500),
     []
   );
+
   const handleFocus = (event: React.FocusEvent<HTMLInputElement>) =>
     event.target.select();
 

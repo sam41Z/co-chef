@@ -115,14 +115,10 @@ input {
   }
 }
 
-form {
-  padding: 2rem;
-  grid-column-gap: 0.75rem;
-}
-
 .ingredient-form {
   display: grid;
   align-items: center;
+  grid-column-gap: 0.75rem;
   & label {
     justify-self: end;
     grid-column: 1;
@@ -145,10 +141,25 @@ form {
   }
 }
 
-.recipe-form {
-  & input[type="submit"] {
-    grid-column: 4;
-    justify-self: stretch;
+.recipe-name-form {
+  padding: 2rem 0 1rem;
+  & form {
+    font-size: 1.1rem;
+    display: flex;
+    & input {
+      flex-grow: 2;
+      padding: 0.8rem;
+    }
+    & label {
+      align-self: center;
+      font-weight: bold;
+    }
+  }
+  & div {
+    margin: 0.1rem 0 1rem;
+    & .loading-bar {
+      background: $highlight-lines;
+    }
   }
 }
 
@@ -170,12 +181,13 @@ form {
   background: $background;
   color: $color;
 }
+
 .recipe-ingredient-form-saved {
   width: 3rem;
 }
 
 .recipe-ingredient-form-divider {
-  margin: 1.5rem 2rem 1.5rem;
+  margin: 1.5rem 0 1.5rem;
   border-top: 1px solid;
   border-bottom: none;
 }
@@ -186,7 +198,8 @@ form {
   }
 }
 .recipe-form-no-ingredients {
-  padding: 2rem;
+  padding: 0 0;
+  font-size: 0.9rem;
 }
 .recipe-form-box {
   display: flex;
