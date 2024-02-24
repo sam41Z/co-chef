@@ -81,6 +81,8 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
     return (actual / total) * 100;
   };
 
+  const altUnit = { suffix: "%", convert: convert, invert: invert };
+
   const recipeIngredientList =
     recipeIngredients.length > 0 ? (
       recipeIngredients.map((item) => (
@@ -88,7 +90,7 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
           key={item.id}
           recipeId={props.recipe.id}
           recipeIngredient={item}
-          altUnit={{ suffix: "%", convert: convert, invert: invert }}
+          altUnit={altUnit}
           onChange={onChangeRecipeIngredient}
           onDelete={onDeleteRecipeIngredient}
         />
@@ -100,18 +102,44 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   const addRecipeIngredient = (newIngredient: RecipeIngredient) => {
     setRecipeIngredients(Lists.add(recipeIngredients, newIngredient));
   };
+
+  const getTypeInfo = (recipeIngredients: RecipeIngredient[]) => {
+    const sum = (accumulator: number, currentValue: number) =>
+      accumulator + currentValue;
+    const starterSum = recipeIngredients
+      .filter((item) => item.ingredient.type === "starter")
+      .map((item) => item.amount)
+      .reduce(sum, 0);
+    const flourSum = recipeIngredients
+      .filter((item) => item.ingredient.type === "flour")
+      .map((item) => item.amount)
+      .reduce(sum, starterSum / 2);
+    const waterSum = recipeIngredients
+      .filter((item) => item.ingredient.type === "water")
+      .map((item) => item.amount)
+      .reduce(sum, starterSum / 2);
+    return [
+      { name: "Flour", value: flourSum },
+      { name: "Water", value: waterSum },
+    ];
+  };
+
   const loadingComponent = !loading && (
     <div>
       <UpdateRecipeNameForm
         recipe={props.recipe}
         onNameChange={props.onNameChange}
       />
-      <RecipeInfoBox suffix="%" inverter={invert} converter={convert} />
+      <RecipeInfoBox
+        recipeIngredients={recipeIngredients}
+        getTypeInfo={getTypeInfo}
+        altUnit={altUnit}
+      />
       {recipeIngredientList}
       <hr />
       <AddRecipeIngredientForm
         recipeId={props.recipe.id}
-        altUnit={{ suffix: "%", convert: convert, invert: invert }}
+        altUnit={altUnit}
         setRecipeIngredient={addRecipeIngredient}
       />
     </div>
