@@ -1,4 +1,4 @@
-import { post, get } from "../api_request";
+import { post, get, deleteFetch } from "../api_request";
 
 export interface Ingredient {
   id: number;
@@ -15,4 +15,8 @@ export function postIngredient(ingredient: IngredientNew) {
 
 export function getIngredients() {
   return get("/api/ingredients");
+}
+
+export function deleteIngerdient(id: number) {
+  return deleteFetch("/api/ingredients/" + id);
 }

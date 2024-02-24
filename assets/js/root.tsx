@@ -1,14 +1,12 @@
 import React from "react";
-import IngredientList from "./ingredients/ingredient_list";
-import IngredientForm from "./ingredients/ingredient_form";
-import RecipeForm from "./recipes/recipe_form";
+import Ingredients from "./ingredients/ingredients";
+import Recipes from "./recipes/recipes";
 
-const Root: React.FC<{}> = () => {
+const Root = () => {
   return (
     <section className="phx-hero">
-      <RecipeForm />
-      <IngredientList />
-      <IngredientForm />
+      <Recipes />
+      <Ingredients />
     </section>
   );
 };

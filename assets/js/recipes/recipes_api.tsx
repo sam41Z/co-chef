@@ -1,4 +1,4 @@
-import { post, get } from "../api_request";
+import { post, get, deleteFetch } from "../api_request";
 import { Ingredient } from "../ingredients/ingredients_api";
 
 export interface Recipe {
@@ -35,6 +35,10 @@ export function postRecipeIngredient(
   });
 }
 
-export function getIngredients() {
+export function getRecipes() {
   return get("/api/recipes");
+}
+
+export function deleteRecipe(id: number) {
+  return deleteFetch("/api/recipes/" + id);
 }

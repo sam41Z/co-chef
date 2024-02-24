@@ -21,3 +21,11 @@ export function post(path: string, data: any) {
     .then((res) => res.data)
     .catch((error) => console.log(error));
 }
+
+export function deleteFetch(path: string) {
+  return fetch(host + path, {
+    method: "DELETE",
+  })
+    .then((res) => console.log(res))
+    .catch((error) => console.log(error));
+}

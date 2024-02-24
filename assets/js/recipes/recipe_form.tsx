@@ -8,16 +8,24 @@ import {
 import { postRecipe, postRecipeIngredient } from "./recipes_api";
 import { Ingredient, getIngredients } from "../ingredients/ingredients_api";
 
-const RecipeForm: React.FC<{}> = () => {
-  const [recipe, setRecipe] = useState<Recipe>();
-  const [ingredient, setIngredient] = useState<RecipeIngredient>();
+const RecipeForm = (props: { onDone: (recipe: Recipe) => void }) => {
+  const [recipe, setRecipe] = useState<Recipe | undefined>();
+  const [ingredient, setIngredient] = useState<RecipeIngredient | undefined>();
+
+  const onDone = () => {
+    if (recipe) {
+      const savedRecipe = recipe;
+      props.onDone(savedRecipe);
+    }
+    setRecipe(undefined);
+    setIngredient(undefined);
+  };
 
   if (recipe) {
     if (!recipe.ingredients) recipe.ingredients = [];
     if (ingredient) recipe.ingredients.push(ingredient);
 
     const setRecipeIngredient = (ingredient: RecipeIngredient) => {
-      console.log(ingredient);
       setIngredient(ingredient);
     };
 
@@ -33,12 +41,13 @@ const RecipeForm: React.FC<{}> = () => {
 
     return (
       <div>
-        <div>{recipe.name}</div>
+        <div>Name: {recipe.name}</div>
         {items}
         <RecipeIngredientForm
           recipeId={recipe.id}
           setRecipeIngredient={setRecipeIngredient}
         />
+        <input type="button" onClick={onDone} value="🍻🍻🍻🍻" />
       </div>
     );
   } else {
@@ -71,10 +80,10 @@ const RecipeNameForm: React.FC<RecipeNameFormProps> = (
   return (
     <form onSubmit={handleSubmit}>
       <label>
-        Recipe:
+        Recipe name:
         <input type="text" name="name" value={name} onChange={handleChange} />
       </label>
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Save" />
     </form>
   );
 };
@@ -84,11 +93,9 @@ interface RecipeIngredientFormProps {
   setRecipeIngredient: { (ingredient: RecipeIngredient): any };
 }
 
-const RecipeIngredientForm: React.FC<RecipeIngredientFormProps> = (
-  props: RecipeIngredientFormProps
-) => {
+const RecipeIngredientForm = (props: RecipeIngredientFormProps) => {
   const [amount, setAmount] = useState<number>(0);
-  const [ingredient, setIngredient] = useState<Ingredient>();
+  const [ingredient, setIngredient] = useState<Ingredient | undefined>();
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
 
   useEffect(() => {
@@ -103,6 +110,8 @@ const RecipeIngredientForm: React.FC<RecipeIngredientFormProps> = (
     event.preventDefault();
     if (ingredient) {
       saveRecipeIngredient({ amount: amount, ingredient_id: ingredient.id });
+      setIngredient(undefined);
+      setAmount(0);
     }
   };
 
@@ -128,24 +137,30 @@ const RecipeIngredientForm: React.FC<RecipeIngredientFormProps> = (
       .catch((error: any) => console.log(error));
   };
 
+  if (!ingredient && ingredients && ingredients.length > 0) {
+    setIngredient(ingredients[0]);
+  }
   const options = ingredients.map((ingredient) => (
-    <option value={ingredient.id}> {ingredient.name} </option>
+    <option key={ingredient.id} value={ingredient.id}>
+      {ingredient.name}
+    </option>
   ));
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>Recipe:</label>
+      <label>add ingredient:</label>
       <input
         type="number"
         name="amount"
+        style={{ width: 10 + "em" }}
         value={amount}
         onChange={handleAmountChange}
       />
-      <label>Ingredient</label>
+      <label>ingredient</label>
       <select name="ingredient" onChange={handleIngredientChange}>
         {options}
       </select>
-      <input type="submit" value="Submit" />
+      <input type="submit" value="Save" />
     </form>
   );
 };

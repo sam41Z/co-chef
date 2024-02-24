@@ -2,7 +2,9 @@ import React, { useState, SyntheticEvent } from "react";
 import { IngredientNew, Ingredient } from "./ingredients_api";
 import { postIngredient } from "./ingredients_api";
 
-const IngredientForm: React.FC<{}> = () => {
+const IngredientForm = (props: {
+  onSave: (ingredient: Ingredient) => void;
+}) => {
   const [name, setName] = useState<string>("");
   const handleSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
@@ -13,7 +15,8 @@ const IngredientForm: React.FC<{}> = () => {
   };
   const saveIngredient = (ingredient: IngredientNew) => {
     postIngredient(ingredient)
-      .then((_response: Ingredient) => {
+      .then((response: Ingredient) => {
+        props.onSave(response);
         setName("");
       })
       .catch((error: any) => console.log(error));
