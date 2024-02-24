@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./loading_bar.scss";
 
 const LoadingBar = (props: { loading: boolean }) => {
   const loadingClassInactive = "loading-bar-inactive";
