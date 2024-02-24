@@ -26,14 +26,31 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
   const [amountValue, setAmountValue] = useState<string>(
     String(props.inverter(props.recipeIngredient.amount))
   );
+  const [actualAmountValue, setActualAmountValue] = useState<string>(
+    String(props.recipeIngredient.amount)
+  );
   const { recipeIngredients, setRecipeIngredients } = useRecipeIngredients();
 
-  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    const copy = { ...recipeIngredient };
-    copy.amount = props.converter(Number(value));
-    setRecipeIngredient(copy);
+    const actualAmount = props.converter(Number(value));
     setAmountValue(value);
+    setActualAmountValue(String(actualAmount));
+    updateAmount(actualAmount);
+  };
+
+  const onActualAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    const amount = Number(value);
+    setAmountValue(String(props.inverter(amount)));
+    setActualAmountValue(value);
+    updateAmount(amount);
+  };
+
+  const updateAmount = (amount: number) => {
+    const copy = { ...recipeIngredient };
+    copy.amount = amount;
+    setRecipeIngredient(copy);
     updateRecipeIngredient(copy);
     setRecipeIngredients(Lists.replace(recipeIngredients, copy, compareIds));
   };
@@ -46,11 +63,11 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
           setSaving(false);
         })
         .catch((error: any) => console.log(error));
-    }, 500),
+    }, 1000),
     []
   );
 
-  const handleDelete = (recipeIngredient: RecipeIngredient) => {
+  const onDelete = (recipeIngredient: RecipeIngredient) => {
     deleteRecipeIngredient(props.recipeId, recipeIngredient.id)
       .then(() => {
         props.onDelete(recipeIngredient);
@@ -58,28 +75,34 @@ const UpdateRecipeIngredientForm = (props: UpdateRecipeIngredientFormProps) => {
       .catch((error: any) => console.log(error));
   };
 
-  const handleFocus = (event: React.FocusEvent<HTMLInputElement>) =>
+  const onFocus = (event: React.FocusEvent<HTMLInputElement>) =>
     event.target.select();
 
   return (
     <div>
       <form className="recipe-ingredient-form">
         <div className="recipe-ingredient-form-name">
-          {recipeIngredient.ingredient.name} ({recipeIngredient.amount}g)
+          {recipeIngredient.ingredient.name}
         </div>
         <input
           type="number"
           name="amount"
-          onFocus={handleFocus}
-          style={{ width: 10 + "em" }}
+          onFocus={onFocus}
+          style={{ width: 2.5 + "rem" }}
+          value={actualAmountValue}
+          onChange={onActualAmountChange}
+        />
+        <div>g</div>
+        <input
+          type="number"
+          name="amount"
+          onFocus={onFocus}
+          style={{ width: 2.5 + "rem" }}
           value={amountValue}
-          onChange={handleAmountChange}
+          onChange={onAmountChange}
         />
         <div>{props.suffix}</div>
-        <a
-          className="delete"
-          onClick={(_event) => handleDelete(recipeIngredient)}
-        >
+        <a className="delete" onClick={(_event) => onDelete(recipeIngredient)}>
           🔥
         </a>
       </form>

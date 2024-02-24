@@ -16,26 +16,33 @@ type NewRecipeIngredientFormProps = {
 
 const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
   const [amount, setAmount] = useState<string>("0");
+  const [actualAmount, setActualAmount] = useState<string>("0");
   const [ingredient, setIngredient] = useState<Ingredient>();
   const { ingredients, setIngredients } = useIngredients();
 
-  const handleSubmit = (event: SyntheticEvent) => {
+  const onSubmit = (event: SyntheticEvent) => {
     event.preventDefault();
     if (ingredient)
       saveRecipeIngredient({
-        amount: props.converter(Number(amount)),
+        amount: Number(actualAmount),
         ingredient_id: ingredient.id,
       });
     setIngredient(undefined);
     setAmount("0");
   };
 
-  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAmount(event.target.value);
+    setActualAmount(String(props.converter(Number(event.target.value))));
+  };
+
+  const onActualAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setActualAmount(event.target.value);
+    setAmount(String(props.inverter(Number(event.target.value))));
   };
 
   type SelectType = { value: number; label: string };
-  const handleIngredientChange = (
+  const onIngredientChange = (
     valueType: ValueType<SelectType>,
     _action: ActionMeta<SelectType>
   ) => {
@@ -67,16 +74,16 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
     ? { value: ingredient.id, label: ingredient.name }
     : null;
 
-  const handleFocus = (event: React.FocusEvent<HTMLInputElement>) =>
+  const onFocus = (event: React.FocusEvent<HTMLInputElement>) =>
     event.target.select();
   return (
-    <form onSubmit={handleSubmit} className="recipe-ingredient-form">
+    <form onSubmit={onSubmit} className="recipe-ingredient-form">
       <div className="recipe-ingredient-selector">
         <Select
           placeholder="Add ingredient..."
           options={options}
           value={selectedOption}
-          onChange={handleIngredientChange}
+          onChange={onIngredientChange}
           theme={SelectStyles.theme}
           styles={SelectStyles.styles}
         />
@@ -84,10 +91,19 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
       <input
         type="number"
         name="amount"
-        style={{ width: 10 + "em" }}
+        style={{ width: 2.5 + "rem" }}
+        value={actualAmount}
+        onChange={onActualAmountChange}
+        onFocus={onFocus}
+      />
+      <div>g</div>
+      <input
+        type="number"
+        name="amount"
+        style={{ width: 2.5 + "rem" }}
         value={amount}
-        onChange={handleAmountChange}
-        onFocus={handleFocus}
+        onChange={onAmountChange}
+        onFocus={onFocus}
       />
       <div>{props.suffix}</div>
       <input type="submit" value="Add" />

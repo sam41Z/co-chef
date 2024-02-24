@@ -63,14 +63,20 @@ const UpdateRecipeForm = (props: UpdateRecipeFormProps) => {
   };
   const sum = (accumulator: number, currentValue: number) =>
     accumulator + currentValue;
+
+  const starterSum = recipeIngredients
+    .filter((item) => item.ingredient.type === "starter")
+    .map((item) => item.amount)
+    .reduce(sum, 0);
+
   const flourSum = recipeIngredients
     .filter((item) => item.ingredient.type === "flour")
     .map((item) => item.amount)
-    .reduce(sum, 0);
+    .reduce(sum, starterSum / 2);
   const waterSum = recipeIngredients
     .filter((item) => item.ingredient.type === "water")
     .map((item) => item.amount)
-    .reduce(sum, 0);
+    .reduce(sum, starterSum / 2);
 
   const recipeIngredientList =
     recipeIngredients.length > 0 ? (
