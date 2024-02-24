@@ -86,6 +86,7 @@ const AddRecipeIngredientForm = (props: NewRecipeIngredientFormProps) => {
           onChange={onIngredientChange}
           theme={SelectStyles.theme}
           styles={SelectStyles.styles}
+          menuPlacement="top"
         />
       </div>
       <input

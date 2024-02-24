@@ -7,7 +7,7 @@ const SelectStyles = {
       borderColor: state.isFocused ? "#ff00ff" : "#b200b2",
       ":hover": { cursor: "pointer", borderColor: "#ff00ff" },
     }),
-    container: (styles: any, state: any) => ({
+    container: (styles: any) => ({
       ...styles,
       margin: "0.2rem",
     }),
@@ -18,6 +18,7 @@ const SelectStyles = {
     menu: (styles: any) => ({
       ...styles,
       border: "0.12rem solid #590059",
+      boxShadow: "0 0 0.1rem #00e000",
     }),
     option: (styles: any, state: any) => ({
       ...styles,
