@@ -11,7 +11,7 @@ defmodule BreadtrackerWeb.IngredientController do
     render(conn, "index.json", ingredients: ingredients)
   end
 
-  def show(conn, %{"id" => id}) do 
+  def show(conn, %{"id" => id}) do
     ingredient = Ingredients.get_ingredient!(id)
     render(conn, "show.json", ingredient: ingredient)
   end
@@ -28,7 +28,8 @@ defmodule BreadtrackerWeb.IngredientController do
   def update(conn, %{"id" => id, "ingredient" => ingredient_params}) do
     ingredient = Ingredients.get_ingredient!(id)
 
-    with {:ok, %Ingredient{} = ingredient} <- Ingredients.update_ingredient(ingredient, ingredient_params) do
+    with {:ok, %Ingredient{} = ingredient} <-
+           Ingredients.update_ingredient(ingredient, ingredient_params) do
       render(conn, "show.json", ingredient: ingredient)
     end
   end

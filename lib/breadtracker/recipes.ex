@@ -41,8 +41,6 @@ defmodule Breadtracker.Recipes do
     |> Repo.get!(id)
   end
 
-
-
   @doc """
   Creates a recipe.
 
@@ -138,7 +136,7 @@ defmodule Breadtracker.Recipes do
       ** (Ecto.NoResultsError)
 
   """
-  def get_recipe_ingredient!(id) do 
+  def get_recipe_ingredient!(id) do
     Repo.get!(RecipeIngredient, id)
     |> Repo.preload(:ingredient)
   end

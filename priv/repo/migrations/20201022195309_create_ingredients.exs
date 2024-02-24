@@ -7,6 +7,5 @@ defmodule Breadtracker.Repo.Migrations.CreateIngredients do
 
       timestamps()
     end
-
   end
 end

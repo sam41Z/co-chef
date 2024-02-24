@@ -1,6 +1,6 @@
 defmodule BreadtrackerWeb.Router do
   use BreadtrackerWeb, :router
-  
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -19,14 +19,15 @@ defmodule BreadtrackerWeb.Router do
     get "/", PageController, :index
   end
 
-  
   scope "/api", BreadtrackerWeb do
     pipe_through :api
 
-    resources "/ingredients", IngredientController, only: [:index, :create, :update, :show, :delete]
+    resources "/ingredients", IngredientController,
+      only: [:index, :create, :update, :show, :delete]
 
     resources "/recipes", RecipeController, only: [:index, :create, :update, :show, :delete] do
-      resources "/ingerdients", RecipeIngredientController, only: [:index, :create, :update, :show, :delete]
+      resources "/ingredients", RecipeIngredientController,
+        only: [:index, :create, :update, :show, :delete]
     end
   end
 

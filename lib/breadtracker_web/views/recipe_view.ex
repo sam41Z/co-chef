@@ -11,7 +11,6 @@ defmodule BreadtrackerWeb.RecipeView do
   end
 
   def render("recipe.json", %{recipe: recipe}) do
-    %{id: recipe.id,
-      name: recipe.name}
+    %{id: recipe.id, name: recipe.name}
   end
 end

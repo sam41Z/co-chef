@@ -5,7 +5,6 @@ defmodule Breadtracker.Recipes.RecipeIngredient do
   alias Breadtracker.Recipes.Recipe
   alias Breadtracker.Ingredients.Ingredient
 
-
   schema "recipe_ingredients" do
     field :amount, :float
     belongs_to :recipe, Recipe

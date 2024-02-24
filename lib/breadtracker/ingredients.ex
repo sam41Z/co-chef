@@ -101,6 +101,4 @@ defmodule Breadtracker.Ingredients do
   def change_ingredient(%Ingredient{} = ingredient, attrs \\ %{}) do
     Ingredient.changeset(ingredient, attrs)
   end
-
-
 end

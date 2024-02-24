@@ -50,8 +50,13 @@ defmodule BreadtrackerWeb.IngredientControllerTest do
   describe "update ingredient" do
     setup [:create_ingredient]
 
-    test "renders ingredient when data is valid", %{conn: conn, ingredient: %Ingredient{id: id} = ingredient} do
-      conn = put(conn, Routes.ingredient_path(conn, :update, ingredient), ingredient: @update_attrs)
+    test "renders ingredient when data is valid", %{
+      conn: conn,
+      ingredient: %Ingredient{id: id} = ingredient
+    } do
+      conn =
+        put(conn, Routes.ingredient_path(conn, :update, ingredient), ingredient: @update_attrs)
+
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.ingredient_path(conn, :show, id))
@@ -63,7 +68,9 @@ defmodule BreadtrackerWeb.IngredientControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, ingredient: ingredient} do
-      conn = put(conn, Routes.ingredient_path(conn, :update, ingredient), ingredient: @invalid_attrs)
+      conn =
+        put(conn, Routes.ingredient_path(conn, :update, ingredient), ingredient: @invalid_attrs)
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end

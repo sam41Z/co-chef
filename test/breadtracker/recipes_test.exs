@@ -1,25 +1,14 @@
 defmodule Breadtracker.RecipesTest do
   use Breadtracker.DataCase
 
+  use Breadtracker.Fixtures, [:ingredient, :recipe, :recipe_ingredient]
+
   alias Breadtracker.Recipes
 
-  @recipe_valid_attrs %{name: "some name"}
-  @recipe_update_attrs %{name: "some updated name"}
-  @recipe_invalid_attrs %{name: nil}
-
-  def recipe_fixture(attrs \\ %{}) do
-    {:ok, recipe} =
-      attrs
-      |> Enum.into(@recipe_valid_attrs)
-      |> Recipes.create_recipe()
-
-    recipe
-  end
-  
   describe "recipes" do
     alias Breadtracker.Recipes.Recipe
 
-   test "list_recipes/0 returns all recipes" do
+    test "list_recipes/0 returns all recipes" do
       recipe = recipe_fixture()
       assert Recipes.list_recipes() == [recipe]
     end
@@ -66,26 +55,9 @@ defmodule Breadtracker.RecipesTest do
     alias Breadtracker.Recipes.RecipeIngredient
     alias Breadtracker.IngredientsTest
 
-    @valid_attrs %{amount: 120.5}
-    @update_attrs %{amount: 456.7}
-    @invalid_attrs %{amount: nil}
-
-    def recipe_ingredient_fixture(attrs \\ %{}) do
-      ingredient = IngredientsTest.ingredient_fixture()
-      recipe = recipe_fixture()
-      {:ok, recipe_ingredient} =
-        attrs
-        |> Enum.into(@valid_attrs)
-        |> Enum.into(%{ingredient_id: ingredient.id})
-        |> (&(Recipes.create_recipe_ingredient(recipe.id, &1))).()
-
-      recipe_ingredient
-      |> Repo.preload(:ingredient)
-    end
-
     test "list_recipe_ingredients/0 returns all recipe_ingredients" do
       recipe_ingredient = recipe_ingredient_fixture()
-      assert Recipes.list_recipe_ingredients(recipe_ingredient.recipe_id)  == [recipe_ingredient]
+      assert Recipes.list_recipe_ingredients(recipe_ingredient.recipe_id) == [recipe_ingredient]
     end
 
     test "get_recipe_ingredient!/1 returns the recipe_ingredient with given id" do
@@ -94,35 +66,53 @@ defmodule Breadtracker.RecipesTest do
     end
 
     test "create_recipe_ingredient/1 with valid data creates a recipe_ingredient" do
-
       ingredient = IngredientsTest.ingredient_fixture()
       recipe = recipe_fixture()
-      ingredient_attr = %{ ingredient_id: ingredient.id}
-      recipe_ingredient = Enum.into(@valid_attrs, ingredient_attr)
-      assert {:ok, %RecipeIngredient{} = recipe_ingredient} = Recipes.create_recipe_ingredient(recipe.id, recipe_ingredient)
+      ingredient_attr = %{ingredient_id: ingredient.id}
+      recipe_ingredient = Enum.into(@recipe_ingredient_valid_attrs, ingredient_attr)
+
+      assert {:ok, %RecipeIngredient{} = recipe_ingredient} =
+               Recipes.create_recipe_ingredient(recipe.id, recipe_ingredient)
+
       assert recipe_ingredient.amount == 120.5
     end
 
     test "create_recipe_ingredient/1 with invalid data returns error changeset" do
-      assert {:error, %Ecto.Changeset{}} = Recipes.create_recipe_ingredient(@invalid_attrs)
+      assert {:error, %Ecto.Changeset{}} =
+               Recipes.create_recipe_ingredient(@recipe_ingredient_invalid_attrs)
     end
 
     test "update_recipe_ingredient/2 with valid data updates the recipe_ingredient" do
       recipe_ingredient = recipe_ingredient_fixture()
-      assert {:ok, %RecipeIngredient{} = recipe_ingredient} = Recipes.update_recipe_ingredient(recipe_ingredient, @update_attrs)
+
+      assert {:ok, %RecipeIngredient{} = recipe_ingredient} =
+               Recipes.update_recipe_ingredient(
+                 recipe_ingredient,
+                 @recipe_ingredient_update_attrs
+               )
+
       assert recipe_ingredient.amount == 456.7
     end
 
     test "update_recipe_ingredient/2 with invalid data returns error changeset" do
       recipe_ingredient = recipe_ingredient_fixture()
-      assert {:error, %Ecto.Changeset{}} = Recipes.update_recipe_ingredient(recipe_ingredient, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Recipes.update_recipe_ingredient(
+                 recipe_ingredient,
+                 @recipe_ingredient_invalid_attrs
+               )
+
       assert recipe_ingredient == Recipes.get_recipe_ingredient!(recipe_ingredient.id)
     end
 
     test "delete_recipe_ingredient/1 deletes the recipe_ingredient" do
       recipe_ingredient = recipe_ingredient_fixture()
       assert {:ok, %RecipeIngredient{}} = Recipes.delete_recipe_ingredient(recipe_ingredient)
-      assert_raise Ecto.NoResultsError, fn -> Recipes.get_recipe_ingredient!(recipe_ingredient.id) end
+
+      assert_raise Ecto.NoResultsError, fn ->
+        Recipes.get_recipe_ingredient!(recipe_ingredient.id)
+      end
     end
 
     test "change_recipe_ingredient/1 returns a recipe_ingredient changeset" do
